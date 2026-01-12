@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     [Range(0, 10)][SerializeField] int jumpMax;
 
     [Header("---- Wall Jump ----")]
-    [Range(0, 20)][SerializeField] int wallJumpSpeed;
+    //[Range(0, 20)][SerializeField] int wallJumpSpeed;
     [Range(0, 20)][SerializeField] int wallJumpMax;
     [Range(0, 20)][SerializeField] int wallJumpUpPower;
     [Range(0, 20)][SerializeField] int wallJumpSideforce;
@@ -74,6 +74,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         Movement();
         sprint();
        
@@ -258,7 +259,6 @@ public class PlayerController : MonoBehaviour
     }
     void wallRunRayCastDirection(int wallRunSpeed, RaycastHit hit)
     {
-
 
         //Debug.Log(hit.collider.name + "  Wall run");
         prevWallRunName = hit.collider.name;
