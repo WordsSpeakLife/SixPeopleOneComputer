@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour, IDamage
     [SerializeField] Transform lookTransform;
     [SerializeField] Transform ShootPos;
     [SerializeField] GameObject bullet;
+    [SerializeField] LineRenderer lineRenderer;
 
     [Header("---- UI ----")]
     [SerializeField] GameObject HeathBar;
@@ -50,10 +51,10 @@ public class PlayerController : MonoBehaviour, IDamage
     [SerializeField] float BottomRayDistance;
 
     [Header("---- Guns ----")]
-    [SerializeField] int ShootDamage;
-    [SerializeField] float ShootDistance;
-    [SerializeField] float ShootRate;
-
+    [Range(0, 20)][SerializeField] int ShootDamage;
+    [Range(0, 50)][SerializeField] float ShootDistance;
+    [Range(0, 10)][SerializeField] float ShootRate;
+    [Range(0, 1)][SerializeField] int gunRayOn;
 
     bool wallRunActive;
     int jumpCount;
@@ -72,6 +73,7 @@ public class PlayerController : MonoBehaviour, IDamage
     string prevWallRunName;
     Vector2 turn;
     Vector3 direction;
+    
 
 
 
@@ -80,27 +82,26 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         OriginalHp = Hp;
         gravityOrig = gravity;
+        lineRenderer.SetPosition(1 , new Vector3 (0,0, ShootDistance));
     }
 
     // Update is called once per frame
     void Update()
     {
-
         Movement();
-
-
-
     }
 
     void Movement()
     {
 
-
+        //for wallJump and wallRun
         Debug.DrawRay(controller.transform.position, controller.transform.right * RayDistance, Color.green);
         Debug.DrawRay(controller.transform.position, -controller.transform.right * RayDistance, Color.blue);
         Debug.DrawRay(controller.transform.position, -controller.transform.up * BottomRayDistance, Color.red);
         Debug.DrawRay(controller.transform.position, controller.transform.forward * RayDistance, Color.green);
         Debug.DrawRay(controller.transform.position, -controller.transform.forward * RayDistance, Color.blue);
+        // for shoot Distance
+        Debug.DrawRay(controller.transform.position, controller.transform.forward * ShootDistance, Color.cyan);
 
         shootTimer += Time.deltaTime;
 
@@ -109,12 +110,11 @@ public class PlayerController : MonoBehaviour, IDamage
         {
             turn.x += Input.GetAxisRaw("Mouse X");
             transform.localRotation = Quaternion.Euler(0, turn.x * sens, 0);
-            moveDir = Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward;
+            moveDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
             controller.Move(moveDir * speed * Time.deltaTime);
         }
         else if (MouseOn == 0)
         {
-            //old movement code just in case 
 
             move_horizontal = Input.GetAxisRaw("Horizontal");
             move_vertical = Input.GetAxisRaw("Vertical");
@@ -335,9 +335,28 @@ public class PlayerController : MonoBehaviour, IDamage
 
     void shoot()
     {
-        shootTimer = 0;
+        if (gunRayOn == 1)
+        {
+            shootTimer = 0;
 
-        Instantiate(bullet, ShootPos.position, transform.rotation );
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, transform.forward, out hit, ShootDistance, ~ignoreLayer))
+            {
+                Debug.Log(hit.collider.name);
+                IDamage dmg = hit.collider.GetComponent<IDamage>();
+                if (dmg != null)
+                {
+                    dmg.takeDamage(ShootDamage);
+                }
+            }
+
+
+        }
+        else if (gunRayOn == 0)
+        {
+            shootTimer = 0;
+            Instantiate(bullet, ShootPos.position, transform.rotation);
+        }
     }
 
     public void takeDamage(int amount)
@@ -351,5 +370,6 @@ public class PlayerController : MonoBehaviour, IDamage
             GameManager.instance.youLose();
         }
     }
+
 }
 
