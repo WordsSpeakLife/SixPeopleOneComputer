@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
+    [SerializeField] GameObject startMenu;
 
     public bool isPaused;
     public GameObject player;
@@ -84,5 +85,4 @@ public class GameManager : MonoBehaviour
             menuActive.SetActive(true);
         }
     }
-
 }
