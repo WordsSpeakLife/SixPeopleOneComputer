@@ -351,5 +351,15 @@ public class PlayerController : MonoBehaviour, IDamage
             GameManager.instance.youLose();
         }
     }
+
+    public bool heal(int amount)
+    {
+        if (Hp >= OriginalHp) return false;
+        Hp += amount;
+        if (Hp > OriginalHp)
+            Hp = OriginalHp;
+        HeathBar.GetComponent<Slider>().value = Hp;
+        return true;
+    }
 }
 
