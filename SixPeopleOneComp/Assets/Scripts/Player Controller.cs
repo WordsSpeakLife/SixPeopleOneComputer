@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
     [Range(0, 20)][SerializeField] int wallJumpSideforce;
     [Header("---- Wall Run ----")]
     [Range(0, -20)][SerializeField] int wallRunSpeed;
+    [Range(0, 1)][SerializeField] float wallRunTimeOnWall;
     //[Range(0, 20)][SerializeField] int wallRunMax;
 
     [Header("---- Dash ----")]
@@ -33,7 +34,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("---- player camera ----")]
     [Range(0, 50)][SerializeField] int sens;
-    [Range(0, 1)] [SerializeField] int MouseOn;
+    [Range(0, 1)][SerializeField] int MouseOn;
     [Range(0, 0.5f)][SerializeField] float turnCalmVelocity;
     [Range(0, 1)][SerializeField] float turnCalmTime;
 
@@ -54,8 +55,6 @@ public class PlayerController : MonoBehaviour
     int wallJumpCount;
     int wallRunCount;
     int OriginalHp;
-    float shootTimer;
-    float camRotX;
     int gravityOrig;
 
     float move_horizontal;
@@ -97,7 +96,7 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(controller.transform.position, -controller.transform.forward * RayDistance, Color.blue);
 
 
-       
+
 
         if (MouseOn == 1)
         {
@@ -106,14 +105,14 @@ public class PlayerController : MonoBehaviour
             moveDir = Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward;
             controller.Move(moveDir * speed * Time.deltaTime);
         }
-        else if(MouseOn == 0)
+        else if (MouseOn == 0)
         {
             //old movement code just in case 
-           
+
             move_horizontal = Input.GetAxisRaw("Horizontal");
             move_vertical = Input.GetAxisRaw("Vertical");
-           
-             direction = new Vector3(move_horizontal, 0f, move_vertical).normalized;
+
+            direction = new Vector3(move_horizontal, 0f, move_vertical).normalized;
 
             if (direction.magnitude >= 0.1f)
             {
@@ -125,8 +124,8 @@ public class PlayerController : MonoBehaviour
 
             }
         }
-            //shootTimer += Time.deltaTime;
-      
+        //shootTimer += Time.deltaTime;
+
 
 
         Jump();
@@ -322,6 +321,6 @@ public class PlayerController : MonoBehaviour
         jumpCount = 1;
 
     }
-   
+
 }
 
