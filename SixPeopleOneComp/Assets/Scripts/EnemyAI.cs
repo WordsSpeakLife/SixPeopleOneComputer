@@ -8,6 +8,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Renderer model;
     [SerializeField] Transform shootPos;
+    [SerializeField] string enemyType;
 
     [SerializeField] int HP;
     [SerializeField] int faceTargetSpeed;
@@ -60,8 +61,16 @@ public class EnemyAI : MonoBehaviour, IDamage
     void shoot()
     {
         shootTimer = 0;
-
-        Instantiate(bullet, shootPos.position, transform.rotation);
+        if (enemyType == "Basic")
+        {
+            Instantiate(bullet, shootPos.position, transform.rotation);
+        }
+        else if (enemyType == "Burst")
+        {
+            Instantiate(bullet, shootPos.position, transform.rotation * Quaternion.Euler(0,15, 0));
+            Instantiate(bullet, shootPos.position, transform.rotation );
+            Instantiate(bullet, shootPos.position, transform.rotation * Quaternion.Euler(0,-15, 0));
+        }
     }
     public void takeDamage(int amount)
     {
