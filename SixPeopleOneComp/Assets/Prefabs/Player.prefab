@@ -214,11 +214,12 @@ MonoBehaviour:
   sprintMod: 0
   jumpSpeed: 7
   jumpMax: 1
-  wallJumpSpeed: 4
   wallJumpMax: 20
-  WallJumpPower: 3
+  wallJumpUpPower: 8
+  wallJumpSideforce: 6
   wallRunSpeed: -10
-  wallRunMax: 20
+  dashSpeed: 10
+  dashTime: 0.1
   sens: 100
   lockVertMin: 0
   lockVertMax: 0
