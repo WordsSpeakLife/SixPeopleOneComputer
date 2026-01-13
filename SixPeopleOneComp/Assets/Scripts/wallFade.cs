@@ -25,14 +25,13 @@ public class wallFade : MonoBehaviour
         blockingRenderersThisFrame.Clear();
 
         Vector3 cameraPosition = transform.position;
-        Vector3 playerAimPoint = playerTarget.position + Vector3.up * 0.3f; // chest height
+        Vector3 playerAimPoint = playerTarget.position + Vector3.up * 1.0f; // chest height
         Vector3 directionToPlayer = playerAimPoint - cameraPosition;
         float distanceToPlayer = directionToPlayer.magnitude;
 
         if (distanceToPlayer <= 0.01f) return;
 
         Ray rayToPlayer = new Ray(cameraPosition, directionToPlayer.normalized);
-        Debug.DrawRay(cameraPosition, directionToPlayer, Color.black);
         RaycastHit[] hits = Physics.RaycastAll(
             rayToPlayer,
             distanceToPlayer,

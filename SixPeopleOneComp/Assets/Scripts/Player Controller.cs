@@ -1,16 +1,21 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IDamage
 {
     [Header("---- Componets ----")]
     [SerializeField] CharacterController controller;
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] Renderer model;
     [SerializeField] Transform lookTransform;
+    [SerializeField] Transform ShootPos;
+    [SerializeField] GameObject bullet;
+
+    [Header("---- UI ----")]
+    [SerializeField] GameObject HeathBar;
 
     [Header("---- Stats ----")]
-
     [Range(1, 10)][SerializeField] int Hp;
     [Range(0, 10)][SerializeField] int speed;
     [Range(0, 10)][SerializeField] int sprintMod;
@@ -57,6 +62,8 @@ public class PlayerController : MonoBehaviour
     int OriginalHp;
     int gravityOrig;
 
+    float shootTimer;
+
     float move_horizontal;
     float move_vertical;
     Vector3 moveDir;
@@ -95,7 +102,7 @@ public class PlayerController : MonoBehaviour
         Debug.DrawRay(controller.transform.position, controller.transform.forward * RayDistance, Color.green);
         Debug.DrawRay(controller.transform.position, -controller.transform.forward * RayDistance, Color.blue);
 
-
+        shootTimer += Time.deltaTime;
 
 
         if (MouseOn == 1)
@@ -161,7 +168,10 @@ public class PlayerController : MonoBehaviour
             PlayerVelo.y -= gravity * Time.deltaTime;
         }
 
-
+        if (Input.GetButton("Fire2") && shootTimer >= ShootRate)
+        {
+            shoot();
+        }
     }
     void Jump()
     {
@@ -322,5 +332,24 @@ public class PlayerController : MonoBehaviour
 
     }
 
+
+    void shoot()
+    {
+        shootTimer = 0;
+
+        Instantiate(bullet, ShootPos.position, transform.rotation );
+    }
+
+    public void takeDamage(int amount)
+    {
+        Hp -= amount;
+        HeathBar.GetComponent<Slider>().value = Hp;
+
+        //check if the player is dead
+        if (Hp <= 0)
+        {
+            GameManager.instance.youLose();
+        }
+    }
 }
 
