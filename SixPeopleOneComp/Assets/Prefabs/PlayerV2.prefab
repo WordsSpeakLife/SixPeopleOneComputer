@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3175383255263604398
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3757661936134131098}
+  m_Layer: 6
+  m_Name: shootPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3757661936134131098
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3175383255263604398}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3868473295255927276}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6050289590752982358
 GameObject:
   m_ObjectHideFlags: 0
@@ -30,11 +61,12 @@ Transform:
   m_GameObject: {fileID: 6050289590752982358}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.9997001, z: -0, w: -0.02448915}
-  m_LocalPosition: {x: -28.081947, y: 1.5299997, z: -1.75}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7147766031859056449}
+  - {fileID: 3757661936134131098}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 537.193, z: 0}
 --- !u!114 &5114699798841120935
@@ -52,10 +84,13 @@ MonoBehaviour:
   controller: {fileID: 7205097495694300032}
   ignoreLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   model: {fileID: 488114861992175647}
   lookTransform: {fileID: 0}
-  Hp: 1
+  ShootPos: {fileID: 3757661936134131098}
+  bullet: {fileID: 1481135220882722262, guid: 5105ff43295a3ee44a7f80ff155a53d6, type: 3}
+  HeathBar: {fileID: 0}
+  Hp: 10
   speed: 5
   sprintMod: 0
   jumpSpeed: 7
@@ -63,6 +98,7 @@ MonoBehaviour:
   wallJumpUpPower: 8
   wallJumpSideforce: 6
   wallRunSpeed: -10
+  wallRunTimeOnWall: 0
   dashSpeed: 10
   dashTime: 0.1
   sens: 1
@@ -73,9 +109,9 @@ MonoBehaviour:
   wallRunGravity: 26
   RayDistance: 0.5
   BottomRayDistance: 0.8
-  ShootDamage: 0
-  ShootDistance: 0
-  ShootRate: 0
+  ShootDamage: 5
+  ShootDistance: 1000
+  ShootRate: 0.2
 --- !u!143 &7205097495694300032
 CharacterController:
   m_ObjectHideFlags: 0
@@ -132,7 +168,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dc8b40be3781f24b9f6d93abbba002c, type: 2}
+  - {fileID: 2100000, guid: 2690a89e9a1a8b74abb5582888ebf704, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

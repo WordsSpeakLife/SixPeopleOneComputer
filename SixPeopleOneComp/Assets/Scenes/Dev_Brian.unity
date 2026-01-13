@@ -168,51 +168,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5114699798841120935, guid: 844d74d6f46453d479152fc9a6c8153f, type: 3}
-      propertyPath: Hp
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 5114699798841120935, guid: 844d74d6f46453d479152fc9a6c8153f, type: 3}
-      propertyPath: bullet
-      value: 
-      objectReference: {fileID: 1481135220882722262, guid: 5105ff43295a3ee44a7f80ff155a53d6, type: 3}
-    - target: {fileID: 5114699798841120935, guid: 844d74d6f46453d479152fc9a6c8153f, type: 3}
       propertyPath: HeathBar
       value: 
       objectReference: {fileID: 1338657594}
     - target: {fileID: 5114699798841120935, guid: 844d74d6f46453d479152fc9a6c8153f, type: 3}
-      propertyPath: ShootPos
-      value: 
-      objectReference: {fileID: 1780653806}
-    - target: {fileID: 5114699798841120935, guid: 844d74d6f46453d479152fc9a6c8153f, type: 3}
-      propertyPath: ShootRate
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5114699798841120935, guid: 844d74d6f46453d479152fc9a6c8153f, type: 3}
-      propertyPath: ShootDamage
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5114699798841120935, guid: 844d74d6f46453d479152fc9a6c8153f, type: 3}
-      propertyPath: ShootDistance
-      value: 1000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5114699798841120935, guid: 844d74d6f46453d479152fc9a6c8153f, type: 3}
       propertyPath: lookTransform
       value: 
       objectReference: {fileID: 524563091}
-    - target: {fileID: 5114699798841120935, guid: 844d74d6f46453d479152fc9a6c8153f, type: 3}
-      propertyPath: ignoreLayer.m_Bits
-      value: 512
-      objectReference: {fileID: 0}
     - target: {fileID: 6050289590752982358, guid: 844d74d6f46453d479152fc9a6c8153f, type: 3}
       propertyPath: m_Name
       value: PlayerV2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 3868473295255927276, guid: 844d74d6f46453d479152fc9a6c8153f, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1780653806}
+    m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 844d74d6f46453d479152fc9a6c8153f, type: 3}
 --- !u!4 &310252512 stripped
@@ -776,37 +745,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d858afa5da264d5469ca1df527cfab8c, type: 3}
---- !u!1 &1780653805
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1780653806}
-  m_Layer: 6
-  m_Name: shootPos
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1780653806
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1780653805}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 310252512}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &318751565950671620
 PrefabInstance:
   m_ObjectHideFlags: 0
