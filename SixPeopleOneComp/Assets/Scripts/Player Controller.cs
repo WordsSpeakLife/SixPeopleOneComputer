@@ -362,6 +362,7 @@ public class PlayerController : MonoBehaviour, IDamage
     public void takeDamage(int amount)
     {
         Hp -= amount;
+        
         HeathBar.GetComponent<Slider>().value = Hp;
 
         //check if the player is dead
@@ -371,5 +372,16 @@ public class PlayerController : MonoBehaviour, IDamage
         }
     }
 
+    public bool heal(int amount)
+    {
+        if (Hp >= OriginalHp) return false;
+        Hp += amount;
+        if (Hp > OriginalHp)
+        {
+            Hp = OriginalHp;
+        }
+        HeathBar.GetComponent<Slider>().value = Hp;
+        return true;
+    }
 }
 
