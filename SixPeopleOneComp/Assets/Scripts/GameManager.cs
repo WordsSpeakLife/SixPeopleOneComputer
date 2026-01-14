@@ -1,5 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -11,10 +13,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
     [SerializeField] GameObject startMenu;
+    [SerializeField] GameObject menuAudio;
 
     public bool isPaused;
     public GameObject player;
     public PlayerController playerScript;
+    public AudioMixer audioMixer;
+    public Slider MusicSlider;
+    public Slider SoundSlider;
 
     float timeScaleOrig;
 
@@ -84,5 +90,30 @@ public class GameManager : MonoBehaviour
             menuActive = menuWin;
             menuActive.SetActive(true);
         }
+    }
+
+    public void UpdateMusicVolume(float volume)
+    {
+        audioMixer.SetFloat("MusicVolume", volume);
+    }
+
+    public void UpdateSoundVolume(float volume)
+    {
+        audioMixer.SetFloat("SfxVolume", volume);
+    }
+
+    public void SaveVolume()
+    {
+        audioMixer.GetFloat("MusicVolume", out float musicVolume);
+        PlayerPrefs.SetFloat("MusicVolume", musicVolume);
+
+        audioMixer.GetFloat("SfxVolume", out float SoundVolume);
+        PlayerPrefs.SetFloat("SfxVolume", SoundVolume);
+    }
+
+    public void LoadVolume()
+    {
+        MusicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
+        SoundSlider.value = PlayerPrefs.GetFloat("SfxVolume");
     }
 }

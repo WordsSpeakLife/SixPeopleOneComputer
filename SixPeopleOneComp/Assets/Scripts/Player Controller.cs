@@ -182,6 +182,8 @@ public class PlayerController : MonoBehaviour, IDamage
             controller.Move(moveDir * speed * Time.deltaTime);
 
             jumpCount++;
+
+            SoundManager.instance.PlaySound3D("Jumps", transform.position);
         }
     }
 
