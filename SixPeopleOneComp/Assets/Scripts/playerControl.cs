@@ -58,6 +58,8 @@ public class playerControl : MonoBehaviour
         {
             playerVelocity.y = jumpSpeed;
             jumpCount++;
+
+            SoundManager.instance.PlaySound3D("Jumps", transform.position);
         }
     }
 
