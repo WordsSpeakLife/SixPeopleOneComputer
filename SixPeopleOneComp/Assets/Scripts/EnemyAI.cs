@@ -64,7 +64,6 @@ public class EnemyAI : MonoBehaviour, IDamage
         if (enemyType == "Basic")
         {
             Instantiate(bullet, shootPos.position, transform.rotation);
-            SoundManager.instance.PlaySound3D("Shoots", transform.position);
         }
         else if (enemyType == "Burst")
         {
