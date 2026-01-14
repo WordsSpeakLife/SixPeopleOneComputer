@@ -215,6 +215,8 @@ public class PlayerController : MonoBehaviour, IDamage
                 prevWallJumpName = hit.collider.name;
                 wallJumpCount++;
                 jumpCount = 1;
+
+                SoundManager.instance.PlaySound3D("Jumps", transform.position);
             }
 
         }
@@ -352,12 +354,14 @@ public class PlayerController : MonoBehaviour, IDamage
                 }
             }
 
+            SoundManager.instance.PlaySound3D("Shoots", transform.position);
 
         }
         else if (gunRayOn == 0)
         {
             shootTimer = 0;
             Instantiate(bullet, ShootPos.position, transform.rotation);
+            SoundManager.instance.PlaySound3D("Shoots", transform.position);
         }
     }
 

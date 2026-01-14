@@ -34,9 +34,12 @@ public class damage : MonoBehaviour
         if ((dmg != null) && type != damageType.DOT)
         {
             dmg.takeDamage(damageAmount);
+            SoundManager.instance.PlaySound3D("Damage", transform.position);
         }
         if(type == damageType.moving)
              Destroy(gameObject);
+
+        
     }
 
     private void OnTriggerStay(Collider other)
