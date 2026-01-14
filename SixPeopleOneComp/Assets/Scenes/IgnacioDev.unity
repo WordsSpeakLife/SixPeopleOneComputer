@@ -544,11 +544,6 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
---- !u!4 &365592461 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7449485012702052854, guid: ff1465a8f8bf31945b560aa8979fc353, type: 3}
-  m_PrefabInstance: {fileID: 1091047283}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &407315134
 GameObject:
   m_ObjectHideFlags: 0
@@ -2664,7 +2659,7 @@ PrefabInstance:
     - target: {fileID: 8884536098875597913, guid: 5077a5723c42cf24baeb6f72b0917834, type: 3}
       propertyPath: target
       value: 
-      objectReference: {fileID: 365592461}
+      objectReference: {fileID: 3868473295255927276, guid: 844d74d6f46453d479152fc9a6c8153f, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2758,6 +2753,10 @@ PrefabInstance:
       propertyPath: 'soundEffects.Array.data[2].clips.Array.data[4]'
       value: 
       objectReference: {fileID: 8300000, guid: 33ffe17d959a2e44ea40911304e0319a, type: 3}
+    - target: {fileID: 8660166940289245870, guid: c11327a824fd8804390bded19ae764ba, type: 3}
+      propertyPath: rolloffMode
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
