@@ -2774,6 +2774,7 @@ MonoBehaviour:
   menuLose: {fileID: 8661410793220352694}
   startMenu: {fileID: 0}
   menuAudio: {fileID: 0}
+  HealthBar: {fileID: 1433878098863813345}
   isPaused: 0
   player: {fileID: 0}
   playerScript: {fileID: 0}

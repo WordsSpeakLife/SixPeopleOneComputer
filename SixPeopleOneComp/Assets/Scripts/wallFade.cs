@@ -4,7 +4,6 @@ using UnityEngine;
 public class wallFade : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] Transform playerTarget;     // Player transform
     [SerializeField] LayerMask wallLayer;        // Walls layer
 
     [Header("Fade Settings")]
@@ -20,12 +19,12 @@ public class wallFade : MonoBehaviour
 
     void LateUpdate()
     {
-        if (!playerTarget) return;
+        if (!GameManager.instance.player) return;
 
         blockingRenderersThisFrame.Clear();
 
         Vector3 cameraPosition = transform.position;
-        Vector3 playerAimPoint = playerTarget.position + Vector3.up * 1.0f; // chest height
+        Vector3 playerAimPoint = GameManager.instance.player.transform.position + Vector3.up * 1.0f; // chest height
         Vector3 directionToPlayer = playerAimPoint - cameraPosition;
         float distanceToPlayer = directionToPlayer.magnitude;
 

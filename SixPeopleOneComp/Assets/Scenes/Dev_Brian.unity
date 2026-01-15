@@ -365,7 +365,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8036194670825758385, guid: c11327a824fd8804390bded19ae764ba, type: 3}
       propertyPath: soundEffects.Array.data[1].groupID
-      value: Shoots
+      value: shoots
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

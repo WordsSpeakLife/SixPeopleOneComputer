@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject menuLose;
     [SerializeField] GameObject startMenu;
     [SerializeField] GameObject menuAudio;
+    [SerializeField] public GameObject HealthBar;
 
     public bool isPaused;
     public GameObject player;
@@ -38,6 +39,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+        Time.timeScale = 1f;
         timeScaleOrig = Time.timeScale;
 
         if (GameType != GameGoal.None)
