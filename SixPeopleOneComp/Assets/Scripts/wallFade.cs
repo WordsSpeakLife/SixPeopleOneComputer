@@ -18,6 +18,7 @@ public class wallFade : MonoBehaviour
     // Renderers hit THIS frame
     HashSet<Renderer> blockingRenderersThisFrame = new HashSet<Renderer>();
 
+
     void LateUpdate()
     {
         if (!playerTarget) return;
