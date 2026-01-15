@@ -64,12 +64,14 @@ public class EnemyAI : MonoBehaviour, IDamage
         if (enemyType == "Basic")
         {
             Instantiate(bullet, shootPos.position, transform.rotation);
+            SoundManager.instance.PlaySound3D("Shoots", transform.position);
         }
         else if (enemyType == "Burst")
         {
             Instantiate(bullet, shootPos.position, transform.rotation * Quaternion.Euler(0,15, 0));
             Instantiate(bullet, shootPos.position, transform.rotation );
             Instantiate(bullet, shootPos.position, transform.rotation * Quaternion.Euler(0,-15, 0));
+            SoundManager.instance.PlaySound3D("Shoots", transform.position);
         }
     }
     public void takeDamage(int amount)
@@ -93,4 +95,6 @@ public class EnemyAI : MonoBehaviour, IDamage
         yield return new WaitForSeconds(0.1f);
         model.material.color = colorOrig;
     }
+
+    public bool heal(int amount) { return false; }
 }
