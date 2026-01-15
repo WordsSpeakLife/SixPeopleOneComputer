@@ -39,7 +39,6 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
-        Time.timeScale = 1f;
         timeScaleOrig = Time.timeScale;
 
         if (GameType != GameGoal.None)
@@ -89,6 +88,16 @@ public class GameManager : MonoBehaviour
         Time.timeScale = timeScaleOrig;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+        menuActive.SetActive(false);
+        menuActive = null;
+    }
+
+    public void stateUnpauseMM()
+    {
+        isPaused = true;
+        Time.timeScale = timeScaleOrig;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
         menuActive.SetActive(false);
         menuActive = null;
     }
