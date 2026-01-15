@@ -28,7 +28,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: -0, z: 6.66}
-  m_LocalScale: {x: 0.3, y: 6.73, z: 0.3}
+  m_LocalScale: {x: 0.1, y: 6.73, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7449485012702052854}
@@ -142,11 +142,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   model: {fileID: 6601459297563817866}
-  lookTransform: {fileID: 0}
   ShootPos: {fileID: 9032032395894897900}
   bullet: {fileID: 1481135220882722262, guid: 5105ff43295a3ee44a7f80ff155a53d6, type: 3}
   lineRenderer: {fileID: 4507892251468114746}
-  HeathBar: {fileID: 0}
   Hp: 10
   speed: 5
   sprintMod: 0
@@ -297,7 +295,7 @@ Transform:
   m_GameObject: {fileID: 8091517560992213651}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

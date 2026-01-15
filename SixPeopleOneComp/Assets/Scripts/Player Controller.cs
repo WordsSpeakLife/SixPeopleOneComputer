@@ -8,13 +8,9 @@ public class PlayerController : MonoBehaviour, IDamage
     [SerializeField] CharacterController controller;
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] Renderer model;
-    [SerializeField] Transform lookTransform;
     [SerializeField] Transform ShootPos;
     [SerializeField] GameObject bullet;
     [SerializeField] GameObject lineRenderer;
-
-    [Header("---- UI ----")]
-    [SerializeField] GameObject HeathBar;
 
     [Header("---- Stats ----")]
     [Range(1, 10)][SerializeField] int Hp;
@@ -154,7 +150,7 @@ public class PlayerController : MonoBehaviour, IDamage
 
             if (direction.magnitude >= 0.1f)
             {
-                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + lookTransform.eulerAngles.y;
+                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnCalmVelocity, turnCalmTime);
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
                 Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
@@ -408,7 +404,7 @@ public class PlayerController : MonoBehaviour, IDamage
         model.material.color = Color.red;
        StartCoroutine(wait(0.2f));
        
-        HeathBar.GetComponent<Slider>().value = Hp;
+        GameManager.instance.HealthBar.GetComponent<Slider>().value = Hp;
 
         //check if the player is dead
         if (Hp <= 0)
@@ -434,7 +430,7 @@ public class PlayerController : MonoBehaviour, IDamage
         {
             Hp = OriginalHp;
         }
-        HeathBar.GetComponent<Slider>().value = Hp;
+        GameManager.instance.HealthBar.GetComponent<Slider>().value = Hp;
         return true;
     }
     IEnumerator wait(float amount)
