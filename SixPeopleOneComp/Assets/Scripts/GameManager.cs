@@ -7,7 +7,13 @@ public class GameManager : MonoBehaviour
 {
 
     public static GameManager instance;
+    enum GameGoal { DefeatAllEnemies, ReachGoal, Timed }
 
+    [Header("---- Game Controls ----")]
+    [SerializeField] GameGoal GameType;
+    [SerializeField] float GoalTimerEnd;
+
+    [Header("---- Menus ----")]
     [SerializeField] GameObject menuActive;
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
@@ -26,6 +32,7 @@ public class GameManager : MonoBehaviour
     float timeScaleOrig;
 
     int gameGoalCount;
+    float gameGoalTimer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -41,6 +48,13 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameType == GameGoal.Timed)
+        {
+            gameGoalTimer += Time.deltaTime;
+            if (gameGoalTimer >= GoalTimerEnd)
+                updateGameGoal(0);
+        }
+
         if (Input.GetButtonDown("Cancel"))
         {
             if (menuActive == null)
@@ -83,14 +97,41 @@ public class GameManager : MonoBehaviour
 
     public void updateGameGoal(int amount)
     {
-        gameGoalCount += amount;
-
-        if (gameGoalCount <= 0)
+        if (GameType == GameGoal.DefeatAllEnemies)
         {
-            //you win!!
-            statePause();
-            menuActive = menuWin;
-            menuActive.SetActive(true);
+            gameGoalCount += amount;
+
+            if (gameGoalCount <= 0)
+            {
+                //you win!!
+                statePause();
+                menuActive = menuWin;
+                menuActive.SetActive(true);
+            }
+        }
+        else if (GameType == GameGoal.ReachGoal)
+        {
+            gameGoalCount += amount;
+
+            if (gameGoalCount <= 0)
+            {
+                //you win!!
+                statePause();
+                menuActive = menuWin;
+                menuActive.SetActive(true);
+            }
+        }
+        else if (GameType == GameGoal.Timed)
+        {
+            gameGoalCount += amount;
+
+            if (gameGoalTimer >= GoalTimerEnd)
+            {
+                //you win!!
+                statePause();
+                menuActive = menuWin;
+                menuActive.SetActive(true);
+            }
         }
     }
 
