@@ -84,8 +84,8 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         OriginalHp = Hp;
         gravityOrig = gravity;
-      
-       // lineRenderer.transform.localScale = new  Vector3(0.3f,ShootDistance,0.3f);
+
+        // lineRenderer.transform.localScale = new  Vector3(0.3f,ShootDistance,0.3f);
     }
 
     // Update is called once per frame
@@ -129,7 +129,7 @@ public class PlayerController : MonoBehaviour, IDamage
                 if (Physics.Raycast(controller.transform.position, controller.transform.right, out hit, RayDistance, ~ignoreLayer) ||
                     Physics.Raycast(controller.transform.position, -controller.transform.right, out hit, RayDistance, ~ignoreLayer))
                 {
-                    if ((Input.GetKey(KeyCode.W) && Input.GetAxis("Vertical")  > 0 ) || Input.GetKey(KeyCode.S) )
+                    if ((Input.GetKey(KeyCode.W) && Input.GetAxis("Vertical") > 0) || Input.GetKey(KeyCode.S))
                     {
                         moveDir = Input.GetAxis("Vertical") * Vector3.forward;
                         controller.Move(moveDir * speed * Time.deltaTime);
@@ -388,14 +388,16 @@ public class PlayerController : MonoBehaviour, IDamage
                 }
             }
 
-            SoundManager.instance.PlaySound3D("Shoots", transform.position);
+            SoundManager.instance.PlaySound3D("shoots", transform.position);
 
         }
         else if (gunRayOn == 0)
         {
             shootTimer = 0;
-            Instantiate(bullet, ShootPos.position, transform.rotation);
-            SoundManager.instance.PlaySound3D("Shoots", transform.position);
+          
+            SoundManager.instance.PlaySound3D("shoots", transform.position);
+            Instantiate(bullet, ShootPos.position, transform.rotation) ;
+
         }
     }
 
@@ -403,7 +405,9 @@ public class PlayerController : MonoBehaviour, IDamage
     public void takeDamage(int amount)
     {
         Hp -= amount;
-        
+        model.material.color = Color.red;
+       StartCoroutine(wait(0.2f));
+       
         HeathBar.GetComponent<Slider>().value = Hp;
 
         //check if the player is dead
@@ -432,6 +436,12 @@ public class PlayerController : MonoBehaviour, IDamage
         }
         HeathBar.GetComponent<Slider>().value = Hp;
         return true;
+    }
+    IEnumerator wait(float amount)
+    {
+
+        yield return new WaitForSeconds(amount);
+        model.material.color = Color.cyan;
     }
 }
 
