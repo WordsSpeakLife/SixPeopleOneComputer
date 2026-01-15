@@ -98,7 +98,7 @@ MonoBehaviour:
   jumpMax: 1
   wallJumpUpPower: 8
   wallJumpSideforce: 6
-  wallRunSpeed: -10
+  wallRunSpeed: 0
   wallRunTimeOnWall: 0
   dashSpeed: 10
   dashTime: 0.1

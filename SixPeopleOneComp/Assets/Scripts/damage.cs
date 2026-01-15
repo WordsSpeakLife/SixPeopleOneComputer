@@ -10,7 +10,7 @@ public class damage : MonoBehaviour
     [SerializeField] int damageAmount;
     [SerializeField] float damageRate;
     [SerializeField] int speed;
-    [SerializeField] int destroyTime;
+    [SerializeField] float destroyTime;
     [SerializeField] GameObject hitEffect;
 
     bool isDamaging;
