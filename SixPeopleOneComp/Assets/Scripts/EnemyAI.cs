@@ -27,8 +27,8 @@ public class EnemyAI : MonoBehaviour, IDamage
     void Start()
     {
         colorOrig = model.material.color;
-        GameManager.instance.updateGameGoal(1);
-
+        if(GameManager.instance.GameType == GameManager.GameGoal.DefeatAllEnemies)
+            GameManager.instance.updateGameGoal(1);
 
     }
 
@@ -64,12 +64,14 @@ public class EnemyAI : MonoBehaviour, IDamage
         if (enemyType == "Basic")
         {
             Instantiate(bullet, shootPos.position, transform.rotation);
+            SoundManager.instance.PlaySound3D("shoots", transform.position);
         }
         else if (enemyType == "Burst")
         {
             Instantiate(bullet, shootPos.position, transform.rotation * Quaternion.Euler(0,15, 0));
             Instantiate(bullet, shootPos.position, transform.rotation );
             Instantiate(bullet, shootPos.position, transform.rotation * Quaternion.Euler(0,-15, 0));
+            SoundManager.instance.PlaySound3D("shoots", transform.position);
         }
     }
     public void takeDamage(int amount)
@@ -78,7 +80,9 @@ public class EnemyAI : MonoBehaviour, IDamage
 
         if (HP <= 0)
         {
-            GameManager.instance.updateGameGoal(-1);
+            if (GameManager.instance.GameType == GameManager.GameGoal.DefeatAllEnemies)
+                GameManager.instance.updateGameGoal(-1);
+
             Destroy(gameObject);
         }
         else
@@ -93,4 +97,6 @@ public class EnemyAI : MonoBehaviour, IDamage
         yield return new WaitForSeconds(0.1f);
         model.material.color = colorOrig;
     }
+
+    public bool heal(int amount) { return false; }
 }

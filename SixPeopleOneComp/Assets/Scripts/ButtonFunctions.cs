@@ -3,7 +3,13 @@ using UnityEngine.SceneManagement;
 
 public class ButtonFunctions : MonoBehaviour
 {
-  
+
+
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("startMenu");
+    }
+
     public void resume()
     {
         GameManager.instance.stateUnpause();

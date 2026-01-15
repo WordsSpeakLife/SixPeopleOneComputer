@@ -89,6 +89,7 @@ MonoBehaviour:
   lookTransform: {fileID: 0}
   ShootPos: {fileID: 3757661936134131098}
   bullet: {fileID: 1481135220882722262, guid: 5105ff43295a3ee44a7f80ff155a53d6, type: 3}
+  lineRenderer: {fileID: 0}
   HeathBar: {fileID: 0}
   Hp: 10
   speed: 5
@@ -97,7 +98,7 @@ MonoBehaviour:
   jumpMax: 1
   wallJumpUpPower: 8
   wallJumpSideforce: 6
-  wallRunSpeed: -10
+  wallRunSpeed: 0
   wallRunTimeOnWall: 0
   dashSpeed: 10
   dashTime: 0.1
@@ -110,8 +111,9 @@ MonoBehaviour:
   RayDistance: 0.5
   BottomRayDistance: 0.8
   ShootDamage: 5
-  ShootDistance: 1000
+  ShootDistance: 50
   ShootRate: 0.2
+  gunRayOn: 0
 --- !u!143 &7205097495694300032
 CharacterController:
   m_ObjectHideFlags: 0

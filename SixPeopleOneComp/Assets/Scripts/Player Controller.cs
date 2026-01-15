@@ -8,12 +8,9 @@ public class PlayerController : MonoBehaviour, IDamage
     [SerializeField] CharacterController controller;
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] Renderer model;
-    [SerializeField] Transform lookTransform;
     [SerializeField] Transform ShootPos;
     [SerializeField] GameObject bullet;
-
-    [Header("---- UI ----")]
-    [SerializeField] GameObject HeathBar;
+    [SerializeField] GameObject lineRenderer;
 
     [Header("---- Stats ----")]
     [Range(1, 10)][SerializeField] int Hp;
@@ -29,8 +26,8 @@ public class PlayerController : MonoBehaviour, IDamage
     [Range(0, 20)][SerializeField] int wallJumpUpPower;
     [Range(0, 20)][SerializeField] int wallJumpSideforce;
     [Header("---- Wall Run ----")]
-    [Range(0, -20)][SerializeField] int wallRunSpeed;
-    [Range(0, 1)][SerializeField] float wallRunTimeOnWall;
+    [Range(0, 20)][SerializeField] int wallRunSpeed;
+    [Range(0, 100)][SerializeField] float wallRunTimeOnWall;
     //[Range(0, 20)][SerializeField] int wallRunMax;
 
     [Header("---- Dash ----")]
@@ -50,12 +47,13 @@ public class PlayerController : MonoBehaviour, IDamage
     [SerializeField] float BottomRayDistance;
 
     [Header("---- Guns ----")]
-    [SerializeField] int ShootDamage;
-    [SerializeField] float ShootDistance;
-    [SerializeField] float ShootRate;
+    [Range(0, 20)][SerializeField] int ShootDamage;
+    [Range(0, 50)][SerializeField] float ShootDistance;
+    [Range(0, 10)][SerializeField] float ShootRate;
+    [Range(0, 10)][SerializeField] float shootSpeed;
+    [Range(0, 1)][SerializeField] int gunRayOn;
 
-
-    bool wallRunActive;
+    bool wallRunActive = false;
     int jumpCount;
     int wallJumpCount;
     int wallRunCount;
@@ -72,6 +70,8 @@ public class PlayerController : MonoBehaviour, IDamage
     string prevWallRunName;
     Vector2 turn;
     Vector3 direction;
+    Vector3 Line;
+    RaycastHit hit;
 
 
 
@@ -80,42 +80,69 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         OriginalHp = Hp;
         gravityOrig = gravity;
+
+        // lineRenderer.transform.localScale = new  Vector3(0.3f,ShootDistance,0.3f);
     }
 
     // Update is called once per frame
     void Update()
     {
-
         Movement();
-
-
-
+        if (wallRunActive)
+        {
+            controller.transform.Translate(Vector3.forward * wallRunSpeed * Time.deltaTime);
+        }
     }
-
     void Movement()
     {
 
-
+        //for wallJump and wallRun
         Debug.DrawRay(controller.transform.position, controller.transform.right * RayDistance, Color.green);
         Debug.DrawRay(controller.transform.position, -controller.transform.right * RayDistance, Color.blue);
         Debug.DrawRay(controller.transform.position, -controller.transform.up * BottomRayDistance, Color.red);
         Debug.DrawRay(controller.transform.position, controller.transform.forward * RayDistance, Color.green);
         Debug.DrawRay(controller.transform.position, -controller.transform.forward * RayDistance, Color.blue);
+        // for shoot Distance
+        Debug.DrawRay(controller.transform.position, controller.transform.forward * ShootDistance, Color.cyan);
 
         shootTimer += Time.deltaTime;
 
 
+
+
         if (MouseOn == 1)
         {
+
             turn.x += Input.GetAxisRaw("Mouse X");
             transform.localRotation = Quaternion.Euler(0, turn.x * sens, 0);
-            moveDir = Input.GetAxis("Horizontal") * transform.right + Input.GetAxis("Vertical") * transform.forward;
-            controller.Move(moveDir * speed * Time.deltaTime);
+            if (!wallRunActive)
+            {
+                moveDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+                controller.Move(moveDir * speed * Time.deltaTime);
+            }
+            else if (wallRunActive)
+            {
+                if (Physics.Raycast(controller.transform.position, controller.transform.right, out hit, RayDistance, ~ignoreLayer) ||
+                    Physics.Raycast(controller.transform.position, -controller.transform.right, out hit, RayDistance, ~ignoreLayer))
+                {
+                    if ((Input.GetKey(KeyCode.W) && Input.GetAxis("Vertical") > 0) || Input.GetKey(KeyCode.S))
+                    {
+                        moveDir = Input.GetAxis("Vertical") * Vector3.forward;
+                        controller.Move(moveDir * speed * Time.deltaTime);
+                    }
+                }
+                else
+                {
+                    TurnGravityOn();
+                    wallRunActive = false;
+                }
+
+            }
         }
         else if (MouseOn == 0)
         {
-            //old movement code just in case 
-
+            wallRunActive = false;
+            TurnGravityOn();
             move_horizontal = Input.GetAxisRaw("Horizontal");
             move_vertical = Input.GetAxisRaw("Vertical");
 
@@ -123,7 +150,7 @@ public class PlayerController : MonoBehaviour, IDamage
 
             if (direction.magnitude >= 0.1f)
             {
-                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + lookTransform.eulerAngles.y;
+                float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
                 float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnCalmVelocity, turnCalmTime);
                 transform.rotation = Quaternion.Euler(0f, angle, 0f);
                 Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
@@ -131,6 +158,7 @@ public class PlayerController : MonoBehaviour, IDamage
 
             }
         }
+
         //shootTimer += Time.deltaTime;
 
 
@@ -139,6 +167,8 @@ public class PlayerController : MonoBehaviour, IDamage
 
         if (Input.GetButtonDown("Jump"))
         {
+            wallRunActive = false;
+            TurnGravityOn();
             wallJump();
         }
         else if (Input.GetButtonDown("Fire1"))
@@ -147,7 +177,8 @@ public class PlayerController : MonoBehaviour, IDamage
         }
         if (Input.GetButtonDown("Sprint"))
         {
-
+            wallRunActive = false;
+            gravity = gravityOrig;
             StartCoroutine(Dash());
 
         }
@@ -164,8 +195,10 @@ public class PlayerController : MonoBehaviour, IDamage
         }
         else
         {
-
-            PlayerVelo.y -= gravity * Time.deltaTime;
+            if (!wallRunActive)
+            {
+                PlayerVelo.y -= gravity * Time.deltaTime;
+            }
         }
 
         if (Input.GetButton("Fire2") && shootTimer >= ShootRate)
@@ -182,18 +215,20 @@ public class PlayerController : MonoBehaviour, IDamage
             controller.Move(moveDir * speed * Time.deltaTime);
 
             jumpCount++;
+
+            SoundManager.instance.PlaySound3D("Jumps", transform.position);
         }
     }
 
     void wallJump()
     {
-        RaycastHit hit;
+
         RaycastHit GroundHit;
-        if (Physics.Raycast(controller.transform.position, controller.transform.right, out hit, RayDistance, ~ignoreLayer)
-            || Physics.Raycast(controller.transform.position, -controller.transform.right, out hit, RayDistance, ~ignoreLayer) ||
+        if (Physics.Raycast(controller.transform.position, controller.transform.right, out hit, RayDistance, ~ignoreLayer) ||
+            Physics.Raycast(controller.transform.position, -controller.transform.right, out hit, RayDistance, ~ignoreLayer) ||
             Physics.Raycast(controller.transform.position, -controller.transform.up, out hit, BottomRayDistance, ~ignoreLayer) ||
-             Physics.Raycast(controller.transform.position, controller.transform.forward, out hit, RayDistance, ~ignoreLayer) ||
-              Physics.Raycast(controller.transform.position, -controller.transform.forward, out hit, RayDistance, ~ignoreLayer))
+            Physics.Raycast(controller.transform.position, controller.transform.forward, out hit, RayDistance, ~ignoreLayer) ||
+            Physics.Raycast(controller.transform.position, -controller.transform.forward, out hit, RayDistance, ~ignoreLayer))
         {
 
             if (Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, BottomRayDistance, ~ignoreLayer))
@@ -206,13 +241,15 @@ public class PlayerController : MonoBehaviour, IDamage
                 Debug.Log(hit.collider.name + " wall Jump");
                 //PlayerVelo.y = WallJumpPower;
                 //PlayerVelo.x = hit.normal.x * WallJumpPower;
-
+                gravity = gravityOrig;
                 PlayerVelo.y = 0f;
                 Vector3 JumpDirection = transform.up * wallJumpUpPower + hit.normal * wallJumpSideforce;
                 PlayerVelo = JumpDirection;
                 prevWallJumpName = hit.collider.name;
                 wallJumpCount++;
                 jumpCount = 1;
+
+                SoundManager.instance.PlaySound3D("Jumps", transform.position);
             }
 
         }
@@ -220,21 +257,27 @@ public class PlayerController : MonoBehaviour, IDamage
     }
     void wallRun()
     {
-        RaycastHit hit;
+
         RaycastHit leftHit;
         RaycastHit rightHit;
         RaycastHit GroundHit;
-        if (Physics.Raycast(controller.transform.position, controller.transform.right, out hit, RayDistance, ~ignoreLayer) || Physics.Raycast(controller.transform.position, -controller.transform.right, out hit, RayDistance, ~ignoreLayer) || Physics.Raycast(controller.transform.position, -controller.transform.up, out hit, BottomRayDistance, ~ignoreLayer))
+        if (Physics.Raycast(controller.transform.position, controller.transform.right, out hit, RayDistance, ~ignoreLayer) ||
+            Physics.Raycast(controller.transform.position, -controller.transform.right, out hit, RayDistance, ~ignoreLayer) ||
+            Physics.Raycast(controller.transform.position, -controller.transform.up, out hit, BottomRayDistance, ~ignoreLayer))
         {
+
 
             if (Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, BottomRayDistance, ~ignoreLayer))
             {
 
                 // Debug.Log(" nuh huh ");
+                TurnGravityOn();
+                wallRunActive = false;
                 return;
             }
             else if (!IsRayOnGround(hit))
             {
+                wallRunActive = true;
                 //  Debug.Log(" not hit ground");
                 if (Physics.Raycast(controller.transform.position, -controller.transform.right, out leftHit, BottomRayDistance, ~ignoreLayer) && (prevWallRunName == null || prevWallRunName != leftHit.collider.name))
                 {
@@ -279,18 +322,6 @@ public class PlayerController : MonoBehaviour, IDamage
         }
 
     }
-    IEnumerator wait()
-    {
-
-        //  Debug.Log("  time start ");
-        gravity = 0;
-        PlayerVelo.y = 0;
-        model.material.color = Color.blue;
-        yield return new WaitForSeconds(0.3f);
-        PlayerVelo.y -= wallRunGravity * Time.deltaTime;
-        //  Debug.Log("  time end ");
-        gravity = gravityOrig;
-    }
     bool IsRayOnGround(RaycastHit hit)
     {
         if (hit.collider.tag.Contains("ground"))
@@ -306,6 +337,7 @@ public class PlayerController : MonoBehaviour, IDamage
 
         }
     }
+
     IEnumerator Dash()
     {
         float time = Time.time;
@@ -320,14 +352,14 @@ public class PlayerController : MonoBehaviour, IDamage
     }
     void wallRunRayCastDirection(int wallRunSpeed, RaycastHit hit)
     {
-
         //Debug.Log(hit.collider.name + "  Wall run");
-        prevWallRunName = hit.collider.name;
-        moveDir = Input.GetAxis("Vertical") * transform.forward;
-        controller.Move(moveDir * wallRunSpeed * Time.deltaTime);
-        PlayerVelo.x = wallRunSpeed;
-        StartCoroutine(wait());
 
+        prevWallRunName = hit.collider.name;
+        TurnGravityOf();
+        PlayerVelo.y = 0;
+        PlayerVelo.x = -hit.normal.x;
+        model.material.color = Color.blue;
+        wallRunActive = true;
         jumpCount = 1;
 
     }
@@ -335,21 +367,77 @@ public class PlayerController : MonoBehaviour, IDamage
 
     void shoot()
     {
-        shootTimer = 0;
+        if (gunRayOn == 1)
+        {
+            shootTimer = 0;
 
-        Instantiate(bullet, ShootPos.position, transform.rotation );
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, transform.forward, out hit, ShootDistance, ~ignoreLayer))
+            {
+                Debug.Log(hit.collider.name);
+                IDamage dmg = hit.collider.GetComponent<IDamage>();
+
+                Instantiate(bullet, ShootPos.position, transform.rotation);
+                if (dmg != null)
+                {
+                    dmg.takeDamage(ShootDamage);
+                }
+            }
+
+            SoundManager.instance.PlaySound3D("shoots", transform.position);
+
+        }
+        else if (gunRayOn == 0)
+        {
+            shootTimer = 0;
+          
+            SoundManager.instance.PlaySound3D("shoots", transform.position);
+            Instantiate(bullet, ShootPos.position, transform.rotation) ;
+
+        }
     }
+
 
     public void takeDamage(int amount)
     {
         Hp -= amount;
-        HeathBar.GetComponent<Slider>().value = Hp;
+        model.material.color = Color.red;
+       StartCoroutine(wait(0.2f));
+       
+        GameManager.instance.HealthBar.GetComponent<Slider>().value = Hp;
 
         //check if the player is dead
         if (Hp <= 0)
         {
             GameManager.instance.youLose();
         }
+    }
+    void TurnGravityOn()
+    {
+        gravity = gravityOrig;
+    }
+    void TurnGravityOf()
+    {
+        gravity = 0;
+    }
+
+
+    public bool heal(int amount)
+    {
+        if (Hp >= OriginalHp) return false;
+        Hp += amount;
+        if (Hp > OriginalHp)
+        {
+            Hp = OriginalHp;
+        }
+        GameManager.instance.HealthBar.GetComponent<Slider>().value = Hp;
+        return true;
+    }
+    IEnumerator wait(float amount)
+    {
+
+        yield return new WaitForSeconds(amount);
+        model.material.color = Color.cyan;
     }
 }
 
