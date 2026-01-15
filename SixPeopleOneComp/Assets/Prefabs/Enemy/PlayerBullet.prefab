@@ -51,8 +51,8 @@ MonoBehaviour:
   rb: {fileID: 8381397577265498085}
   damageAmount: 3
   damageRate: 0
-  speed: 10
-  destroyTime: 3
+  speed: 45
+  destroyTime: 0.2
   hitEffect: {fileID: 0}
 --- !u!54 &8381397577265498085
 Rigidbody:
