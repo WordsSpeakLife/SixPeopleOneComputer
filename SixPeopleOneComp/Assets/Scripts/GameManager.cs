@@ -7,10 +7,10 @@ public class GameManager : MonoBehaviour
 {
 
     public static GameManager instance;
-    enum GameGoal { DefeatAllEnemies, ReachGoal, Timed }
+    public enum GameGoal { DefeatAllEnemies, ReachGoal, Timed, None }
 
     [Header("---- Game Controls ----")]
-    [SerializeField] GameGoal GameType;
+    [SerializeField] public GameGoal GameType;
     [SerializeField] float GoalTimerEnd;
 
     [Header("---- Menus ----")]
@@ -40,9 +40,12 @@ public class GameManager : MonoBehaviour
         instance = this;
         timeScaleOrig = Time.timeScale;
 
-        player = GameObject.FindWithTag("Player");
-        playerScript = player.GetComponent<PlayerController>();
-        playerCamera = Camera.main;
+        if (GameType != GameGoal.None)
+        { 
+            player = GameObject.FindWithTag("Player");
+            playerScript = player.GetComponent<PlayerController>();
+            playerCamera = Camera.main;
+        }
     }
 
     // Update is called once per frame
@@ -111,7 +114,7 @@ public class GameManager : MonoBehaviour
         }
         else if (GameType == GameGoal.ReachGoal)
         {
-            gameGoalCount += amount;
+            gameGoalCount -= amount;
 
             if (gameGoalCount <= 0)
             {
