@@ -8,11 +8,15 @@ public class MainMenu : MonoBehaviour
 
     public void Play()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         SceneManager.LoadScene("Tutorial_Lvl");
     }
 
     public void Play2()
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         SceneManager.LoadScene("Level_1");
     }
 

@@ -46,6 +46,8 @@ public class GameManager : MonoBehaviour
             player = GameObject.FindWithTag("Player");
             playerScript = player.GetComponent<PlayerController>();
             playerCamera = Camera.main;
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 
@@ -84,7 +86,7 @@ public class GameManager : MonoBehaviour
 
     public void stateUnpause()
     {
-        isPaused = true;
+        isPaused = false;
         Time.timeScale = timeScaleOrig;
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -94,7 +96,7 @@ public class GameManager : MonoBehaviour
 
     public void stateUnpauseMM()
     {
-        isPaused = true;
+        isPaused = false;
         Time.timeScale = timeScaleOrig;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
