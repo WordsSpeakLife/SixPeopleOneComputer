@@ -4,15 +4,28 @@ using UnityEngine;
 public class wallFade : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField] Transform playerTarget;
     [SerializeField] LayerMask wallLayer;        // Walls layer
+
+    [Header("Materials")]
+    [SerializeField] Material solidWallMaterial;        // Opaque version
+    [SerializeField] Material transparentWallMaterial;  // Transparent version
+
+
 
     [Header("Fade Settings")]
     [Range(0f, 1f)]
     [SerializeField] float fadedAlpha = 0.2f;
     [SerializeField] float fadeSpeed = 10f;
 
+    [Header("Aim")]
+    [SerializeField] float aimHeight = 1.0f;
+
     // Stores original alpha value for each wall renderer
     Dictionary<Renderer, float> originalAlphaByRenderer = new Dictionary<Renderer, float>();
+    Dictionary<Renderer, Material> originalMaterialByRenderer = new Dictionary<Renderer, Material>();
+
+
 
     // Renderers hit THIS frame
     HashSet<Renderer> blockingRenderersThisFrame = new HashSet<Renderer>();
@@ -25,7 +38,7 @@ public class wallFade : MonoBehaviour
         blockingRenderersThisFrame.Clear();
 
         Vector3 cameraPosition = transform.position;
-        Vector3 playerAimPoint = GameManager.instance.player.transform.position + Vector3.up * 1.0f; // chest height
+        Vector3 playerAimPoint = GameManager.instance.player.transform.position + Vector3.up * aimHeight; // chest height
         Vector3 directionToPlayer = playerAimPoint - cameraPosition;
         float distanceToPlayer = directionToPlayer.magnitude;
 
@@ -47,11 +60,19 @@ public class wallFade : MonoBehaviour
 
             blockingRenderersThisFrame.Add(wallRenderer);
 
+            if (!originalMaterialByRenderer.ContainsKey(wallRenderer))
+                originalMaterialByRenderer[wallRenderer] = wallRenderer.sharedMaterial;
+
             if (!originalAlphaByRenderer.ContainsKey(wallRenderer))
-            {
-                originalAlphaByRenderer[wallRenderer] =
-                    wallRenderer.material.color.a;
-            }
+                originalAlphaByRenderer[wallRenderer] = 1f;
+
+            if (wallRenderer.sharedMaterial != transparentWallMaterial)
+                wallRenderer.sharedMaterial = transparentWallMaterial;
+
+            float currentAlpha = wallRenderer.sharedMaterial.color.a;
+            float newAlpha = Mathf.Lerp(currentAlpha, fadedAlpha, fadeSpeed * Time.deltaTime);
+
+
 
             float fadedValue = Mathf.Lerp(
                 wallRenderer.material.color.a,
@@ -62,15 +83,16 @@ public class wallFade : MonoBehaviour
         }
 
         // Restore walls no longer blocking the view
-        List<Renderer> trackedRenderers =
-            new List<Renderer>(originalAlphaByRenderer.Keys);
+        List<Renderer> tracked = new List<Renderer>(originalMaterialByRenderer.Keys);
 
-        for (int i = 0; i < trackedRenderers.Count; i++)
+
+        for (int i = 0; i < tracked.Count; i++)
         {
-            Renderer wallRenderer = trackedRenderers[i];
+            Renderer wallRenderer = tracked[i];
 
             if (!wallRenderer)
             {
+                originalMaterialByRenderer.Remove(wallRenderer);
                 originalAlphaByRenderer.Remove(wallRenderer);
                 continue;
             }
@@ -78,17 +100,15 @@ public class wallFade : MonoBehaviour
             if (blockingRenderersThisFrame.Contains(wallRenderer))
                 continue;
 
-            float originalAlpha = originalAlphaByRenderer[wallRenderer];
+            float currentAlpha = wallRenderer.sharedMaterial.color.a;
+            float newAlpha = Mathf.Lerp(currentAlpha, 1f, fadeSpeed * Time.deltaTime);
 
-            float restoredValue = Mathf.Lerp(
-                wallRenderer.material.color.a,
-                originalAlpha,
-                fadeSpeed * Time.deltaTime);
+            SetRendererAlpha(wallRenderer, newAlpha);
 
-            SetRendererAlpha(wallRenderer, restoredValue);
-
-            if (Mathf.Abs(restoredValue - originalAlpha) < 0.01f)
+            if (Mathf.Abs(newAlpha - 1f) < 0.01f)
             {
+                wallRenderer.sharedMaterial = solidWallMaterial;
+                originalMaterialByRenderer.Remove(wallRenderer);
                 originalAlphaByRenderer.Remove(wallRenderer);
             }
         }
