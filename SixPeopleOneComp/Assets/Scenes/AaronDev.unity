@@ -8565,12 +8565,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74635fa546b1a4e46a9b118d7f5537f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerTarget: {fileID: 1961845249}
   wallLayer:
     serializedVersion: 2
     m_Bits: 8
+  solidWallMaterial: {fileID: 2100000, guid: f40ddd04c72ca554090653583967f633, type: 2}
+  transparentWallMaterial: {fileID: 2100000, guid: 695d472091f3da1418d3f3f5bafd4efc, type: 2}
   fadedAlpha: 0.2
   fadeSpeed: 10
+  aimHeight: 1
 --- !u!43 &357045890
 Mesh:
   m_ObjectHideFlags: 0
@@ -43591,7 +43593,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2301f683d53b59e4c8ad18ec9d65b52d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1961845249}
   offset: {x: -5, y: 5.5, z: -19}
   smoothSpeed: 10
 --- !u!43 &1447431942
@@ -54225,11 +54226,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!4 &1961845249 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3868473295255927276, guid: 844d74d6f46453d479152fc9a6c8153f, type: 3}
-  m_PrefabInstance: {fileID: 755037501}
-  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1967985599
 Mesh:
   m_ObjectHideFlags: 0
