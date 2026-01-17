@@ -390,9 +390,9 @@ public class PlayerController : MonoBehaviour, IDamage
         else if (gunRayOn == 0)
         {
             shootTimer = 0;
-          
+
             SoundManager.instance.PlaySound3D("shoots", transform.position);
-            Instantiate(bullet, ShootPos.position, transform.rotation) ;
+            Instantiate(bullet, ShootPos.position, transform.rotation);
 
         }
     }
@@ -402,8 +402,8 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         Hp -= amount;
         model.material.color = Color.red;
-       StartCoroutine(wait(0.2f));
-       
+        StartCoroutine(wait(0.2f));
+
         GameManager.instance.HealthBar.GetComponent<Slider>().value = Hp;
 
         //check if the player is dead
@@ -440,4 +440,3 @@ public class PlayerController : MonoBehaviour, IDamage
         model.material.color = Color.cyan;
     }
 }
-
