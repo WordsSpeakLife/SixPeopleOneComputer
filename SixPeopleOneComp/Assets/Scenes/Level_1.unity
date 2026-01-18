@@ -3492,6 +3492,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1082488902}
+    - target: {fileID: 33491951922001017, guid: 322caae02a4abe548b97f6d135073e02, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 63955261450606076, guid: 322caae02a4abe548b97f6d135073e02, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -3556,6 +3560,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1236261254}
+    - target: {fileID: 862742379914985598, guid: 322caae02a4abe548b97f6d135073e02, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 885251282035024132, guid: 322caae02a4abe548b97f6d135073e02, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -3596,6 +3604,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 7589813}
+    - target: {fileID: 1205425235301408151, guid: 322caae02a4abe548b97f6d135073e02, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f40ddd04c72ca554090653583967f633, type: 2}
     - target: {fileID: 1209474451931611757, guid: 322caae02a4abe548b97f6d135073e02, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -3652,6 +3664,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 204287965}
+    - target: {fileID: 1765605786948192098, guid: 322caae02a4abe548b97f6d135073e02, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1796044428212103041, guid: 322caae02a4abe548b97f6d135073e02, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -3720,6 +3736,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1233986878}
+    - target: {fileID: 2793916138817844608, guid: 322caae02a4abe548b97f6d135073e02, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f40ddd04c72ca554090653583967f633, type: 2}
     - target: {fileID: 2800762841972663566, guid: 322caae02a4abe548b97f6d135073e02, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -3776,6 +3796,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: f40ddd04c72ca554090653583967f633, type: 2}
+    - target: {fileID: 3281778496311009915, guid: 322caae02a4abe548b97f6d135073e02, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3327815311952976794, guid: 322caae02a4abe548b97f6d135073e02, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -3824,6 +3848,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1923403640}
+    - target: {fileID: 3539914505418930017, guid: 322caae02a4abe548b97f6d135073e02, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f40ddd04c72ca554090653583967f633, type: 2}
     - target: {fileID: 3550872888046202109, guid: 322caae02a4abe548b97f6d135073e02, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -4088,6 +4116,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1521918006}
+    - target: {fileID: 5713782227754689034, guid: 322caae02a4abe548b97f6d135073e02, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: f40ddd04c72ca554090653583967f633, type: 2}
     - target: {fileID: 5736117973674883818, guid: 322caae02a4abe548b97f6d135073e02, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -11248,13 +11280,49 @@ PrefabInstance:
       value: CameraRig
       objectReference: {fileID: 0}
     - target: {fileID: 6043981343591507957, guid: 5077a5723c42cf24baeb6f72b0917834, type: 3}
+      propertyPath: fadeSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6043981343591507957, guid: 5077a5723c42cf24baeb6f72b0917834, type: 3}
+      propertyPath: fadedAlpha
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6043981343591507957, guid: 5077a5723c42cf24baeb6f72b0917834, type: 3}
       propertyPath: playerTarget
       value: 
       objectReference: {fileID: 1294735117}
+    - target: {fileID: 6043981343591507957, guid: 5077a5723c42cf24baeb6f72b0917834, type: 3}
+      propertyPath: solidWallMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: f40ddd04c72ca554090653583967f633, type: 2}
+    - target: {fileID: 6043981343591507957, guid: 5077a5723c42cf24baeb6f72b0917834, type: 3}
+      propertyPath: transparentWallMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 695d472091f3da1418d3f3f5bafd4efc, type: 2}
+    - target: {fileID: 7226526176132126776, guid: 5077a5723c42cf24baeb6f72b0917834, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.89
+      objectReference: {fileID: 0}
     - target: {fileID: 8884536098875597913, guid: 5077a5723c42cf24baeb6f72b0917834, type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 1294735117}
+    - target: {fileID: 8884536098875597913, guid: 5077a5723c42cf24baeb6f72b0917834, type: 3}
+      propertyPath: offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884536098875597913, guid: 5077a5723c42cf24baeb6f72b0917834, type: 3}
+      propertyPath: offset.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884536098875597913, guid: 5077a5723c42cf24baeb6f72b0917834, type: 3}
+      propertyPath: offset.z
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8884536098875597913, guid: 5077a5723c42cf24baeb6f72b0917834, type: 3}
+      propertyPath: cameraRotation.x
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

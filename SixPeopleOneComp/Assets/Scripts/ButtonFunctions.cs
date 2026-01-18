@@ -7,6 +7,7 @@ public class ButtonFunctions : MonoBehaviour
 
     public void MainMenu()
     {
+        GameManager.instance.stateUnpauseMM();
         SceneManager.LoadScene("startMenu");
     }
 
