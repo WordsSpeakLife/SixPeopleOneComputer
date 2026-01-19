@@ -4664,6 +4664,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1521918006}
+    - target: {fileID: 6781579814341268455, guid: 322caae02a4abe548b97f6d135073e02, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 6785773056126745629, guid: 322caae02a4abe548b97f6d135073e02, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -13096,6 +13100,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 482877403}
     - target: {fileID: 8265268638020887049, guid: ff1465a8f8bf31945b560aa8979fc353, type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 1967688195}
+    - target: {fileID: 8265268638020887049, guid: ff1465a8f8bf31945b560aa8979fc353, type: 3}
       propertyPath: lookTransform
       value: 
       objectReference: {fileID: 1356132959}
@@ -14316,6 +14324,11 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!20 &1967688195 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 6883116435162268989, guid: 5077a5723c42cf24baeb6f72b0917834, type: 3}
+  m_PrefabInstance: {fileID: 1539337894}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &1976223651
 Mesh:
   m_ObjectHideFlags: 0
