@@ -12,6 +12,17 @@ public class PlayerController : MonoBehaviour, IDamage
     [SerializeField] GameObject bullet;
     [SerializeField] GameObject lineRenderer;
 
+    [Header("---- Aim / Reticle ----")]
+    [SerializeField] Camera mainCamera;
+    [SerializeField] LayerMask aimMask;
+    [SerializeField] Transform reticle;          
+    [SerializeField] float reticleYOffset = 0.02f; 
+    [SerializeField] float reticleDistance = 12f;
+
+    bool hasAimPoint;
+    Vector3 aimPoint;
+
+
     [Header("---- Stats ----")]
     [Range(1, 10)][SerializeField] int Hp;
     [Range(0, 10)][SerializeField] int speed;
@@ -87,11 +98,17 @@ public class PlayerController : MonoBehaviour, IDamage
     // Update is called once per frame
     void Update()
     {
+
+        UpdateAimPoint();
+        UpdateReticle();
+
+
         Movement();
         if (wallRunActive)
         {
             controller.transform.Translate(Vector3.forward * wallRunSpeed * Time.deltaTime);
         }
+
     }
     void Movement()
     {
@@ -113,8 +130,7 @@ public class PlayerController : MonoBehaviour, IDamage
         if (MouseOn == 1)
         {
 
-            turn.x += Input.GetAxisRaw("Mouse X");
-            transform.localRotation = Quaternion.Euler(0, turn.x * sens, 0);
+            RotatePlayerYawToMouse();
             if (!wallRunActive)
             {
                 moveDir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
@@ -367,35 +383,28 @@ public class PlayerController : MonoBehaviour, IDamage
 
     void shoot()
     {
+        shootTimer = 0;
+
+        Vector3 shootOrigin = ShootPos ? ShootPos.position : transform.position;
+        Vector3 shootDir = GetAimDirection();
+
         if (gunRayOn == 1)
         {
-            shootTimer = 0;
-
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, transform.forward, out hit, ShootDistance, ~ignoreLayer))
+            if (Physics.Raycast(shootOrigin, shootDir, out hit, ShootDistance, ~ignoreLayer))
             {
-                Debug.Log(hit.collider.name);
                 IDamage dmg = hit.collider.GetComponent<IDamage>();
-
-                Instantiate(bullet, ShootPos.position, transform.rotation);
-                if (dmg != null)
-                {
-                    dmg.takeDamage(ShootDamage);
-                }
+                if (dmg != null) dmg.takeDamage(ShootDamage);
             }
-
-            SoundManager.instance.PlaySound3D("shoots", transform.position);
-
         }
-        else if (gunRayOn == 0)
-        {
-            shootTimer = 0;
-          
-            SoundManager.instance.PlaySound3D("shoots", transform.position);
-            Instantiate(bullet, ShootPos.position, transform.rotation) ;
 
-        }
+        Quaternion bulletRot = Quaternion.LookRotation(shootDir);
+        Instantiate(bullet, shootOrigin, bulletRot);
+
+        SoundManager.instance.PlaySound3D("shoots", transform.position);
     }
+
+
 
 
     public void takeDamage(int amount)
@@ -439,5 +448,85 @@ public class PlayerController : MonoBehaviour, IDamage
         yield return new WaitForSeconds(amount);
         model.material.color = Color.cyan;
     }
+
+    bool TryGetMouseAimPoint(out Vector3 point)
+    {
+        point = Vector3.zero;
+
+        if (!mainCamera)
+            mainCamera = Camera.main;
+
+        if (!mainCamera) return false;
+
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 500f, aimMask))
+        {
+            point = hit.point;
+            return true;
+        }
+
+        return false;
+    }
+
+    void UpdateAimPoint()
+    {
+        hasAimPoint = TryGetMouseAimPoint(out aimPoint);
+    }
+
+
+
+    void UpdateReticle()
+    {
+        if (hasAimPoint)
+        {
+            reticle.position = aimPoint + Vector3.up * reticleYOffset;
+        }
+        else
+        {
+            if (!mainCamera)
+                mainCamera = Camera.main;
+
+            if (!mainCamera) return;
+
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+            reticle.position = ray.origin + ray.direction * reticleDistance;
+        }
+
+        reticle.rotation = Quaternion.Euler(90f, 0f, 0f);
+    }
+
+
+
+
+    Vector3 GetAimDirection()
+    {
+        Vector3 shootOrigin = ShootPos ? ShootPos.position : transform.position;
+
+        if (hasAimPoint)
+        {
+            return (aimPoint - shootOrigin).normalized;
+        }
+
+        return transform.forward;
+    }
+
+    void RotatePlayerYawToMouse()
+    {
+        if (!hasAimPoint) return;
+
+        Vector3 flatDir = aimPoint - transform.position;
+        flatDir.y = 0f;
+
+        if (flatDir.sqrMagnitude < 0.0001f) return;
+
+        Quaternion targetRot = Quaternion.LookRotation(flatDir);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 15f * Time.deltaTime);
+    }
+
+
+
+
 }
 
