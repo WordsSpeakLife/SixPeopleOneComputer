@@ -5,7 +5,7 @@ public class wallFade : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] Transform playerTarget;
-    [SerializeField] LayerMask wallLayer;        // Walls layer
+    [SerializeField] LayerMask fadeableLayers;       // Walls layer
 
     [Header("Materials")]
     [SerializeField] Material solidWallMaterial;        // Opaque version
@@ -48,7 +48,7 @@ public class wallFade : MonoBehaviour
         RaycastHit[] hits = Physics.RaycastAll(
             rayToPlayer,
             distanceToPlayer,
-            wallLayer);
+            fadeableLayers);
 
         // Fade walls currently blocking the view
         for (int i = 0; i < hits.Length; i++)
