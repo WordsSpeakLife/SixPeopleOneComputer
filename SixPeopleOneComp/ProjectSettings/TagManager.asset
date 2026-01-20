@@ -8,6 +8,8 @@ TagManager:
   - ground
   - Trap
   - Fadeable
+  - playerBullet
+  - Shoot_Obj
   layers:
   - Default
   - TransparentFX
@@ -24,8 +26,7 @@ TagManager:
   - Trap
   - CameraBlocker
   - platforms
-  - 
-  - 
+  - Shoot_Obj
   - 
   - 
   - 

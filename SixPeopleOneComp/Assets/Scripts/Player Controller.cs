@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour, IDamage
     [Range(0, 50)][SerializeField] int dashSpeed;
     [Range(0, 1)][SerializeField] float dashTime;
     [Range(0, 1)][SerializeField] float DashResetTime;
-    [Range(0, 2)][SerializeField] float DashCount;
+    [Range(0, 2)][SerializeField] int DashCount;
     bool isDashing;
 
 
@@ -97,8 +97,6 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         OriginalHp = Hp;
         gravityOrig = gravity;
-
-        // lineRenderer.transform.localScale = new  Vector3(0.3f,ShootDistance,0.3f);
     }
 
     // Update is called once per frame
@@ -107,8 +105,6 @@ public class PlayerController : MonoBehaviour, IDamage
 
         UpdateAimPoint();
         UpdateReticle();
-
-
         Movement();
 
         //if (wallRunActive)
@@ -194,10 +190,6 @@ public class PlayerController : MonoBehaviour, IDamage
 
             }
         }
-
-        //shootTimer += Time.deltaTime;
-
-
 
         Jump();
 
@@ -560,10 +552,10 @@ public class PlayerController : MonoBehaviour, IDamage
             if (!mainCamera)
                 mainCamera = Camera.main;
 
-            if (!mainCamera) return;
 
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             reticle.position = ray.origin + ray.direction * reticleDistance;
+            
         }
 
         reticle.rotation = Quaternion.Euler(90f, 0f, 0f);
@@ -587,7 +579,7 @@ public class PlayerController : MonoBehaviour, IDamage
     void RotatePlayerYawToMouse()
     {
         if (!hasAimPoint) return;
-
+        Debug.Log("why not work");
         Vector3 flatDir = aimPoint - transform.position;
         flatDir.y = 0f;
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -29,7 +30,6 @@ public class GameManager : MonoBehaviour
     public Slider MusicSlider;
     public Slider SoundSlider;
     public Camera playerCamera;
-
     float timeScaleOrig;
 
     int gameGoalCount;
@@ -40,20 +40,23 @@ public class GameManager : MonoBehaviour
     {
         instance = this;
         timeScaleOrig = Time.timeScale;
-
         if (GameType != GameGoal.None)
         { 
+
             player = GameObject.FindWithTag("Player");
             playerScript = player.GetComponent<PlayerController>();
             playerCamera = Camera.main;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
+
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+       
+
         if (GameType == GameGoal.Timed)
         {
             gameGoalTimer += Time.deltaTime;
@@ -88,8 +91,8 @@ public class GameManager : MonoBehaviour
     {
         isPaused = false;
         Time.timeScale = timeScaleOrig;
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.Confined;
         menuActive.SetActive(false);
         menuActive = null;
     }

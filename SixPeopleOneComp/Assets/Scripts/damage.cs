@@ -3,7 +3,7 @@ using System.Collections;
 
 public class damage : MonoBehaviour
 {
-    enum damageType { moving, stationary, DOT}
+    enum damageType { moving, stationary, DOT }
     [SerializeField] damageType type;
     [SerializeField] Rigidbody rb;
 
@@ -18,7 +18,7 @@ public class damage : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        if(type == damageType.moving)
+        if (type == damageType.moving)
         {
             rb.linearVelocity = transform.forward * speed;
             Destroy(gameObject, destroyTime);
@@ -36,10 +36,10 @@ public class damage : MonoBehaviour
             dmg.takeDamage(damageAmount);
             SoundManager.instance.PlaySound3D("Damage", transform.position);
         }
-        if(type == damageType.moving)
-             Destroy(gameObject);
+        if (type == damageType.moving)
+            Destroy(gameObject);
+      
 
-        
     }
 
     private void OnTriggerStay(Collider other)
@@ -48,7 +48,7 @@ public class damage : MonoBehaviour
 
         IDamage dmg = other.GetComponent<IDamage>();
 
-        if(dmg != null &&  type == damageType.DOT && !isDamaging)
+        if (dmg != null && type == damageType.DOT && !isDamaging)
         {
             StartCoroutine(damageOther(dmg));
         }
@@ -61,5 +61,6 @@ public class damage : MonoBehaviour
         yield return new WaitForSeconds(damageRate);
         isDamaging = false;
     }
+
 
 }
