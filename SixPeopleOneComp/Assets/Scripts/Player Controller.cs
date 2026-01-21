@@ -22,7 +22,8 @@ public class PlayerController : MonoBehaviour, IDamage
 
     bool hasAimPoint;
     Vector3 aimPoint;
-    
+
+
     [Header("---- Stats ----")]
     [Range(1, 10)][SerializeField] int Hp;
     [Range(0, 10)][SerializeField] int speed;
@@ -578,6 +579,7 @@ public class PlayerController : MonoBehaviour, IDamage
     void RotatePlayerYawToMouse()
     {
         if (!hasAimPoint) return;
+        Debug.Log("why not work");
         Vector3 flatDir = aimPoint - transform.position;
         flatDir.y = 0f;
 
