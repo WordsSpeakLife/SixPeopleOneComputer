@@ -11732,7 +11732,7 @@ GameObject:
   - component: {fileID: 1637043052}
   - component: {fileID: 1637043051}
   - component: {fileID: 1637043050}
-  m_Layer: 3
+  m_Layer: 14
   m_Name: Wall (15)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -15026,7 +15026,7 @@ PrefabInstance:
       objectReference: {fileID: 1076795275}
     - target: {fileID: 8265268638020887049, guid: ff1465a8f8bf31945b560aa8979fc353, type: 3}
       propertyPath: aimMask.m_Bits
-      value: 43264
+      value: 43272
       objectReference: {fileID: 0}
     - target: {fileID: 8265268638020887049, guid: ff1465a8f8bf31945b560aa8979fc353, type: 3}
       propertyPath: ignoreLayer.m_Bits
