@@ -30,6 +30,10 @@ public class damage : MonoBehaviour
         if (other.isTrigger) return;
 
         IDamage dmg = other.GetComponent<IDamage>();
+          if (other.CompareTag("Shoot_Obj"))
+        {
+            Destroy(other.gameObject);
+        }
 
         if ((dmg != null) && type != damageType.DOT)
         {
