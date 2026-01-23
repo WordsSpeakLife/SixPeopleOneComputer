@@ -92,6 +92,7 @@ public class PlayerController : MonoBehaviour, IDamage
     float timer;
     float duration;
     Vector3 wallMoveVector;
+    bool hasWallForRun;
     float GroundCheck;
 
 
@@ -102,7 +103,7 @@ public class PlayerController : MonoBehaviour, IDamage
         OriginalHp = Hp;
         gravityOrig = gravity;
         duration = wallRunTimeOnWall;
-        GroundCheck =BottomRayDistance;
+        GroundCheck = BottomRayDistance;
     }
 
     // Update is called once per frame
@@ -119,8 +120,8 @@ public class PlayerController : MonoBehaviour, IDamage
 
         void Movement()
         {
-            
-            bool isGrounded = Physics.Raycast(controller.transform.position, -controller.transform.up ,out GroundHit ,GroundCheck, ~ignoreLayer);
+
+            bool isGrounded = Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, GroundCheck, ~ignoreLayer);
             Debug.DrawRay(controller.transform.position, -controller.transform.up * GroundCheck, isGrounded ? Color.black : Color.red);
             // bool isGrounded = Physics.Raycast(transform.position, Vector3.down, (controller.height / 2) + GroundCheck, ~ignoreLayer);
             // Debug.DrawRay(transform.position, Vector3.down * ((controller.height / 2) + GroundCheck), isGrounded ? Color.green : Color.red);
@@ -144,31 +145,51 @@ public class PlayerController : MonoBehaviour, IDamage
             wallMoveVector = Vector3.zero;
             if (wallRunActive && timerRunning)
             {
-                PlayerVelo.y = 0;
-                timer += Time.deltaTime;
-                Vector3 wallFoward = Vector3.Cross(currentWallHit.normal, Vector3.up);
-                if (Vector3.Dot(transform.forward, wallFoward) < 0)
+
+                RaycastHit leftHit;
+                RaycastHit rightHit;
+                bool hitLeft = Physics.Raycast(controller.transform.position, -controller.transform.right, out leftHit, RayDistance, ~ignoreLayer);
+                bool hitRight = Physics.Raycast(controller.transform.position, controller.transform.right, out rightHit, RayDistance, ~ignoreLayer);
+                hasWallForRun = false;
+                if (hitLeft && !IsRayOnGround(leftHit) && leftHit.collider.CompareTag("wall"))
                 {
-                    wallFoward = -wallFoward;
+                    currentWallHit = leftHit;
+                    hasWallForRun = true;
                 }
-                wallMoveVector = wallFoward * wallRunSpeed;
-                Vector3 stickForce = -currentWallHit.normal * wallStickForce;
-                wallMoveVector += stickForce;
-                PlayerVelo.y = 0;
-
-
-                if (timer >= duration)
+                else if (hitRight && !IsRayOnGround(rightHit) && rightHit.collider.CompareTag("wall"))
+                {
+                    currentWallHit = rightHit;
+                    hasWallForRun = true;
+                }
+                if (!hasWallForRun)
                 {
                     TimerFinished();
+
+                }
+                else
+                {
+                    timer += Time.deltaTime;
+                    Vector3 wallFoward = Vector3.Cross(currentWallHit.normal, Vector3.up);
+                    if (Vector3.Dot(transform.forward, wallFoward) < 0)
+                    {
+                        wallFoward = -wallFoward;
+                    }
+                    wallMoveVector = wallFoward * wallRunSpeed;
+                    Vector3 stickForce = -currentWallHit.normal * wallStickForce;
+                    wallMoveVector += stickForce;
+                    PlayerVelo.y = 0;
+                    if (timer >= duration)
+                    {
+                        TimerFinished();
+                    }
                 }
             }
-            Vector3 movement = (moveDir * speed) + PlayerVelo + wallMoveVector;
-            controller.Move(movement * Time.deltaTime);
-            if (isGrounded)
+
+            if (isGrounded && PlayerVelo.y <= 0)
             {
                 jumpCount = 0;
                 DashCount = 0;
-                PlayerVelo = Vector3.zero;
+                PlayerVelo.y = -2f;
                 prevWallJumpName = null;
                 prevWallRunName = null;
                 wallRunActive = false;
@@ -183,6 +204,8 @@ public class PlayerController : MonoBehaviour, IDamage
             }
 
             HandleButtonPress(isGrounded);
+            Vector3 movement = (moveDir * speed) + PlayerVelo + wallMoveVector;
+            controller.Move(movement * Time.deltaTime);
         }
 
         void HandleButtonPress(bool grounded)
@@ -209,7 +232,7 @@ public class PlayerController : MonoBehaviour, IDamage
             if (Input.GetButtonDown("Sprint"))
             {
                 wallRunActive = false;
-                timerRunning=false;
+                timerRunning = false;
                 gravity = gravityOrig;
                 if (DashCount > 2)
                 {
@@ -230,12 +253,13 @@ public class PlayerController : MonoBehaviour, IDamage
         }
         void Jump()
         {
-            
+            if (!wallRunActive)
+            {
                 PlayerVelo.y = jumpSpeed;
                 // controller.Move(moveDir * speed * Time.deltaTime);
                 jumpCount++;
                 SoundManager.instance.PlaySound3D("Jumps", transform.position);
-            
+            }
         }
 
 
@@ -507,6 +531,7 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         timerRunning = true;
         timer = 0f;
+        hasWallForRun = false;
     }
 
     IEnumerator MoveToPosition(Vector3 targetPosition, float timeToMove)
@@ -532,8 +557,8 @@ public class PlayerController : MonoBehaviour, IDamage
         prevWallRunName = null;
         timerRunning = false;
         wallRunActive = false;
+        hasWallForRun = false;
         timer = 0f;
-        PlayerVelo = Vector3.zero;
         TurnGravityOn();
         Debug.Log("Timer finished!");
 
