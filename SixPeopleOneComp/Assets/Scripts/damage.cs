@@ -6,6 +6,7 @@ public class damage : MonoBehaviour
     enum damageType { moving, stationary, DOT }
     [SerializeField] damageType type;
     [SerializeField] Rigidbody rb;
+    [SerializeField] Collider col;
 
     [SerializeField] int damageAmount;
     [SerializeField] float damageRate;
@@ -30,7 +31,7 @@ public class damage : MonoBehaviour
         if (other.isTrigger) return;
 
         IDamage dmg = other.GetComponent<IDamage>();
-          if (other.CompareTag("Shoot_Obj"))
+        if (other.CompareTag("Shoot_Obj"))
         {
             Destroy(other.gameObject);
         }
@@ -42,12 +43,13 @@ public class damage : MonoBehaviour
         }
         if (type == damageType.moving)
             Destroy(gameObject);
-      
+
 
     }
 
     private void OnTriggerStay(Collider other)
     {
+        //  Debug.Log("hit player");
         if (other.isTrigger) return;
 
         IDamage dmg = other.GetComponent<IDamage>();
@@ -65,6 +67,13 @@ public class damage : MonoBehaviour
         yield return new WaitForSeconds(damageRate);
         isDamaging = false;
     }
-
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("hit player");
+        IDamage dmg = collision.gameObject.GetComponent<IDamage>();
+        
+            StartCoroutine(damageOther(dmg));
+        
+    }
 
 }

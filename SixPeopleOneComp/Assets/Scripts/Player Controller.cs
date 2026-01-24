@@ -61,9 +61,12 @@ public class PlayerController : MonoBehaviour, IDamage
 
     [Header("---- Physics ----")]
     [Range(0, 35)][SerializeField] int gravity;
-    [Range(0, 35)][SerializeField] int wallRunGravity;
+    [Range(0, -35)][SerializeField] float wallRunGravity;
     [SerializeField] float RayDistance;
     [SerializeField] float BottomRayDistance;
+
+    //[SerializeField] float wallRunRayBottomDistance;
+    [Range(0, 10)][SerializeField] float airDrag;
 
     [Header("---- Guns ----")]
     [Range(0, 20)][SerializeField] int ShootDamage;
@@ -72,7 +75,7 @@ public class PlayerController : MonoBehaviour, IDamage
     [Range(0, 10)][SerializeField] float shootSpeed;
     [Range(0, 1)][SerializeField] int gunRayOn;
     RaycastHit GroundHit;
-    bool wallRunActive = false;
+    bool wallRunActive;
     int jumpCount;
 
     int OriginalHp;
@@ -103,7 +106,7 @@ public class PlayerController : MonoBehaviour, IDamage
         OriginalHp = Hp;
         gravityOrig = gravity;
         duration = wallRunTimeOnWall;
-        GroundCheck = BottomRayDistance;
+        //     GroundCheck = BottomRayDistance;
     }
 
     // Update is called once per frame
@@ -121,25 +124,22 @@ public class PlayerController : MonoBehaviour, IDamage
         void Movement()
         {
 
-            bool isGrounded = Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, GroundCheck, ~ignoreLayer);
-            Debug.DrawRay(controller.transform.position, -controller.transform.up * GroundCheck, isGrounded ? Color.black : Color.red);
+            bool isGrounded = Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, BottomRayDistance, ~ignoreLayer);
+            Debug.DrawRay(controller.transform.position, -controller.transform.up * BottomRayDistance, isGrounded ? Color.black : Color.red);
             // bool isGrounded = Physics.Raycast(transform.position, Vector3.down, (controller.height / 2) + GroundCheck, ~ignoreLayer);
             // Debug.DrawRay(transform.position, Vector3.down * ((controller.height / 2) + GroundCheck), isGrounded ? Color.green : Color.red);
             //for wallJump and wallRun
             // Debug.DrawRay(controller.transform.position, controller.transform.right * RayDistance, Color.green);
             // Debug.DrawRay(controller.transform.position, -controller.transform.right * RayDistance, Color.blue);
-            // Debug.DrawRay(controller.transform.position, -controller.transform.up * BottomRayDistance, Color.red);
+            //Debug.DrawRay(controller.transform.position, -controller.transform.up * BottomRayDistance, isGrounded ? Color.green : Color.red);
             // Debug.DrawRay(controller.transform.position, controller.transform.forward * RayDistance, Color.green);
             // Debug.DrawRay(controller.transform.position, -controller.transform.forward * RayDistance, Color.blue);
             // // for shoot Distance
             // Debug.DrawRay(controller.transform.position, controller.transform.forward * ShootDistance, Color.cyan);
             shootTimer += Time.deltaTime;
-
-
             RotatePlayerYawToMouse();
             moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-            // controller.Move(moveDir * speed * Time.deltaTime);
-            float airDrag = 15.0f;
+            // controller.Move(moveDir * speed * Time.deltaTime);  
             PlayerVelo.x = Mathf.Lerp(PlayerVelo.x, 0, Time.deltaTime * airDrag);
             PlayerVelo.z = Mathf.Lerp(PlayerVelo.z, 0, Time.deltaTime * airDrag);
             wallMoveVector = Vector3.zero;
@@ -164,7 +164,6 @@ public class PlayerController : MonoBehaviour, IDamage
                 if (!hasWallForRun)
                 {
                     TimerFinished();
-
                 }
                 else
                 {
@@ -177,7 +176,6 @@ public class PlayerController : MonoBehaviour, IDamage
                     wallMoveVector = wallFoward * wallRunSpeed;
                     Vector3 stickForce = -currentWallHit.normal * wallStickForce;
                     wallMoveVector += stickForce;
-                    PlayerVelo.y = 0;
                     if (timer >= duration)
                     {
                         TimerFinished();
@@ -193,6 +191,7 @@ public class PlayerController : MonoBehaviour, IDamage
                 prevWallJumpName = null;
                 prevWallRunName = null;
                 wallRunActive = false;
+                model.material.color = Color.cyan;
                 TurnGravityOn();
             }
             else
@@ -202,10 +201,9 @@ public class PlayerController : MonoBehaviour, IDamage
                     PlayerVelo.y -= gravity * Time.deltaTime;
                 }
             }
-
             HandleButtonPress(isGrounded);
-            Vector3 movement = (moveDir * speed) + PlayerVelo + wallMoveVector;
-            controller.Move(movement * Time.deltaTime);
+            Vector3 movement = (moveDir * speed) + PlayerVelo; //+ wallMoveVector;
+            controller.Move(movement * Time.deltaTime + (Vector3.up * wallRunGravity * Time.deltaTime));
         }
 
         void HandleButtonPress(bool grounded)
@@ -265,10 +263,12 @@ public class PlayerController : MonoBehaviour, IDamage
 
         void wallJump()
         {
+            
+                model.material.color = Color.magenta;
             RaycastHit hit;
             wallRunActive = false;
             timerRunning = false;
-            TurnGravityOn();
+           // TurnGravityOn();
             DashCount = 0;
             RaycastHit GroundHit;
             if (Physics.Raycast(controller.transform.position, -controller.transform.right, out hit, RayDistance, ~ignoreLayer) ||
@@ -287,7 +287,7 @@ public class PlayerController : MonoBehaviour, IDamage
                     Debug.Log(hit.collider.name + " wall Jump");
                     //PlayerVelo.y = WallJumpPower;
                     //PlayerVelo.x = hit.normal.x * WallJumpPower;
-                    TurnGravityOn();
+                   // TurnGravityOn();
                     Vector3 JumpDirection = transform.up * wallJumpUpPower + hit.normal * wallJumpSideforce;
                     PlayerVelo = JumpDirection;
                     prevWallJumpName = hit.collider.name;
@@ -354,15 +354,15 @@ public class PlayerController : MonoBehaviour, IDamage
 
         IEnumerator Dash()
         {
-
-
             float time = Time.time;
             while (Time.time < time + dashTime)
             {
                 //Debug.Log("  time start ");
 
                 controller.Move(transform.forward.normalized * dashSpeed * Time.deltaTime);
+                model.material.color = Color.green;
                 DashCount++;
+                
                 yield return null;
 
                 // Debug.Log("  time end ");
@@ -559,7 +559,9 @@ public class PlayerController : MonoBehaviour, IDamage
         wallRunActive = false;
         hasWallForRun = false;
         timer = 0f;
+
         TurnGravityOn();
+        PlayerVelo.y = -2f;
         Debug.Log("Timer finished!");
 
     }
