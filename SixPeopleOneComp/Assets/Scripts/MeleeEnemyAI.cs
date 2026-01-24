@@ -2,26 +2,23 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.AI;
 
-public class EnemyAI : MonoBehaviour, IDamage
+public class MeleeEnemyAI : MonoBehaviour, IDamage
 {
 
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Renderer model;
-    [SerializeField] Transform shootPos;
     [SerializeField] string enemyType;
 
     [SerializeField] int HP;
     [SerializeField] int faceTargetSpeed;
 
-    [SerializeField] GameObject bullet;
-    [SerializeField] float shootRate;
 
     [SerializeField] GameObject dropItem;
 
 
     Color colorOrig;
 
-    float shootTimer;
+   //float shootTimer;
 
     Vector3 playerDir;
 
@@ -29,7 +26,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     void Start()
     {
         colorOrig = model.material.color;
-        if(GameManager.instance.GameType == GameManager.GameGoal.DefeatAllEnemies)
+        if (GameManager.instance.GameType == GameManager.GameGoal.DefeatAllEnemies)
             GameManager.instance.updateGameGoal(1);
 
     }
@@ -37,7 +34,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     // Update is called once per frame
     void Update()
     {
-        shootTimer += Time.deltaTime;
+        //shootTimer += Time.deltaTime;
 
         playerDir = (GameManager.instance.player.transform.position - transform.position);
 
@@ -48,38 +45,14 @@ public class EnemyAI : MonoBehaviour, IDamage
             faceTarget();
         }
 
-        if(shootTimer >= shootRate)
-        {
-            shoot();
-        }
     }
 
     void faceTarget()
     {
-        Quaternion rot = Quaternion.LookRotation(new Vector3(playerDir.x,transform.position.y,playerDir.z));
+        Quaternion rot = Quaternion.LookRotation(new Vector3(playerDir.x, transform.position.y, playerDir.z));
         transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * faceTargetSpeed);
     }
 
-    void shoot()
-    {
-        shootTimer = 0;
-        if (enemyType == "Basic")
-        {
-            Instantiate(bullet, shootPos.position, transform.rotation);
-            SoundManager.instance.PlaySound3D("shoots", transform.position);
-        }
-        else if (enemyType == "Burst")
-        {
-            Instantiate(bullet, shootPos.position, transform.rotation * Quaternion.Euler(0,15, 0));
-            Instantiate(bullet, shootPos.position, transform.rotation );
-            Instantiate(bullet, shootPos.position, transform.rotation * Quaternion.Euler(0,-15, 0));
-            SoundManager.instance.PlaySound3D("shoots", transform.position);
-        }
-        else if (enemyType == "Splasher")
-        {
-
-        }
-    }
     public void takeDamage(int amount)
     {
         HP -= amount;
@@ -100,6 +73,16 @@ public class EnemyAI : MonoBehaviour, IDamage
         }
     }
 
+    public void die()
+    {
+        Destroy(gameObject);
+    }
+
+    public void flash()
+    {
+        StartCoroutine(flashRed());
+    }
+
     IEnumerator flashRed()
     {
         model.material.color = Color.red;
@@ -108,4 +91,5 @@ public class EnemyAI : MonoBehaviour, IDamage
     }
 
     public bool heal(int amount) { return false; }
+
 }
