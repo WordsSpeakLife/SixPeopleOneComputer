@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -44,6 +45,11 @@ public class PlayerController : MonoBehaviour, IDamage
     [Header("---- Dash ----")]
     [Range(0, 50)][SerializeField] int dashSpeed;
     [Range(0, 1)][SerializeField] float dashTime;
+    [Range(0, 1)][SerializeField] float DashResetTime;
+    [Range(0, 2)][SerializeField] int DashCount;
+    bool isDashing;
+
+
 
     [Header("---- player camera ----")]
     [Range(0, 50)][SerializeField] int sens;
@@ -91,8 +97,6 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         OriginalHp = Hp;
         gravityOrig = gravity;
-
-        // lineRenderer.transform.localScale = new  Vector3(0.3f,ShootDistance,0.3f);
     }
 
     // Update is called once per frame
@@ -101,13 +105,12 @@ public class PlayerController : MonoBehaviour, IDamage
 
         UpdateAimPoint();
         UpdateReticle();
-
-
         Movement();
-        if (wallRunActive)
-        {
-            controller.transform.Translate(Vector3.forward * wallRunSpeed * Time.deltaTime);
-        }
+
+        //if (wallRunActive)
+        //{
+        //    controller.transform.Translate(Vector3.forward * wallRunSpeed * Time.deltaTime);
+        //}
 
     }
     void Movement()
@@ -144,9 +147,22 @@ public class PlayerController : MonoBehaviour, IDamage
                     if ((Input.GetKey(KeyCode.W) && Input.GetAxis("Vertical") > 0) || Input.GetKey(KeyCode.S))
                     {
                         moveDir = Input.GetAxis("Vertical") * Vector3.forward;
-                        controller.Move(moveDir * speed * Time.deltaTime);
+                        controller.Move(moveDir * wallRunSpeed * Time.deltaTime);
                     }
                 }
+                //Vector3 wallDirection = Vector3.Cross(hit.normal, Vector3.up);
+                //bool hitRight = Physics.Raycast(transform.position, transform.right, out hit, RayDistance, ~ignoreLayer);
+                //bool hitLeft = Physics.Raycast(transform.position, -transform.right, out hit, RayDistance, ~ignoreLayer);
+
+                //if (hitRight || hitLeft)
+                //{
+                //    wallDirection +=wallDirection;
+                //}
+                //float vertInput = Input.GetAxisRaw("Vertical");
+                //if(vertInput > 0)
+                //{
+                //    controller.Move(wallDirection*wallRunSpeed * Time.deltaTime);
+                //}
                 else
                 {
                     TurnGravityOn();
@@ -175,10 +191,6 @@ public class PlayerController : MonoBehaviour, IDamage
             }
         }
 
-        //shootTimer += Time.deltaTime;
-
-
-
         Jump();
 
         if (Input.GetButtonDown("Jump"))
@@ -195,7 +207,14 @@ public class PlayerController : MonoBehaviour, IDamage
         {
             wallRunActive = false;
             gravity = gravityOrig;
-            StartCoroutine(Dash());
+            if (DashCount > 2)
+            {
+                return;
+            }
+            else
+            {
+                StartCoroutine(Dash());
+            }
 
         }
 
@@ -205,6 +224,7 @@ public class PlayerController : MonoBehaviour, IDamage
             wallJumpCount = 0;
             jumpCount = 0;
             wallRunCount = 0;
+            DashCount = 0;
             PlayerVelo = Vector3.zero;
             prevWallJumpName = null;
             prevWallRunName = null;
@@ -214,6 +234,10 @@ public class PlayerController : MonoBehaviour, IDamage
             if (!wallRunActive)
             {
                 PlayerVelo.y -= gravity * Time.deltaTime;
+            }
+            else
+            {
+                PlayerVelo.y = 0;
             }
         }
 
@@ -238,7 +262,8 @@ public class PlayerController : MonoBehaviour, IDamage
 
     void wallJump()
     {
-
+        TurnGravityOn();
+        DashCount = 0;
         RaycastHit GroundHit;
         if (Physics.Raycast(controller.transform.position, controller.transform.right, out hit, RayDistance, ~ignoreLayer) ||
             Physics.Raycast(controller.transform.position, -controller.transform.right, out hit, RayDistance, ~ignoreLayer) ||
@@ -273,7 +298,26 @@ public class PlayerController : MonoBehaviour, IDamage
     }
     void wallRun()
     {
+        DashCount = 0;
+        //bool hitRight = Physics.Raycast(transform.position, transform.right, out hit, RayDistance, ~ignoreLayer);
+        //bool hitLeft = Physics.Raycast(transform.position, -transform.right, out hit, RayDistance, ~ignoreLayer);
 
+        //if (hitRight || hitLeft) 
+        //{
+        //    if (Physics.Raycast(controller.transform.position, -controller.transform.up, BottomRayDistance, ~ignoreLayer))
+        //    {
+        //        //Debug.Log(" nuh huh ");
+        //        TurnGravityOn();
+        //        wallRunActive = false;
+        //        return;
+        //    }
+        //    if(prevWallRunName != hit.collider.name)
+        //    {
+        //        wallRunRayCastDirection(wallRunSpeed, hit);
+        //    }
+
+
+        //}
         RaycastHit leftHit;
         RaycastHit rightHit;
         RaycastHit GroundHit;
@@ -356,11 +400,15 @@ public class PlayerController : MonoBehaviour, IDamage
 
     IEnumerator Dash()
     {
+
+
         float time = Time.time;
         while (Time.time < time + dashTime)
         {
             //Debug.Log("  time start ");
+
             controller.Move(transform.forward.normalized * dashSpeed * Time.deltaTime);
+            DashCount++;
             yield return null;
 
             // Debug.Log("  time end ");
@@ -371,12 +419,20 @@ public class PlayerController : MonoBehaviour, IDamage
         //Debug.Log(hit.collider.name + "  Wall run");
 
         prevWallRunName = hit.collider.name;
+        Vector3 wallFoward = Vector3.Cross(hit.normal, transform.up);
+
+        if (Vector3.Dot(transform.forward, wallFoward) < 0)
+        {
+            wallFoward = -wallFoward;
+        }
+        controller.Move(wallFoward * wallRunSpeed * Time.deltaTime);
         TurnGravityOf();
         PlayerVelo.y = 0;
         PlayerVelo.x = -hit.normal.x;
         model.material.color = Color.blue;
         wallRunActive = true;
         jumpCount = 1;
+        StartCoroutine(wait(wallRunTimeOnWall, true));
 
     }
 
@@ -397,10 +453,8 @@ public class PlayerController : MonoBehaviour, IDamage
                 if (dmg != null) dmg.takeDamage(ShootDamage);
             }
         }
-
         Quaternion bulletRot = Quaternion.LookRotation(shootDir);
         Instantiate(bullet, shootOrigin, bulletRot);
-
         SoundManager.instance.PlaySound3D("shoots", transform.position);
     }
 
@@ -411,8 +465,8 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         Hp -= amount;
         model.material.color = Color.red;
-       StartCoroutine(wait(0.2f));
-       
+        StartCoroutine(wait(0.2f, false));
+
         GameManager.instance.HealthBar.GetComponent<Slider>().value = Hp;
 
         //check if the player is dead
@@ -442,11 +496,21 @@ public class PlayerController : MonoBehaviour, IDamage
         GameManager.instance.HealthBar.GetComponent<Slider>().value = Hp;
         return true;
     }
-    IEnumerator wait(float amount)
+    IEnumerator wait(float amount, bool Randcolor)
     {
-
+        if (Randcolor)
+        {
+            model.material.color = Random.ColorHSV();
+        }
+        else
+        {
+            model.material.color = Color.cyan;
+        }
         yield return new WaitForSeconds(amount);
-        model.material.color = Color.cyan;
+        TurnGravityOn();
+        wallRunActive = false;
+        
+
     }
 
     bool TryGetMouseAimPoint(out Vector3 point)
@@ -488,10 +552,10 @@ public class PlayerController : MonoBehaviour, IDamage
             if (!mainCamera)
                 mainCamera = Camera.main;
 
-            if (!mainCamera) return;
 
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             reticle.position = ray.origin + ray.direction * reticleDistance;
+            
         }
 
         reticle.rotation = Quaternion.Euler(90f, 0f, 0f);
@@ -515,7 +579,7 @@ public class PlayerController : MonoBehaviour, IDamage
     void RotatePlayerYawToMouse()
     {
         if (!hasAimPoint) return;
-
+        Debug.Log("why not work");
         Vector3 flatDir = aimPoint - transform.position;
         flatDir.y = 0f;
 
@@ -529,4 +593,3 @@ public class PlayerController : MonoBehaviour, IDamage
 
 
 }
-

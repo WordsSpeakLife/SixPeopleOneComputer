@@ -6,7 +6,10 @@ TagManager:
   tags:
   - wall
   - ground
+  - Trap
   - Fadeable
+  - playerBullet
+  - Shoot_Obj
   layers:
   - Default
   - TransparentFX
@@ -20,10 +23,10 @@ TagManager:
   - Enemy Bullet
   - Transparent 2
   - Ground
+  - Trap
   - CameraBlocker
   - platforms
-  - backwall
-  - FAKE
+  - Shoot_Obj
   - 
   - 
   - 

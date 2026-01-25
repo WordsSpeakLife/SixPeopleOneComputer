@@ -51,8 +51,8 @@ MonoBehaviour:
   rb: {fileID: 8381397577265498085}
   damageAmount: 3
   damageRate: 0
-  speed: 45
-  destroyTime: 0.2
+  speed: 60
+  destroyTime: 1
   hitEffect: {fileID: 0}
 --- !u!54 &8381397577265498085
 Rigidbody:
@@ -198,7 +198,7 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 4294967295
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 512
