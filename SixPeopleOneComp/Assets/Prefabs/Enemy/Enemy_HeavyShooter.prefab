@@ -55,6 +55,9 @@ MonoBehaviour:
   faceTargetSpeed: 9
   bullet: {fileID: 1481135220882722262, guid: c56af4be21e83674980da955d0a98d70, type: 3}
   shootRate: 4
+  creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
+  creditsDropAmount: 10
+  dropHeight: 0.5
 --- !u!195 &6174905841785105530
 NavMeshAgent:
   m_ObjectHideFlags: 0

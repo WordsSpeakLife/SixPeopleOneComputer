@@ -579,7 +579,7 @@ public class PlayerController : MonoBehaviour, IDamage
     void RotatePlayerYawToMouse()
     {
         if (!hasAimPoint) return;
-        Debug.Log("why not work");
+        
         Vector3 flatDir = aimPoint - transform.position;
         flatDir.y = 0f;
 
