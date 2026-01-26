@@ -48,7 +48,9 @@ public class PlayerController : MonoBehaviour, IDamage
     [Range(0, 50)][SerializeField] int dashSpeed;
     [Range(0, 1)][SerializeField] float dashTime;
     [Range(0, 1)][SerializeField] float DashResetTime;
-    [Range(0, 2)][SerializeField] int DashCount;
+    int DashCount;
+    [Range(0, 2)][SerializeField] int Dashmax;
+
     bool isDashing;
 
 
@@ -227,17 +229,15 @@ public class PlayerController : MonoBehaviour, IDamage
                 wallRun();
             }
 
-            if (Input.GetButtonDown("Sprint"))
+            if (Input.GetButtonDown("Sprint") && !grounded)
             {
                 wallRunActive = false;
                 timerRunning = false;
                 gravity = gravityOrig;
-                if (DashCount > 2)
+
+                if (DashCount <= Dashmax)
                 {
-                    return;
-                }
-                else
-                {
+                    DashCount++;
                     StartCoroutine(Dash());
                 }
 
@@ -263,13 +263,13 @@ public class PlayerController : MonoBehaviour, IDamage
 
         void wallJump()
         {
-            
-                model.material.color = Color.magenta;
+            DashCount = 0;
+            model.material.color = Color.magenta;
             RaycastHit hit;
             wallRunActive = false;
             timerRunning = false;
-           // TurnGravityOn();
-            DashCount = 0;
+            // TurnGravityOn();
+
             RaycastHit GroundHit;
             if (Physics.Raycast(controller.transform.position, -controller.transform.right, out hit, RayDistance, ~ignoreLayer) ||
                 Physics.Raycast(controller.transform.position, controller.transform.right, out hit, RayDistance, ~ignoreLayer) ||
@@ -287,7 +287,7 @@ public class PlayerController : MonoBehaviour, IDamage
                     Debug.Log(hit.collider.name + " wall Jump");
                     //PlayerVelo.y = WallJumpPower;
                     //PlayerVelo.x = hit.normal.x * WallJumpPower;
-                   // TurnGravityOn();
+                    // TurnGravityOn();
                     Vector3 JumpDirection = transform.up * wallJumpUpPower + hit.normal * wallJumpSideforce;
                     PlayerVelo = JumpDirection;
                     prevWallJumpName = hit.collider.name;
@@ -298,8 +298,7 @@ public class PlayerController : MonoBehaviour, IDamage
         }
         void wallRun()
         {
-            //Debug.Log("hit wall runnnn");
-
+            //Debug.Log("hit wall runnnn")
             DashCount = 0;
             RaycastHit leftHit;
             RaycastHit rightHit;
@@ -355,17 +354,22 @@ public class PlayerController : MonoBehaviour, IDamage
         IEnumerator Dash()
         {
             float time = Time.time;
-            while (Time.time < time + dashTime)
+            if (DashCount < Dashmax)
             {
-                //Debug.Log("  time start ");
 
-                controller.Move(transform.forward.normalized * dashSpeed * Time.deltaTime);
-                model.material.color = Color.green;
-                DashCount++;
-                
-                yield return null;
 
-                // Debug.Log("  time end ");
+                while (Time.time < time + dashTime)
+                {
+                    //Debug.Log("  time start ");
+
+                    controller.Move(transform.forward.normalized * dashSpeed * Time.deltaTime);
+                    model.material.color = Color.green;
+
+
+                    yield return null;
+
+                    // Debug.Log("  time end ");
+                }
             }
         }
         void wallRunRayCastDirection(RaycastHit hit)

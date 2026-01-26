@@ -54,7 +54,7 @@ MonoBehaviour:
   damageRate: 0
   speed: 10
   destroyTime: 1.5
-  hitEffect: {fileID: 0}
+  hitEffect: {fileID: 36743694370729304, guid: 96da92b1034446044b59c8e61c3730a2, type: 3}
 --- !u!54 &8381397577265498085
 Rigidbody:
   m_ObjectHideFlags: 0

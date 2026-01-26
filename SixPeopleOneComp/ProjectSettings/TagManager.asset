@@ -28,9 +28,9 @@ TagManager:
   - platforms
   - Shoot_Obj
   - Box
-  - 
-  - 
-  - 
+  - Roof
+  - ignore_wall
+  - Stop_nav_mesh
   - 
   - 
   - 

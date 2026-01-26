@@ -148,31 +148,33 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   aimMask:
     serializedVersion: 2
-    m_Bits: 22784
+    m_Bits: 55552
   reticle: {fileID: 4877269447020804245}
   reticleYOffset: 0.02
   reticleDistance: 7
   Hp: 10
   speed: 6
   sprintMod: 0
-  jumpSpeed: 6
-  jumpMax: 1
-  wallJumpUpPower: 9
-  wallJumpSideforce: 6
-  wallRunSpeed: 6
+  jumpSpeed: 9
+  jumpMax: 2
+  wallJumpUpPower: 10
+  wallJumpSideforce: 11
+  wallRunSpeed: 1
   wallRunTimeOnWall: 0.5
-  dashSpeed: 6
-  dashTime: 0.1
-  DashResetTime: 0
-  DashCount: 2
+  wallStickForce: 20
+  dashSpeed: 17
+  dashTime: 0.2
+  DashResetTime: 1
+  Dashmax: 2
   sens: 2
   MouseOn: 1
   turnCalmVelocity: 0.5
   turnCalmTime: 0.1
-  gravity: 25
-  wallRunGravity: 5
+  gravity: 17
+  wallRunGravity: -3
   RayDistance: 0.5
-  BottomRayDistance: 0.8
+  BottomRayDistance: 0.9
+  airDrag: 8.01
   ShootDamage: 5
   ShootDistance: 50
   ShootRate: 0.2
