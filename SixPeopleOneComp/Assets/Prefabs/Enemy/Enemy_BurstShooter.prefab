@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 860823413370432314}
   - component: {fileID: 6104861669496302259}
   - component: {fileID: 8376903850547534178}
-  - component: {fileID: 5461911361678269577}
   m_Layer: 8
   m_Name: HeadPos
   m_TagString: Untagged
@@ -87,27 +86,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5461911361678269577
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3333316686880279352}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3979579370134025494
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,6 +266,9 @@ MonoBehaviour:
   bullet: {fileID: 1481135220882722262, guid: c1f2a23237f7ff3468f16d556f401c90, type: 3}
   shootRate: 1.5
   dropItem: {fileID: 0}
+  creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
+  creditsDropAmount: 10
+  dropHeight: 0.5
 --- !u!195 &6845369478416744949
 NavMeshAgent:
   m_ObjectHideFlags: 0
