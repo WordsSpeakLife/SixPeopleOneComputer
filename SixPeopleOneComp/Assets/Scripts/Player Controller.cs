@@ -229,7 +229,7 @@ public class PlayerController : MonoBehaviour, IDamage
                 wallRun();
             }
 
-            if (Input.GetButtonDown("Sprint") && !grounded)
+            if (Input.GetButtonDown("Fire2") && !grounded)
             {
                 wallRunActive = false;
                 timerRunning = false;
@@ -237,7 +237,7 @@ public class PlayerController : MonoBehaviour, IDamage
 
                 if (DashCount <= Dashmax)
                 {
-                    DashCount++;
+
                     StartCoroutine(Dash());
                 }
 
@@ -263,7 +263,7 @@ public class PlayerController : MonoBehaviour, IDamage
 
         void wallJump()
         {
-            DashCount = 0;
+
             model.material.color = Color.magenta;
             RaycastHit hit;
             wallRunActive = false;
@@ -299,7 +299,7 @@ public class PlayerController : MonoBehaviour, IDamage
         void wallRun()
         {
             //Debug.Log("hit wall runnnn")
-            DashCount = 0;
+
             RaycastHit leftHit;
             RaycastHit rightHit;
             bool hitLeft = Physics.Raycast(controller.transform.position, -controller.transform.right, out leftHit, RayDistance, ~ignoreLayer);
@@ -353,11 +353,12 @@ public class PlayerController : MonoBehaviour, IDamage
 
         IEnumerator Dash()
         {
+
             float time = Time.time;
             if (DashCount < Dashmax)
             {
 
-
+                DashCount++;
                 while (Time.time < time + dashTime)
                 {
                     //Debug.Log("  time start ");
