@@ -21,6 +21,9 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] float shootRate;
 
     [SerializeField] GameObject dropItem;
+    [SerializeField] GameObject creditsPickupPrefab;
+    [SerializeField] int creditsDropAmount = 10;
+    [SerializeField] float dropHeight = 0.5f;
 
 
     Color colorOrig;
@@ -165,12 +168,25 @@ public class EnemyAI : MonoBehaviour, IDamage
             if (dropItem != null)
                 Instantiate(dropItem, transform.position, transform.rotation);
 
+            DropCredits();
             Destroy(gameObject);
         }
         else
         {
             StartCoroutine(flashRed());
         }
+    }
+
+    void DropCredits()
+    {
+
+        Vector3 spawnPos = transform.position + Vector3.up * dropHeight;
+
+        GameObject drop = Instantiate(creditsPickupPrefab, spawnPos, Quaternion.identity);
+
+        PickupCredits pikup = drop.GetComponent<PickupCredits>();
+        if (pikup != null)
+            pikup.SetAmount(creditsDropAmount);
     }
 
     IEnumerator flashRed()

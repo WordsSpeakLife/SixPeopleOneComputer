@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1038850643665745107}
   serializedVersion: 2
   m_LocalRotation: {x: -0.70710665, y: -0.00047301973, z: 0.00047301973, w: -0.70710665}
-  m_LocalPosition: {x: -2.0601819, y: 22.591364, z: -5.251559}
+  m_LocalPosition: {x: 0, y: 22.591364, z: -5.251559}
   m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -49,7 +49,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1038850643665745107}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -65,92 +65,6 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 9d240abb46403ae47ba14711ef8bfaa4, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &4507892251468114746
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 388770868639504252}
-  - component: {fileID: 5804078179324066954}
-  - component: {fileID: 7166758688301344491}
-  m_Layer: 6
-  m_Name: ShootingLine
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &388770868639504252
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4507892251468114746}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0, z: 6.66}
-  m_LocalScale: {x: 0.1, y: 6.73, z: 0.1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7449485012702052854}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!33 &5804078179324066954
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4507892251468114746}
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &7166758688301344491
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4507892251468114746}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 26a7663ea5e2a2b4699a845b19ea77b0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -208,7 +122,6 @@ Transform:
   m_Children:
   - {fileID: 3328921862141925901}
   - {fileID: 9032032395894897900}
-  - {fileID: 388770868639504252}
   - {fileID: 4877269447020804245}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 359.923, z: 0}
@@ -231,35 +144,39 @@ MonoBehaviour:
   model: {fileID: 6601459297563817866}
   ShootPos: {fileID: 9032032395894897900}
   bullet: {fileID: 1481135220882722262, guid: 5105ff43295a3ee44a7f80ff155a53d6, type: 3}
-  lineRenderer: {fileID: 4507892251468114746}
+  lineRenderer: {fileID: 0}
   mainCamera: {fileID: 0}
   aimMask:
     serializedVersion: 2
-    m_Bits: 10496
+    m_Bits: 121096
   reticle: {fileID: 4877269447020804245}
   reticleYOffset: 0.02
   reticleDistance: 7
   Hp: 10
-  speed: 5
+  speed: 6
   sprintMod: 0
-  jumpSpeed: 7
-  jumpMax: 2
-  wallJumpUpPower: 8
-  wallJumpSideforce: 6
-  wallRunSpeed: 0
-  wallRunTimeOnWall: 2.8
-  dashSpeed: 10
-  dashTime: 0.1
+  jumpSpeed: 9
+  jumpMax: 1
+  wallJumpUpPower: 10
+  wallJumpSideforce: 11
+  wallRunSpeed: 1
+  wallRunTimeOnWall: 0.5
+  wallStickForce: 20
+  dashSpeed: 17
+  dashTime: 0.2
+  DashResetTime: 1
+  Dashmax: 2
   sens: 2
   MouseOn: 1
   turnCalmVelocity: 0.5
   turnCalmTime: 0.1
-  gravity: 25
-  wallRunGravity: 5
+  gravity: 17
+  wallRunGravity: -3
   RayDistance: 0.5
-  BottomRayDistance: 0.8
+  BottomRayDistance: 0.9
+  airDrag: 8.01
   ShootDamage: 5
-  ShootDistance: 20.1
+  ShootDistance: 50
   ShootRate: 0.2
   shootSpeed: 0
   gunRayOn: 0

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -22,6 +24,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject menuAudio;
     [SerializeField] public GameObject HealthBar;
 
+    [Header("---- Credits ----")]
+    [SerializeField] TMP_Text creditsText;
+    public int credits;
+
     public bool isPaused;
     public GameObject player;
     public PlayerController playerScript;
@@ -29,7 +35,6 @@ public class GameManager : MonoBehaviour
     public Slider MusicSlider;
     public Slider SoundSlider;
     public Camera playerCamera;
-
     float timeScaleOrig;
 
     int gameGoalCount;
@@ -39,21 +44,25 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+        UpdateCreditsUI();
         timeScaleOrig = Time.timeScale;
-
         if (GameType != GameGoal.None)
         { 
+
             player = GameObject.FindWithTag("Player");
             playerScript = player.GetComponent<PlayerController>();
             playerCamera = Camera.main;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
+
         }
     }
 
     // Update is called once per frame
     void Update()
     {
+       
+
         if (GameType == GameGoal.Timed)
         {
             gameGoalTimer += Time.deltaTime;
@@ -88,7 +97,7 @@ public class GameManager : MonoBehaviour
     {
         isPaused = false;
         Time.timeScale = timeScaleOrig;
-        Cursor.visible = false;
+        Cursor.visible = true;
         Cursor.lockState = CursorLockMode.Confined;
         menuActive.SetActive(false);
         menuActive = null;
@@ -174,5 +183,17 @@ public class GameManager : MonoBehaviour
     {
         MusicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
         SoundSlider.value = PlayerPrefs.GetFloat("SfxVolume");
+    }
+
+    public void AddCredits(int amount)
+    {
+        credits += amount;
+        UpdateCreditsUI();
+    }
+
+    void UpdateCreditsUI()
+    {
+        if (creditsText)
+            creditsText.text = credits.ToString();
     }
 }
