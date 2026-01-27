@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -23,6 +24,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject menuAudio;
     [SerializeField] public GameObject HealthBar;
 
+    [Header("---- Credits ----")]
+    [SerializeField] TMP_Text creditsText;
+    public int credits;
+
     public bool isPaused;
     public GameObject player;
     public PlayerController playerScript;
@@ -39,6 +44,7 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+        UpdateCreditsUI();
         timeScaleOrig = Time.timeScale;
         if (GameType != GameGoal.None)
         { 
@@ -177,5 +183,17 @@ public class GameManager : MonoBehaviour
     {
         MusicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
         SoundSlider.value = PlayerPrefs.GetFloat("SfxVolume");
+    }
+
+    public void AddCredits(int amount)
+    {
+        credits += amount;
+        UpdateCreditsUI();
+    }
+
+    void UpdateCreditsUI()
+    {
+        if (creditsText)
+            creditsText.text = credits.ToString();
     }
 }
