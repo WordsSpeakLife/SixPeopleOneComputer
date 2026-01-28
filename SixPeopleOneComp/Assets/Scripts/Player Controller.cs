@@ -87,7 +87,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     bool wallRunActive = false;
 
     RaycastHit GroundHit;
-    bool wallRunActive;
 
     int jumpCount;
 
@@ -159,6 +158,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             PlayerVelo.x = Mathf.Lerp(PlayerVelo.x, 0, Time.deltaTime * airDrag);
             PlayerVelo.z = Mathf.Lerp(PlayerVelo.z, 0, Time.deltaTime * airDrag);
             wallMoveVector = Vector3.zero;
+            
             if (wallRunActive && timerRunning)
             {
 
