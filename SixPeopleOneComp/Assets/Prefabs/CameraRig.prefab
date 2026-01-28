@@ -97,11 +97,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerTarget: {fileID: 0}
-  fadeableLayers:
+  wallLayer:
     serializedVersion: 2
-    m_Bits: 509960
-  solidWallMaterial: {fileID: 2100000, guid: f40ddd04c72ca554090653583967f633, type: 2}
-  transparentWallMaterial: {fileID: 2100000, guid: 695d472091f3da1418d3f3f5bafd4efc, type: 2}
+    m_Bits: 8
+  solidWallMaterial: {fileID: 0}
+  transparentWallMaterial: {fileID: 0}
   fadedAlpha: 0.2
   fadeSpeed: 10
   aimHeight: 1
