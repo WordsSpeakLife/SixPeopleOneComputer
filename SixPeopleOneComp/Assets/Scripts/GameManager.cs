@@ -23,10 +23,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject startMenu;
     [SerializeField] GameObject menuAudio;
     [SerializeField] public GameObject HealthBar;
+    [SerializeField] TMP_Text keyCountText;
+    public Sprite weaponIcon;
+    [SerializeField] public GameObject CurrentWeapon;
 
     [Header("---- Credits ----")]
     [SerializeField] TMP_Text creditsText;
     public int credits;
+
+    [Header("---- Tutorial Popup ----")]
+    public GameObject tutorialPopup;
+    [SerializeField] TMP_Text tutorialText;
+
 
     public bool isPaused;
     public GameObject player;
@@ -36,14 +44,18 @@ public class GameManager : MonoBehaviour
     public Slider SoundSlider;
     public Camera playerCamera;
     float timeScaleOrig;
+    
 
     int gameGoalCount;
     float gameGoalTimer;
+
+    private int keyCount;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
         instance = this;
+        HideTutorial();
         UpdateCreditsUI();
         timeScaleOrig = Time.timeScale;
         if (GameType != GameGoal.None)
@@ -195,5 +207,19 @@ public class GameManager : MonoBehaviour
     {
         if (creditsText)
             creditsText.text = credits.ToString();
+    }
+
+    public void ShowTutorial(string message)
+    {
+        if (!tutorialPopup || !tutorialText) return;
+
+        tutorialText.text = message;
+        tutorialPopup.SetActive(true);
+    }
+
+    public void HideTutorial()
+    {
+        if (!tutorialPopup) return;
+        tutorialPopup.SetActive(false);
     }
 }

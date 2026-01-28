@@ -1,10 +1,11 @@
 using System.Collections;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerController : MonoBehaviour, IDamage
+public class PlayerController : MonoBehaviour, IDamage, IPickup
 {
     [Header("---- Componets ----")]
     [SerializeField] CharacterController controller;
@@ -71,17 +72,30 @@ public class PlayerController : MonoBehaviour, IDamage
     [Range(0, 10)][SerializeField] float airDrag;
 
     [Header("---- Guns ----")]
+    [SerializeField] List<WeaponStat> weaponList = new List<WeaponStat>();
     [Range(0, 20)][SerializeField] int ShootDamage;
     [Range(0, 50)][SerializeField] float ShootDistance;
     [Range(0, 10)][SerializeField] float ShootRate;
-    [Range(0, 10)][SerializeField] float shootSpeed;
+    [Range(0, 10)][SerializeField] float ShootSpeed;
     [Range(0, 1)][SerializeField] int gunRayOn;
+
+    public int ammoHold;
+    public int ammoAdd;
+    public int ammoReload;
+    public bool isTri;
+
+    bool wallRunActive = false;
+
     RaycastHit GroundHit;
     bool wallRunActive;
+
     int jumpCount;
 
     int OriginalHp;
     int gravityOrig;
+    int weaponListPos;
+
+    public Sprite weaponIcon;
 
     float shootTimer;
 
@@ -388,6 +402,8 @@ public class PlayerController : MonoBehaviour, IDamage
     {
         shootTimer = 0;
 
+        weaponList[weaponListPos].ammoCur--;
+
         Vector3 shootOrigin = ShootPos ? ShootPos.position : transform.position;
         Vector3 shootDir = GetAimDirection();
 
@@ -401,8 +417,26 @@ public class PlayerController : MonoBehaviour, IDamage
             }
         }
         Quaternion bulletRot = Quaternion.LookRotation(shootDir);
-        Instantiate(bullet, shootOrigin, bulletRot);
-        SoundManager.instance.PlaySound3D("shoots", transform.position);
+        if (!isTri)
+        {
+            Instantiate(bullet, shootOrigin, bulletRot);
+        }
+        else if (isTri)
+        {
+            Instantiate(bullet, shootOrigin, transform.rotation * Quaternion.Euler(0, 15, 0));
+            Instantiate(bullet, shootOrigin, transform.rotation);
+            Instantiate(bullet, shootOrigin, transform.rotation * Quaternion.Euler(0, -15, 0));
+        }
+            SoundManager.instance.PlaySound3D("shoots", transform.position);
+    }
+
+
+    void reload()
+    {
+        if (Input.GetButtonDown("Reload") && weaponList.Count > 0)
+        {
+            weaponList[weaponListPos].ammoCur = weaponList[weaponListPos].ammoMax;
+        }
     }
     public void takeDamage(int amount)
     {
@@ -455,6 +489,43 @@ public class PlayerController : MonoBehaviour, IDamage
 
 
     }
+
+
+
+    public void GetWeaponStats(WeaponStat weapon)
+    {
+        weaponList.Add(weapon);
+        weaponListPos = weaponList.Count - 1;
+
+        changeWep();
+    }
+    void changeWep()
+    {
+        ShootDamage = weaponList[weaponListPos].shootDamage;
+        ShootDistance = weaponList[weaponListPos].shootDistance;
+        ShootRate = weaponList[weaponListPos].shootRate;
+        ShootSpeed = weaponList[weaponListPos].shootSpeed;
+        isTri = weaponList[weaponListPos].isTri;
+        //weaponIcon = weaponList[weaponListPos].weaponIcon;
+        //GameManager.instance.weaponIcon = weaponIcon;
+        
+
+    }
+    void selectWep()
+    {
+        if (Input.GetAxis("Mouse ScrollWheel") > 0 && weaponListPos < weaponList.Count - 1)
+        {
+            weaponListPos++;
+            changeWep();
+        }
+        if (Input.GetAxis("Mouse ScrollWheel") < 0 && weaponListPos > 0)
+        {
+            weaponListPos--;
+            changeWep();
+        }
+    }
+
+
 
     bool TryGetMouseAimPoint(out Vector3 point)
     {
@@ -579,3 +650,4 @@ public class PlayerController : MonoBehaviour, IDamage
     }
 
 }
+
