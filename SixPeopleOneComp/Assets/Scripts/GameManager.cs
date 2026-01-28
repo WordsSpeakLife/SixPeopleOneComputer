@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
@@ -22,6 +23,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject startMenu;
     [SerializeField] GameObject menuAudio;
     [SerializeField] public GameObject HealthBar;
+    [SerializeField] TMP_Text keyCountText;
+    public Sprite weaponIcon;
+    [SerializeField] public GameObject CurrentWeapon;
 
     public bool isPaused;
     public GameObject player;
@@ -34,6 +38,8 @@ public class GameManager : MonoBehaviour
 
     int gameGoalCount;
     float gameGoalTimer;
+
+    private int keyCount;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()

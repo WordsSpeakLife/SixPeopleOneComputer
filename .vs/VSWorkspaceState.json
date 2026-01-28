@@ -3,8 +3,9 @@
     "",
     "\\SixPeopleOneComp",
     "\\SixPeopleOneComp\\Assets",
-    "\\SixPeopleOneComp\\Assets\\Scripts"
+    "\\SixPeopleOneComp\\Assets\\Scripts",
+    "\\SixPeopleOneComp\\Assets\\Scripts\\Weapon"
   ],
-  "SelectedNode": "\\SixPeopleOneComp\\Assets\\Scripts\\wallFade.cs",
+  "SelectedNode": "\\SixPeopleOneComp\\Assets\\Scripts\\IPickup.cs",
   "PreviewInSolutionExplorer": false
 }
