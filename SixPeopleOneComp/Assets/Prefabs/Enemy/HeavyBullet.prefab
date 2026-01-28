@@ -49,11 +49,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   rb: {fileID: 8381397577265498085}
+  col: {fileID: 0}
   damageAmount: 2
   damageRate: 0
   speed: 15
   destroyTime: 3
-  hitEffect: {fileID: 0}
+  hitEffect: {fileID: 36743694370729304, guid: ef24bceec0c6f604c95b65de4d1a8e22, type: 3}
 --- !u!54 &8381397577265498085
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -94,7 +95,7 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0

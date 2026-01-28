@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.5, y: 1.5951465, z: -14.25}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.4981444, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -49,11 +49,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   rb: {fileID: 8381397577265498085}
+  col: {fileID: 0}
   damageAmount: 3
   damageRate: 0
   speed: 60
-  destroyTime: 1
-  hitEffect: {fileID: 0}
+  destroyTime: 4
+  hitEffect: {fileID: 36743694370729304, guid: acf2a51f72114cd48b2c80f2ccaadc2d, type: 3}
 --- !u!54 &8381397577265498085
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -201,7 +202,7 @@ SphereCollider:
     m_Bits: 4294967295
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 576
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
