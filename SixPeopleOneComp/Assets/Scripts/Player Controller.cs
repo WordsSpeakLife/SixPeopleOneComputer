@@ -283,7 +283,7 @@ public class PlayerController : MonoBehaviour, IDamage
                     return;
                 }
                 else if (!IsRayOnGround(hit) && (prevWallJumpName == null || prevWallJumpName != hit.collider.name))
-                {
+                {DashCount= 0;
                     Debug.Log(hit.collider.name + " wall Jump");
                     //PlayerVelo.y = WallJumpPower;
                     //PlayerVelo.x = hit.normal.x * WallJumpPower;
@@ -318,7 +318,7 @@ public class PlayerController : MonoBehaviour, IDamage
                 if (hitLeft && !IsRayOnGround(leftHit) && (prevWallRunName == null || prevWallRunName != leftHit.collider.name))
                 {
                     if (Mathf.Abs(leftHit.normal.x) > 0.6f && leftHit.collider.CompareTag("wall") && !IsRayOnGround(leftHit))
-                    {
+                    {DashCount= 0;
                         currentWallHit = leftHit;
                         prevWallRunName = leftHit.collider.name;
                         wallRunActive = true;
@@ -331,7 +331,7 @@ public class PlayerController : MonoBehaviour, IDamage
                 if (hitRight && !IsRayOnGround(rightHit) && (prevWallRunName == null || prevWallRunName != rightHit.collider.name))
                 {
                     if (Mathf.Abs(rightHit.normal.x) > 0.6f && rightHit.collider.CompareTag("wall") && !IsRayOnGround(rightHit))
-                    {
+                    {DashCount= 0;
                         currentWallHit = rightHit;
                         prevWallRunName = rightHit.collider.name;
                         wallRunActive = true;
