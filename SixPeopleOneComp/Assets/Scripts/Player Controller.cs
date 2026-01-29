@@ -509,7 +509,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         ShootSpeed = weaponList[weaponListPos].shootSpeed;
         isTri = weaponList[weaponListPos].isTri;
 
-        // weaponIcon.GetComponent<SpriteRenderer>().sprite = weaponList[weaponListPos].weaponIcon;
+        weaponIcon.GetComponent<SpriteRenderer>().sprite = weaponList[weaponListPos].weaponIcon;
         // GameManager.instance.CurrentWeapon.GetComponent<SpriteRenderer>().sprite = weaponList[weaponListPos].weaponIcon;
 
         //weaponIcon = weaponList[weaponListPos].weaponIcon;
