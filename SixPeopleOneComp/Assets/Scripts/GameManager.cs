@@ -217,4 +217,18 @@ public class GameManager : MonoBehaviour
         if (!tutorialPopup) return;
         tutorialPopup.SetActive(false);
     }
+
+    public bool HasCredits(int amount)
+    {
+        return credits >= amount;
+    }
+
+    public bool SpendCredits(int amount)
+    {
+        if (credits < amount) return false;
+
+        credits -= amount;
+        UpdateCreditsUI();
+        return true;
+    }
 }
