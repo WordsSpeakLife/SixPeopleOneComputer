@@ -709,9 +709,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Level 4
-
-'
+  m_text: Boss 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1291,7 +1289,7 @@ GameObject:
   - component: {fileID: 556712113}
   - component: {fileID: 556712112}
   m_Layer: 5
-  m_Name: Lvl_4_Button
+  m_Name: BossLvl_1_Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1370,7 +1368,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Tutorial_Lvl_2
+          m_StringArgument: Boss_Level_1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &556712113
@@ -7211,6 +7209,7 @@ MonoBehaviour:
   tutorialPopup: {fileID: 0}
   tutorialText: {fileID: 0}
   LevelNumber: 0
+  NextLevelName: 
   levels: {fileID: 11400000, guid: 4bc26bdcb7b7ed14bb92345e21618b31, type: 2}
   isPaused: 0
   player: {fileID: 0}
