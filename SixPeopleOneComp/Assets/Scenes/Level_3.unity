@@ -8134,6 +8134,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8832043349987910927, guid: e354b2d233454c949bb86582bcdd4b4d, type: 3}
+      propertyPath: LevelNumber
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15154,14 +15158,17 @@ MonoBehaviour:
   agent: {fileID: 9112860395810490241}
   model: {fileID: 3204030961376236906}
   shootPos: {fileID: 3162114305271385076}
+  headPOS: {fileID: 0}
   enemyType: Basic
   HP: 5
   faceTargetSpeed: 9
+  FOV: 0
   bullet: {fileID: 1481135220882722262, guid: c1f2a23237f7ff3468f16d556f401c90, type: 3}
   shootRate: 0.8
   creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
   creditsDropAmount: 10
   dropHeight: 0.5
+  playerInTrigger: 0
 --- !u!195 &738509291967350226
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -16107,14 +16114,17 @@ MonoBehaviour:
   agent: {fileID: 385144637074608519}
   model: {fileID: 388590250343905118}
   shootPos: {fileID: 8996818750839762645}
+  headPOS: {fileID: 0}
   enemyType: Burst
   HP: 5
   faceTargetSpeed: 9
+  FOV: 0
   bullet: {fileID: 1481135220882722262, guid: c1f2a23237f7ff3468f16d556f401c90, type: 3}
   shootRate: 1.5
   creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
   creditsDropAmount: 10
   dropHeight: 0.5
+  playerInTrigger: 0
 --- !u!23 &1064803152146097022
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -16333,14 +16343,17 @@ MonoBehaviour:
   agent: {fileID: 7316636320917162952}
   model: {fileID: 4001882470798629155}
   shootPos: {fileID: 3466819525370857405}
+  headPOS: {fileID: 0}
   enemyType: Basic
   HP: 5
   faceTargetSpeed: 9
+  FOV: 0
   bullet: {fileID: 1481135220882722262, guid: c1f2a23237f7ff3468f16d556f401c90, type: 3}
   shootRate: 0.8
   creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
   creditsDropAmount: 10
   dropHeight: 0.5
+  playerInTrigger: 0
 --- !u!1 &1306365887984429676
 GameObject:
   m_ObjectHideFlags: 0
@@ -17224,14 +17237,17 @@ MonoBehaviour:
   agent: {fileID: 6961978949074221421}
   model: {fileID: 3647222901347543942}
   shootPos: {fileID: 3821479096202016024}
+  headPOS: {fileID: 0}
   enemyType: Basic
   HP: 5
   faceTargetSpeed: 9
+  FOV: 0
   bullet: {fileID: 1481135220882722262, guid: c1f2a23237f7ff3468f16d556f401c90, type: 3}
   shootRate: 0.8
   creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
   creditsDropAmount: 10
   dropHeight: 0.5
+  playerInTrigger: 0
 --- !u!33 &1502100471820969686
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -17525,14 +17541,17 @@ MonoBehaviour:
   agent: {fileID: 7058033485025276804}
   model: {fileID: 3743422711004914031}
   shootPos: {fileID: 3775802117225005041}
+  headPOS: {fileID: 0}
   enemyType: Basic
   HP: 8
   faceTargetSpeed: 9
+  FOV: 0
   bullet: {fileID: 1481135220882722262, guid: c56af4be21e83674980da955d0a98d70, type: 3}
   shootRate: 4
   creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
   creditsDropAmount: 10
   dropHeight: 0.5
+  playerInTrigger: 0
 --- !u!33 &1580044182149613529
 MeshFilter:
   m_ObjectHideFlags: 10
@@ -20126,14 +20145,17 @@ MonoBehaviour:
   agent: {fileID: 6685193163634635157}
   model: {fileID: 1064803152146097022}
   shootPos: {fileID: 672135620984618464}
+  headPOS: {fileID: 0}
   enemyType: Basic
   HP: 5
   faceTargetSpeed: 9
+  FOV: 0
   bullet: {fileID: 1481135220882722262, guid: c1f2a23237f7ff3468f16d556f401c90, type: 3}
   shootRate: 0.8
   creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
   creditsDropAmount: 10
   dropHeight: 0.5
+  playerInTrigger: 0
 --- !u!114 &2957724412031311390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20597,14 +20619,17 @@ MonoBehaviour:
   agent: {fileID: 6826994470054256511}
   model: {fileID: 918233345392790932}
   shootPos: {fileID: 804788939662594826}
+  headPOS: {fileID: 0}
   enemyType: Basic
   HP: 5
   faceTargetSpeed: 9
+  FOV: 0
   bullet: {fileID: 1481135220882722262, guid: c1f2a23237f7ff3468f16d556f401c90, type: 3}
   shootRate: 0.8
   creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
   creditsDropAmount: 10
   dropHeight: 0.5
+  playerInTrigger: 0
 --- !u!64 &3098277681425990515
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -21574,14 +21599,17 @@ MonoBehaviour:
   agent: {fileID: 6416740757538718541}
   model: {fileID: 796209871122878886}
   shootPos: {fileID: 907936788016697144}
+  headPOS: {fileID: 0}
   enemyType: Basic
   HP: 8
   faceTargetSpeed: 9
+  FOV: 0
   bullet: {fileID: 1481135220882722262, guid: c56af4be21e83674980da955d0a98d70, type: 3}
   shootRate: 4
   creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
   creditsDropAmount: 10
   dropHeight: 0.5
+  playerInTrigger: 0
 --- !u!114 &3280167243017674516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21875,14 +21903,17 @@ MonoBehaviour:
   agent: {fileID: 4300761478067847032}
   model: {fileID: 4292946395892930977}
   shootPos: {fileID: 4768201747823902762}
+  headPOS: {fileID: 0}
   enemyType: Burst
   HP: 5
   faceTargetSpeed: 9
+  FOV: 15
   bullet: {fileID: 1481135220882722262, guid: c1f2a23237f7ff3468f16d556f401c90, type: 3}
   shootRate: 1.5
   creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
   creditsDropAmount: 10
   dropHeight: 0.5
+  playerInTrigger: 0
 --- !u!114 &3502279553942048551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21898,14 +21929,17 @@ MonoBehaviour:
   agent: {fileID: 4269424025437821590}
   model: {fileID: 4286522224122952783}
   shootPos: {fileID: 4810789410669290948}
+  headPOS: {fileID: 0}
   enemyType: Burst
   HP: 5
   faceTargetSpeed: 9
+  FOV: 0
   bullet: {fileID: 1481135220882722262, guid: c1f2a23237f7ff3468f16d556f401c90, type: 3}
   shootRate: 1.5
   creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
   creditsDropAmount: 10
   dropHeight: 0.5
+  playerInTrigger: 0
 --- !u!1 &3550415203711846569
 GameObject:
   m_ObjectHideFlags: 0
@@ -42174,14 +42208,17 @@ MonoBehaviour:
   agent: {fileID: 1354979090283523195}
   model: {fileID: 4669592200961851024}
   shootPos: {fileID: 5141050597940469774}
+  headPOS: {fileID: 0}
   enemyType: Basic
   HP: 5
   faceTargetSpeed: 9
+  FOV: 0
   bullet: {fileID: 1481135220882722262, guid: c1f2a23237f7ff3468f16d556f401c90, type: 3}
   shootRate: 0.8
   creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
   creditsDropAmount: 10
   dropHeight: 0.5
+  playerInTrigger: 0
 --- !u!23 &7392059588132178699
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -45402,14 +45439,17 @@ MonoBehaviour:
   agent: {fileID: 119608245380192632}
   model: {fileID: 6028222035953814419}
   shootPos: {fileID: 6070178411940893965}
+  headPOS: {fileID: 0}
   enemyType: Basic
   HP: 8
   faceTargetSpeed: 9
+  FOV: 15
   bullet: {fileID: 1481135220882722262, guid: c56af4be21e83674980da955d0a98d70, type: 3}
   shootRate: 4
   creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
   creditsDropAmount: 10
   dropHeight: 0.5
+  playerInTrigger: 0
 --- !u!64 &8508336602622776016
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -47002,14 +47042,17 @@ MonoBehaviour:
   agent: {fileID: 738509291967350226}
   model: {fileID: 6359035780071397177}
   shootPos: {fileID: 6893535775748082087}
+  headPOS: {fileID: 0}
   enemyType: Basic
   HP: 5
   faceTargetSpeed: 9
+  FOV: 0
   bullet: {fileID: 1481135220882722262, guid: c1f2a23237f7ff3468f16d556f401c90, type: 3}
   shootRate: 0.8
   creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
   creditsDropAmount: 10
   dropHeight: 0.5
+  playerInTrigger: 0
 --- !u!195 &9112860395810490241
 NavMeshAgent:
   m_ObjectHideFlags: 0
