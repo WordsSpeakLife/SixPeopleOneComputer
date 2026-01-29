@@ -55,7 +55,6 @@ public class GameManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
-        MusicManager.instance.PlayMusic("game");
         instance = this;
         HideTutorial();
         UpdateCreditsUI();
@@ -75,6 +74,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        MusicManager.instance.PlayMusic("game");
         LoadVolume();
         UpdateMusicVolume(MusicSlider.value);
         UpdateSoundVolume(SfxSlider.value);
@@ -128,7 +128,6 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         menuActive.SetActive(false);
         menuActive = null;
-        MusicManager.instance.PlayMusic("menus");
     }
 
     public void youLose()
