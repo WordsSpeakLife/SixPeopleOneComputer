@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     [Header("---- Credits ----")]
     [SerializeField] TMP_Text creditsText;
+    [SerializeField] TMP_Text creditsRequiredText;
     public int credits;
 
     [Header("---- Tutorial Popup ----")]
@@ -41,7 +42,7 @@ public class GameManager : MonoBehaviour
     public PlayerController playerScript;
     public AudioMixer audioMixer;
     public Slider MusicSlider;
-    public Slider SoundSlider;
+    public Slider SfxSlider;
     public Camera playerCamera;
     float timeScaleOrig;
     
@@ -57,6 +58,7 @@ public class GameManager : MonoBehaviour
         instance = this;
         HideTutorial();
         UpdateCreditsUI();
+        SetCreditsRequiredUI(0);
         timeScaleOrig = Time.timeScale;
         if (GameType != GameGoal.None)
         { 
@@ -73,7 +75,11 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+
+       // LoadVolume();
+        // UpdateMusicVolume(MusicSlider.value);
+        // UpdateSoundVolume(SfxSlider.value);
+        // SaveVolume();
 
         if (GameType == GameGoal.Timed)
         {
@@ -187,14 +193,14 @@ public class GameManager : MonoBehaviour
         audioMixer.GetFloat("MusicVolume", out float musicVolume);
         PlayerPrefs.SetFloat("MusicVolume", musicVolume);
 
-        audioMixer.GetFloat("SfxVolume", out float SoundVolume);
-        PlayerPrefs.SetFloat("SfxVolume", SoundVolume);
+        audioMixer.GetFloat("SfxVolume", out float SfxVolume);
+        PlayerPrefs.SetFloat("SfxVolume", SfxVolume);
     }
 
     public void LoadVolume()
     {
         MusicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
-        SoundSlider.value = PlayerPrefs.GetFloat("SfxVolume");
+        SfxSlider.value = PlayerPrefs.GetFloat("SfxVolume");
     }
 
     public void AddCredits(int amount)
@@ -206,7 +212,7 @@ public class GameManager : MonoBehaviour
     void UpdateCreditsUI()
     {
         if (creditsText)
-            creditsText.text = credits.ToString();
+            creditsText.text = "Credits: " + credits;
     }
 
     public void ShowTutorial(string message)
@@ -221,5 +227,25 @@ public class GameManager : MonoBehaviour
     {
         if (!tutorialPopup) return;
         tutorialPopup.SetActive(false);
+    }
+
+    public bool HasCredits(int amount)
+    {
+        return credits >= amount;
+    }
+
+    public bool SpendCredits(int amount)
+    {
+        if (credits < amount) return false;
+
+        credits -= amount;
+        UpdateCreditsUI();
+        return true;
+    }
+
+    public void SetCreditsRequiredUI(int amount)
+    {
+        if (creditsRequiredText)
+            creditsRequiredText.text = "Credits Required: " + amount;
     }
 }
