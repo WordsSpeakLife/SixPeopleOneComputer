@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4009879639264554470}
   - component: {fileID: 3299585580128304292}
   - component: {fileID: 8184107463281908201}
-  m_Layer: 0
+  m_Layer: 19
   m_Name: CreditsPickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
