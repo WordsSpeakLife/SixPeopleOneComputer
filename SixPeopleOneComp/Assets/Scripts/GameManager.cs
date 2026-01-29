@@ -76,10 +76,10 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
-        LoadVolume();
-        UpdateMusicVolume(MusicSlider.value);
-        UpdateSoundVolume(SfxSlider.value);
-        SaveVolume();
+       // LoadVolume();
+        // UpdateMusicVolume(MusicSlider.value);
+        // UpdateSoundVolume(SfxSlider.value);
+        // SaveVolume();
 
         if (GameType == GameGoal.Timed)
         {
