@@ -16,6 +16,10 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] GameObject bullet;
     [SerializeField] float shootRate;
 
+    [SerializeField] GameObject creditsPickupPrefab;
+    [SerializeField] int creditsDropAmount = 10;
+    [SerializeField] float dropHeight = 0.5f;
+
 
     Color colorOrig;
 
@@ -63,14 +67,14 @@ public class EnemyAI : MonoBehaviour, IDamage
         shootTimer = 0;
         if (enemyType == "Basic")
         {
-            Instantiate(bullet, shootPos.position, transform.rotation);
+            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(playerDir.x, playerDir.y, playerDir.z)));
             SoundManager.instance.PlaySound3D("shoots", transform.position);
         }
         else if (enemyType == "Burst")
         {
-            Instantiate(bullet, shootPos.position, transform.rotation * Quaternion.Euler(0,15, 0));
-            Instantiate(bullet, shootPos.position, transform.rotation );
-            Instantiate(bullet, shootPos.position, transform.rotation * Quaternion.Euler(0,-15, 0));
+            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(playerDir.x, playerDir.y, playerDir.z)) * Quaternion.Euler(0,15, 0));
+            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(playerDir.x, playerDir.y, playerDir.z)));
+            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(playerDir.x, playerDir.y, playerDir.z)) * Quaternion.Euler(0,-15, 0));
             SoundManager.instance.PlaySound3D("shoots", transform.position);
         }
     }
@@ -82,13 +86,25 @@ public class EnemyAI : MonoBehaviour, IDamage
         {
             if (GameManager.instance.GameType == GameManager.GameGoal.DefeatAllEnemies)
                 GameManager.instance.updateGameGoal(-1);
-
+            DropCredits();
             Destroy(gameObject);
         }
         else
         {
             StartCoroutine(flashRed());
         }
+    }
+
+    void DropCredits()
+    {
+
+        Vector3 spawnPos = transform.position + Vector3.up * dropHeight;
+
+        GameObject drop = Instantiate(creditsPickupPrefab, spawnPos, Quaternion.identity);
+
+        PickupCredits pikup = drop.GetComponent<PickupCredits>();
+        if (pikup != null)
+            pikup.SetAmount(creditsDropAmount);
     }
 
     IEnumerator flashRed()

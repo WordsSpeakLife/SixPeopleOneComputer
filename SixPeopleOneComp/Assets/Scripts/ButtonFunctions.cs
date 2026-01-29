@@ -4,6 +4,12 @@ using UnityEngine.SceneManagement;
 public class ButtonFunctions : MonoBehaviour
 {
 
+    public void Play(string level)
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
+        SceneManager.LoadScene(level);
+    }
 
     public void MainMenu()
     {

@@ -27,6 +27,15 @@ public class GameManager : MonoBehaviour
     public Sprite weaponIcon;
     [SerializeField] public GameObject CurrentWeapon;
 
+    [Header("---- Credits ----")]
+    [SerializeField] TMP_Text creditsText;
+    public int credits;
+
+    [Header("---- Tutorial Popup ----")]
+    public GameObject tutorialPopup;
+    [SerializeField] TMP_Text tutorialText;
+
+
     public bool isPaused;
     public GameObject player;
     public PlayerController playerScript;
@@ -35,6 +44,7 @@ public class GameManager : MonoBehaviour
     public Slider SoundSlider;
     public Camera playerCamera;
     float timeScaleOrig;
+    
 
     int gameGoalCount;
     float gameGoalTimer;
@@ -45,6 +55,8 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         instance = this;
+        HideTutorial();
+        UpdateCreditsUI();
         timeScaleOrig = Time.timeScale;
         if (GameType != GameGoal.None)
         { 
@@ -183,5 +195,31 @@ public class GameManager : MonoBehaviour
     {
         MusicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
         SoundSlider.value = PlayerPrefs.GetFloat("SfxVolume");
+    }
+
+    public void AddCredits(int amount)
+    {
+        credits += amount;
+        UpdateCreditsUI();
+    }
+
+    void UpdateCreditsUI()
+    {
+        if (creditsText)
+            creditsText.text = credits.ToString();
+    }
+
+    public void ShowTutorial(string message)
+    {
+        if (!tutorialPopup || !tutorialText) return;
+
+        tutorialText.text = message;
+        tutorialPopup.SetActive(true);
+    }
+
+    public void HideTutorial()
+    {
+        if (!tutorialPopup) return;
+        tutorialPopup.SetActive(false);
     }
 }
