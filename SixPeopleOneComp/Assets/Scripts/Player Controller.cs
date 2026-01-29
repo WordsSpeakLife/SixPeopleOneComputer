@@ -259,6 +259,10 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
             if (Input.GetButton("Fire1") && shootTimer >= ShootRate)
             {
+                if(weaponList.Count == 0)
+                {
+                    return;
+                }
                 shoot();
             }
         selectWep();
