@@ -15976,21 +15976,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5383438532765794759, guid: 0a7beda6726b7ac45be06e3760823d1e, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6786287280955083733, guid: 0a7beda6726b7ac45be06e3760823d1e, type: 3}
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
     - target: {fileID: 9168313147675666228, guid: 0a7beda6726b7ac45be06e3760823d1e, type: 3}
       propertyPath: tracks.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9168313147675666228, guid: 0a7beda6726b7ac45be06e3760823d1e, type: 3}
       propertyPath: tracks.Array.data[0].clip
       value: 
       objectReference: {fileID: 8300000, guid: 3f86c6735c57b0540892532321104cd4, type: 3}
     - target: {fileID: 9168313147675666228, guid: 0a7beda6726b7ac45be06e3760823d1e, type: 3}
+      propertyPath: tracks.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4781195b4b75f1946947d447470eb602, type: 3}
+    - target: {fileID: 9168313147675666228, guid: 0a7beda6726b7ac45be06e3760823d1e, type: 3}
       propertyPath: tracks.Array.data[0].trackName
-      value: song
+      value: game
+      objectReference: {fileID: 0}
+    - target: {fileID: 9168313147675666228, guid: 0a7beda6726b7ac45be06e3760823d1e, type: 3}
+      propertyPath: tracks.Array.data[1].trackName
+      value: menus
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
