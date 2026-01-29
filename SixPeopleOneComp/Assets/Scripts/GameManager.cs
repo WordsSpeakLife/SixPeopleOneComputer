@@ -23,9 +23,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject startMenu;
     [SerializeField] GameObject menuAudio;
     [SerializeField] public GameObject HealthBar;
+    [SerializeField] TMP_Text keyCountText;
+    public Sprite weaponIcon;
+    [SerializeField] public GameObject CurrentWeapon;
 
     [Header("---- Credits ----")]
     [SerializeField] TMP_Text creditsText;
+    [SerializeField] TMP_Text creditsRequiredText;
     public int credits;
 
     [Header("---- Tutorial Popup ----")]
@@ -46,12 +50,15 @@ public class GameManager : MonoBehaviour
     int gameGoalCount;
     float gameGoalTimer;
 
+    private int keyCount;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
     {
         instance = this;
         HideTutorial();
         UpdateCreditsUI();
+        SetCreditsRequiredUI(0);
         timeScaleOrig = Time.timeScale;
         if (GameType != GameGoal.None)
         { 
@@ -205,7 +212,7 @@ public class GameManager : MonoBehaviour
     void UpdateCreditsUI()
     {
         if (creditsText)
-            creditsText.text = credits.ToString();
+            creditsText.text = "Credits: " + credits;
     }
 
     public void ShowTutorial(string message)
@@ -220,5 +227,25 @@ public class GameManager : MonoBehaviour
     {
         if (!tutorialPopup) return;
         tutorialPopup.SetActive(false);
+    }
+
+    public bool HasCredits(int amount)
+    {
+        return credits >= amount;
+    }
+
+    public bool SpendCredits(int amount)
+    {
+        if (credits < amount) return false;
+
+        credits -= amount;
+        UpdateCreditsUI();
+        return true;
+    }
+
+    public void SetCreditsRequiredUI(int amount)
+    {
+        if (creditsRequiredText)
+            creditsRequiredText.text = "Credits Required: " + amount;
     }
 }
