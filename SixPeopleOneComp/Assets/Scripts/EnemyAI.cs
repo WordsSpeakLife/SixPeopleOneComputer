@@ -88,6 +88,8 @@ public class EnemyAI : MonoBehaviour, IDamage
                 GameManager.instance.updateGameGoal(-1);
             DropCredits();
             Destroy(gameObject);
+
+            SoundManager.instance.PlaySound3D("enemies", transform.position);
         }
         else
         {

@@ -74,7 +74,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        MusicManager.instance.PlayMusic("game");
         LoadVolume();
         UpdateMusicVolume(MusicSlider.value);
         UpdateSoundVolume(SfxSlider.value);
