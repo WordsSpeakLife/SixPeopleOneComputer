@@ -252,11 +252,12 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             }
         }
 
-        if (Input.GetButton("Fire2") && shootTimer >= ShootRate)
+        if (Input.GetButton("Fire2") && weaponList.Count > 0 && weaponList[weaponListPos].ammoCur > 0 && shootTimer >= ShootRate)
         {
             shoot();
         }
         selectWep();
+        reload();
     }
     void Jump()
     {
