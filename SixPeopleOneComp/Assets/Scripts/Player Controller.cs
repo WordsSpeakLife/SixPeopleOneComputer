@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] Renderer model;
     [SerializeField] Transform ShootPos;
-    [SerializeField] GameObject bullet;
     [SerializeField] GameObject lineRenderer;
 
     [Header("---- Aim / Reticle ----")]
@@ -423,13 +422,13 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         Quaternion bulletRot = Quaternion.LookRotation(shootDir);
         if (!isTri)
         {
-            Instantiate(bullet, shootOrigin, bulletRot);
+            Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot);
         }
         else if (isTri)
         {
-            Instantiate(bullet, shootOrigin, transform.rotation * Quaternion.Euler(0, 15, 0));
-            Instantiate(bullet, shootOrigin, transform.rotation);
-            Instantiate(bullet, shootOrigin, transform.rotation * Quaternion.Euler(0, -15, 0));
+            Instantiate(weaponList[weaponListPos].bullet, shootOrigin, transform.rotation * Quaternion.Euler(0, 15, 0));
+            Instantiate(weaponList[weaponListPos].bullet, shootOrigin, transform.rotation);
+            Instantiate(weaponList[weaponListPos].bullet, shootOrigin, transform.rotation * Quaternion.Euler(0, -15, 0));
         }
         SoundManager.instance.PlaySound3D("shoots", transform.position);
     }

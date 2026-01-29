@@ -50,11 +50,15 @@ MonoBehaviour:
   type: 0
   rb: {fileID: 8381397577265498085}
   col: {fileID: 0}
-  damageAmount: 3
+  rend: {fileID: 0}
+  damageAmount: 2
   damageRate: 0
-  speed: 60
-  destroyTime: 4
+  speed: 40
+  destroyTime: 0.5
   hitEffect: {fileID: 36743694370729304, guid: acf2a51f72114cd48b2c80f2ccaadc2d, type: 3}
+  startColor: {r: 0, g: 0, b: 0, a: 1}
+  endColor: {r: 1, g: 0, b: 0, a: 1}
+  duration: 2
 --- !u!54 &8381397577265498085
 Rigidbody:
   m_ObjectHideFlags: 0

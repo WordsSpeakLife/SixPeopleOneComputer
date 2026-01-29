@@ -16,8 +16,8 @@ MonoBehaviour:
   shootDistance: 50
   shootRate: 0.5
   shootSpeed: 0
-  bullet: {fileID: 1481135220882722262, guid: 5105ff43295a3ee44a7f80ff155a53d6, type: 3}
+  bullet: {fileID: 1481135220882722262, guid: f3cf403c74b6957458b0f7c2f777878c, type: 3}
   isTri: 1
   weaponIcon: {fileID: 21300000, guid: 4a2688a2c5ac7e34c9938051d23f6250, type: 3}
-  ammoCur: 5
+  ammoCur: -4
   ammoMax: 5
