@@ -160,7 +160,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
             if (wallRunActive && timerRunning)
             {
-
                 RaycastHit leftHit;
                 RaycastHit rightHit;
                 bool hitLeft = Physics.Raycast(controller.transform.position, -controller.transform.right, out leftHit, RayDistance, ~ignoreLayer);
