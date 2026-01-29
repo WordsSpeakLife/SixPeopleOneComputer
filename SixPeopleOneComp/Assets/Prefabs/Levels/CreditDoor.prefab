@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2605392721240813754}
-  - component: {fileID: 6787466722090815108}
   m_Layer: 0
   m_Name: CreditDoor
   m_TagString: Untagged
@@ -25,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1121970013844095597}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -11.634377, y: -4.747114, z: 70.9509}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -34,22 +33,6 @@ Transform:
   - {fileID: 1159462487027211951}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6787466722090815108
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1121970013844095597}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ace6eff9871c13046aceafa70f748407, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  creditsRequired: 25
-  door: {fileID: 5284379588764152508}
-  openOffset: {x: 3, y: 0, z: 0}
-  moveSpeed: 12
 --- !u!1 &4720237288197871803
 GameObject:
   m_ObjectHideFlags: 0
@@ -59,6 +42,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1159462487027211951}
+  - component: {fileID: 5122316358854746579}
   - component: {fileID: 7628740441868694787}
   m_Layer: 0
   m_Name: TriggerZone
@@ -82,6 +66,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2605392721240813754}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5122316358854746579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4720237288197871803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ace6eff9871c13046aceafa70f748407, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  creditsRequired: 25
+  spendCredits: 1
+  door: {fileID: 5284379588764152508}
+  openOffset: {x: 3, y: 0, z: 0}
+  moveSpeed: 4
+  doorBlockCollider: {fileID: 8497430358457769783}
 --- !u!65 &7628740441868694787
 BoxCollider:
   m_ObjectHideFlags: 0
