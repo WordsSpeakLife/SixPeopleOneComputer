@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -94,7 +93,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     int gravityOrig;
     int weaponListPos;
 
-    public Sprite weaponIcon;
+    public GameObject weaponIcon;
 
     float shootTimer;
 
@@ -264,7 +263,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             }
         selectWep();
         reload();
-        
         }
         void Jump()
         {
@@ -509,11 +507,12 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         ShootRate = weaponList[weaponListPos].shootRate;
         ShootSpeed = weaponList[weaponListPos].shootSpeed;
         isTri = weaponList[weaponListPos].isTri;
-        //weaponIcon = weaponList[weaponListPos].weaponIcon;
-        //GameManager.instance.weaponIcon = weaponIcon;
-        
+        weaponIcon.GetComponent<SpriteRenderer>().sprite = weaponList[weaponListPos].weaponIcon;
+        GameManager.instance.CurrentWeapon.GetComponent<SpriteRenderer>().sprite = weaponList[weaponListPos].weaponIcon;
 
+        //GameManager.instance.CurrentWeapon.GetComponent<SpriteRenderer>().sprite = weaponIcon.GetComponent<SpriteRenderer>().sprite;
     }
+
     void selectWep()
     {
         if (Input.GetAxis("Mouse ScrollWheel") > 0 && weaponListPos < weaponList.Count - 1)

@@ -19,5 +19,5 @@ MonoBehaviour:
   bullet: {fileID: 1481135220882722262, guid: 5105ff43295a3ee44a7f80ff155a53d6, type: 3}
   isTri: 0
   weaponIcon: {fileID: 21300000, guid: f4dc387e58eaaea43bea62014845e583, type: 3}
-  ammoCur: -7
+  ammoCur: 18
   ammoMax: 25
