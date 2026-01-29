@@ -34,14 +34,14 @@ public class ButtonFunctions : MonoBehaviour
         GameManager.instance.stateUnpause();
     }
 
-    public void nextLevel(string level)
+    public void nextLevel()
     {
-        if (level == null) return;
+        if (GameManager.instance.NextLevelName == "") return;
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
         GameManager.instance.stateUnpause();
-        SceneManager.LoadScene(level);
+        SceneManager.LoadScene(GameManager.instance.NextLevelName);
     }
 
     public void quit()

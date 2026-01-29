@@ -426,9 +426,9 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         }
         else if (isTri)
         {
-            Instantiate(weaponList[weaponListPos].bullet, shootOrigin, transform.rotation * Quaternion.Euler(0, 15, 0));
-            Instantiate(weaponList[weaponListPos].bullet, shootOrigin, transform.rotation);
-            Instantiate(weaponList[weaponListPos].bullet, shootOrigin, transform.rotation * Quaternion.Euler(0, -15, 0));
+            Instantiate(weaponList[weaponListPos].bullet, shootOrigin,bulletRot * Quaternion.Euler(0, 15, 0));
+            Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot);
+            Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, -15, 0));
         }
         SoundManager.instance.PlaySound3D("shoots", transform.position);
     }

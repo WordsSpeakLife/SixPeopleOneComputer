@@ -2876,6 +2876,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7529495877999181556, guid: e354b2d233454c949bb86582bcdd4b4d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8832043349987910927, guid: e354b2d233454c949bb86582bcdd4b4d, type: 3}
       propertyPath: LevelNumber
       value: 1
@@ -2884,6 +2888,10 @@ PrefabInstance:
       propertyPath: creditsText
       value: 
       objectReference: {fileID: 1002688492}
+    - target: {fileID: 8832043349987910927, guid: e354b2d233454c949bb86582bcdd4b4d, type: 3}
+      propertyPath: NextLevelName
+      value: Tutorial_Lvl_2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

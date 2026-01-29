@@ -4382,7 +4382,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3471923928949488330}
         m_TargetAssemblyTypeName: ButtonFunctions, Assembly-CSharp
-        m_MethodName: restart
+        m_MethodName: nextLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

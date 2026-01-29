@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] int LevelNumber;
 
     [Tooltip("Leave blank if not in use")]
-    [SerializeField] string NextLevelName;
+    [SerializeField] public string NextLevelName;
 
 
     [Header("---- Save Data ----")]
