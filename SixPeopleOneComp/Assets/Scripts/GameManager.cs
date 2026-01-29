@@ -74,10 +74,11 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        LoadVolume();
-        UpdateMusicVolume(MusicSlider.value);
-        UpdateSoundVolume(SfxSlider.value);
-        SaveVolume();
+
+       // LoadVolume();
+        // UpdateMusicVolume(MusicSlider.value);
+        // UpdateSoundVolume(SfxSlider.value);
+        // SaveVolume();
 
         if (GameType == GameGoal.Timed)
         {

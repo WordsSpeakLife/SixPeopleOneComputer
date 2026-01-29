@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -94,7 +93,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     int gravityOrig;
     int weaponListPos;
 
-    public Sprite weaponIcon;
+    public GameObject weaponIcon;
 
     float shootTimer;
 
@@ -158,7 +157,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             PlayerVelo.x = Mathf.Lerp(PlayerVelo.x, 0, Time.deltaTime * airDrag);
             PlayerVelo.z = Mathf.Lerp(PlayerVelo.z, 0, Time.deltaTime * airDrag);
             wallMoveVector = Vector3.zero;
-            
+
             if (wallRunActive && timerRunning)
             {
                 RaycastHit leftHit;
@@ -259,9 +258,14 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
             if (Input.GetButton("Fire1") && shootTimer >= ShootRate)
             {
+                if(weaponList.Count == 0)
+                {
+                    return;
+                }
                 shoot();
             }
-            
+        selectWep();
+        reload();
         }
         void Jump()
         {
@@ -297,7 +301,8 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                     return;
                 }
                 else if (!IsRayOnGround(hit) && (prevWallJumpName == null || prevWallJumpName != hit.collider.name))
-                {DashCount= 0;
+                {
+                    DashCount = 0;
                     Debug.Log(hit.collider.name + " wall Jump");
                     //PlayerVelo.y = WallJumpPower;
                     //PlayerVelo.x = hit.normal.x * WallJumpPower;
@@ -332,7 +337,8 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 if (hitLeft && !IsRayOnGround(leftHit) && (prevWallRunName == null || prevWallRunName != leftHit.collider.name))
                 {
                     if (Mathf.Abs(leftHit.normal.x) > 0.6f && leftHit.collider.CompareTag("wall") && !IsRayOnGround(leftHit))
-                    {DashCount= 0;
+                    {
+                        DashCount = 0;
                         currentWallHit = leftHit;
                         prevWallRunName = leftHit.collider.name;
                         wallRunActive = true;
@@ -345,7 +351,8 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 if (hitRight && !IsRayOnGround(rightHit) && (prevWallRunName == null || prevWallRunName != rightHit.collider.name))
                 {
                     if (Mathf.Abs(rightHit.normal.x) > 0.6f && rightHit.collider.CompareTag("wall") && !IsRayOnGround(rightHit))
-                    {DashCount= 0;
+                    {
+                        DashCount = 0;
                         currentWallHit = rightHit;
                         prevWallRunName = rightHit.collider.name;
                         wallRunActive = true;
@@ -371,20 +378,17 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             float time = Time.time;
             if (DashCount < Dashmax)
             {
-                SoundManager.instance.PlaySound3D("dash", transform.position);
+                SoundManager.instance.PlaySound3D("dash 2", transform.position);
                 DashCount++;
                 while (Time.time < time + dashTime)
                 {
                     //Debug.Log("  time start ");
-
                     controller.Move(transform.forward.normalized * dashSpeed * Time.deltaTime);
                     model.material.color = Color.green;
-
-
                     yield return null;
-
                     // Debug.Log("  time end ");
                 }
+
             }
         }
         void wallRunRayCastDirection(RaycastHit hit)
@@ -427,7 +431,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             Instantiate(bullet, shootOrigin, transform.rotation);
             Instantiate(bullet, shootOrigin, transform.rotation * Quaternion.Euler(0, -15, 0));
         }
-            SoundManager.instance.PlaySound3D("shoots", transform.position);
+        SoundManager.instance.PlaySound3D("shoots", transform.position);
     }
 
 
@@ -507,11 +511,16 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         ShootRate = weaponList[weaponListPos].shootRate;
         ShootSpeed = weaponList[weaponListPos].shootSpeed;
         isTri = weaponList[weaponListPos].isTri;
+
+        weaponIcon.GetComponent<SpriteRenderer>().sprite = weaponList[weaponListPos].weaponIcon;
+        // GameManager.instance.CurrentWeapon.GetComponent<SpriteRenderer>().sprite = weaponList[weaponListPos].weaponIcon;
+
         //weaponIcon = weaponList[weaponListPos].weaponIcon;
         //GameManager.instance.weaponIcon = weaponIcon;
-        
 
+        //GameManager.instance.CurrentWeapon.GetComponent<SpriteRenderer>().sprite = weaponIcon.GetComponent<SpriteRenderer>().sprite;
     }
+
     void selectWep()
     {
         if (Input.GetAxis("Mouse ScrollWheel") > 0 && weaponListPos < weaponList.Count - 1)
