@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
 
     [Header("---- Credits ----")]
     [SerializeField] TMP_Text creditsText;
+    [SerializeField] TMP_Text creditsRequiredText;
     public int credits;
 
     [Header("---- Tutorial Popup ----")]
@@ -57,6 +58,7 @@ public class GameManager : MonoBehaviour
         instance = this;
         HideTutorial();
         UpdateCreditsUI();
+        SetCreditsRequiredUI(0);
         timeScaleOrig = Time.timeScale;
         if (GameType != GameGoal.None)
         { 
@@ -206,7 +208,7 @@ public class GameManager : MonoBehaviour
     void UpdateCreditsUI()
     {
         if (creditsText)
-            creditsText.text = credits.ToString();
+            creditsText.text = "Credits: " + credits;
     }
 
     public void ShowTutorial(string message)
@@ -235,5 +237,11 @@ public class GameManager : MonoBehaviour
         credits -= amount;
         UpdateCreditsUI();
         return true;
+    }
+
+    public void SetCreditsRequiredUI(int amount)
+    {
+        if (creditsRequiredText)
+            creditsRequiredText.text = "Credits Required: " + amount;
     }
 }
