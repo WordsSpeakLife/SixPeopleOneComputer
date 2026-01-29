@@ -5565,6 +5565,14 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1564587590}
+    - target: {fileID: 5422110471247917913, guid: 0fa19af527cd9644ca8e324741f27138, type: 3}
+      propertyPath: m_Radius
+      value: 18.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5526386134925426122, guid: 0fa19af527cd9644ca8e324741f27138, type: 3}
+      propertyPath: m_Radius
+      value: 21.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5533427422268335855, guid: 0fa19af527cd9644ca8e324741f27138, type: 3}
       propertyPath: m_Mesh
       value: 
