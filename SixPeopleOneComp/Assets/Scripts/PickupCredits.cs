@@ -27,7 +27,10 @@ public class PickupCredits : MonoBehaviour
         if (!other.CompareTag("Player")) return;
 
         if (GameManager.instance)
+        {
+            SoundManager.instance.PlaySound3D("pickup", transform.position);
             GameManager.instance.AddCredits(creditsAmount);
+        }
 
         Destroy(gameObject);
     }

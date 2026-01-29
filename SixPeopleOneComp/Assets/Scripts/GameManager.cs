@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
     public PlayerController playerScript;
     public AudioMixer audioMixer;
     public Slider MusicSlider;
-    public Slider SoundSlider;
+    public Slider SfxSlider;
     public Camera playerCamera;
     float timeScaleOrig;
     
@@ -68,7 +68,11 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+
+        LoadVolume();
+        UpdateMusicVolume(MusicSlider.value);
+        UpdateSoundVolume(SfxSlider.value);
+        SaveVolume();
 
         if (GameType == GameGoal.Timed)
         {
@@ -182,14 +186,14 @@ public class GameManager : MonoBehaviour
         audioMixer.GetFloat("MusicVolume", out float musicVolume);
         PlayerPrefs.SetFloat("MusicVolume", musicVolume);
 
-        audioMixer.GetFloat("SfxVolume", out float SoundVolume);
-        PlayerPrefs.SetFloat("SfxVolume", SoundVolume);
+        audioMixer.GetFloat("SfxVolume", out float SfxVolume);
+        PlayerPrefs.SetFloat("SfxVolume", SfxVolume);
     }
 
     public void LoadVolume()
     {
         MusicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
-        SoundSlider.value = PlayerPrefs.GetFloat("SfxVolume");
+        SfxSlider.value = PlayerPrefs.GetFloat("SfxVolume");
     }
 
     public void AddCredits(int amount)

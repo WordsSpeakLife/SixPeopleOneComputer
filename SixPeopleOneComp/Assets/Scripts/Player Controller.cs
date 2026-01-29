@@ -357,7 +357,7 @@ public class PlayerController : MonoBehaviour, IDamage
             float time = Time.time;
             if (DashCount < Dashmax)
             {
-
+                SoundManager.instance.PlaySound3D("dash", transform.position);
                 DashCount++;
                 while (Time.time < time + dashTime)
                 {
@@ -406,6 +406,7 @@ public class PlayerController : MonoBehaviour, IDamage
     }
     public void takeDamage(int amount)
     {
+        SoundManager.instance.PlaySound3D("damage", transform.position);
         Hp -= amount;
         model.material.color = Color.red;
         StartCoroutine(wait(0.2f, false));
