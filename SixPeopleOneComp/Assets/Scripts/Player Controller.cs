@@ -262,6 +262,8 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             {
                 shoot();
             }
+            reload();
+            selectWep();
         }
         void Jump()
         {
