@@ -315,7 +315,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5100
+  m_VersionIndex: 5106
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -733,7 +733,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 3318
+  m_VersionIndex: 3324
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1116,7 +1116,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5377
+  m_VersionIndex: 5383
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1532,7 +1532,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 4429
+  m_VersionIndex: 4435
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -1884,7 +1884,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5082
+  m_VersionIndex: 5088
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -2236,7 +2236,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 3318
+  m_VersionIndex: 3324
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -2588,7 +2588,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 3895
+  m_VersionIndex: 3901
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -3781,7 +3781,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 39
+  m_VersionIndex: 45
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -15478,7 +15478,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 6053
+  m_VersionIndex: 6059
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -15836,7 +15836,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 3318
+  m_VersionIndex: 3324
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -16188,7 +16188,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 3318
+  m_VersionIndex: 3324
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -16605,7 +16605,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5377
+  m_VersionIndex: 5383
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -16957,7 +16957,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5377
+  m_VersionIndex: 5383
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -17731,7 +17731,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 4998
+  m_VersionIndex: 5004
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -18114,7 +18114,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 4429
+  m_VersionIndex: 4435
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -18466,7 +18466,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 3318
+  m_VersionIndex: 3324
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -18880,7 +18880,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5377
+  m_VersionIndex: 5383
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -20073,7 +20073,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 39
+  m_VersionIndex: 45
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -20299,13 +20299,15 @@ Transform:
   - {fileID: 8181585762051186853}
   - {fileID: 1633000237544786692}
   - {fileID: 7071777636376179359}
-  - {fileID: 5863736588922878578}
+  - {fileID: 7474097761224412182}
   - {fileID: 4317360140697260237}
   - {fileID: 2505928542190513779}
   - {fileID: 217935991894727959}
   - {fileID: 4089393770098275144}
   - {fileID: 8861055499516384436}
   - {fileID: 5309683262525370947}
+  - {fileID: 7838734484634628241}
+  - {fileID: 7687002171957458755}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &4036785748140643774
@@ -20556,7 +20558,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 3308
+  m_VersionIndex: 3314
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -20908,7 +20910,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5377
+  m_VersionIndex: 5383
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -21263,7 +21265,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5100
+  m_VersionIndex: 5106
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -21845,7 +21847,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5377
+  m_VersionIndex: 5383
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -22197,7 +22199,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 3308
+  m_VersionIndex: 3314
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -22549,7 +22551,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 3318
+  m_VersionIndex: 3324
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -22904,7 +22906,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5100
+  m_VersionIndex: 5106
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -23322,7 +23324,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 3318
+  m_VersionIndex: 3324
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -23708,7 +23710,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5100
+  m_VersionIndex: 5106
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -24165,7 +24167,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5100
+  m_VersionIndex: 5106
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -24586,7 +24588,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5100
+  m_VersionIndex: 5106
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -25044,7 +25046,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 4429
+  m_VersionIndex: 4435
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -26237,7 +26239,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 39
+  m_VersionIndex: 45
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -26596,7 +26598,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5377
+  m_VersionIndex: 5383
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -27014,7 +27016,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 3732
+  m_VersionIndex: 3738
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -27397,7 +27399,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5377
+  m_VersionIndex: 5383
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -27749,7 +27751,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5377
+  m_VersionIndex: 5383
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -28101,7 +28103,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5082
+  m_VersionIndex: 5088
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -28453,7 +28455,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5377
+  m_VersionIndex: 5383
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -28839,7 +28841,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5085
+  m_VersionIndex: 5091
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -29191,7 +29193,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5377
+  m_VersionIndex: 5383
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -29543,7 +29545,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5377
+  m_VersionIndex: 5383
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -29898,7 +29900,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5100
+  m_VersionIndex: 5106
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -30355,7 +30357,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5100
+  m_VersionIndex: 5106
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -30776,7 +30778,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 5100
+  m_VersionIndex: 5106
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -30946,6 +30948,72 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.72, y: 3.2499998, z: 4.957042}
   m_Center: {x: 0.01686287, y: -0.000002861023, z: -0.021310808}
+--- !u!1001 &2411833908200842497
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 5801838855204680282}
+    m_Modifications:
+    - target: {fileID: 3151475976652359026, guid: 27bdf924b6bf6de44aa0c39bc8f35085, type: 3}
+      propertyPath: m_Name
+      value: FloorTriggerReset
+      objectReference: {fileID: 0}
+    - target: {fileID: 5464337040577630786, guid: 27bdf924b6bf6de44aa0c39bc8f35085, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 102.64989
+      objectReference: {fileID: 0}
+    - target: {fileID: 5464337040577630786, guid: 27bdf924b6bf6de44aa0c39bc8f35085, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 11.672829
+      objectReference: {fileID: 0}
+    - target: {fileID: 5464337040577630786, guid: 27bdf924b6bf6de44aa0c39bc8f35085, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.324486
+      objectReference: {fileID: 0}
+    - target: {fileID: 5464337040577630786, guid: 27bdf924b6bf6de44aa0c39bc8f35085, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -16.051996
+      objectReference: {fileID: 0}
+    - target: {fileID: 5464337040577630786, guid: 27bdf924b6bf6de44aa0c39bc8f35085, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5464337040577630786, guid: 27bdf924b6bf6de44aa0c39bc8f35085, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5464337040577630786, guid: 27bdf924b6bf6de44aa0c39bc8f35085, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5464337040577630786, guid: 27bdf924b6bf6de44aa0c39bc8f35085, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5464337040577630786, guid: 27bdf924b6bf6de44aa0c39bc8f35085, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5464337040577630786, guid: 27bdf924b6bf6de44aa0c39bc8f35085, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5464337040577630786, guid: 27bdf924b6bf6de44aa0c39bc8f35085, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 27bdf924b6bf6de44aa0c39bc8f35085, type: 3}
+--- !u!4 &7687002171957458755 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5464337040577630786, guid: 27bdf924b6bf6de44aa0c39bc8f35085, type: 3}
+  m_PrefabInstance: {fileID: 2411833908200842497}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2449967723987881404
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31007,6 +31075,72 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 6411089219452295432, guid: 7aff355c36bf8a0468a1f755cda13511, type: 3}
   m_PrefabInstance: {fileID: 2449967723987881404}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4270722572962885780
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 5801838855204680282}
+    m_Modifications:
+    - target: {fileID: 724836843036983719, guid: fa6d19f17438b5c4188f5c1ccb9e31aa, type: 3}
+      propertyPath: m_Name
+      value: Checkpoint
+      objectReference: {fileID: 0}
+    - target: {fileID: 6308523791927574533, guid: fa6d19f17438b5c4188f5c1ccb9e31aa, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.8054
+      objectReference: {fileID: 0}
+    - target: {fileID: 6308523791927574533, guid: fa6d19f17438b5c4188f5c1ccb9e31aa, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 17.22126
+      objectReference: {fileID: 0}
+    - target: {fileID: 6308523791927574533, guid: fa6d19f17438b5c4188f5c1ccb9e31aa, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 5.632
+      objectReference: {fileID: 0}
+    - target: {fileID: 6308523791927574533, guid: fa6d19f17438b5c4188f5c1ccb9e31aa, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 36.728
+      objectReference: {fileID: 0}
+    - target: {fileID: 6308523791927574533, guid: fa6d19f17438b5c4188f5c1ccb9e31aa, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6308523791927574533, guid: fa6d19f17438b5c4188f5c1ccb9e31aa, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6308523791927574533, guid: fa6d19f17438b5c4188f5c1ccb9e31aa, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6308523791927574533, guid: fa6d19f17438b5c4188f5c1ccb9e31aa, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6308523791927574533, guid: fa6d19f17438b5c4188f5c1ccb9e31aa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6308523791927574533, guid: fa6d19f17438b5c4188f5c1ccb9e31aa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6308523791927574533, guid: fa6d19f17438b5c4188f5c1ccb9e31aa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fa6d19f17438b5c4188f5c1ccb9e31aa, type: 3}
+--- !u!4 &7838734484634628241 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6308523791927574533, guid: fa6d19f17438b5c4188f5c1ccb9e31aa, type: 3}
+  m_PrefabInstance: {fileID: 4270722572962885780}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4679301539957982291
 PrefabInstance:
@@ -31132,7 +31266,7 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 207d5b72793758245a6f059c4b075b05, type: 3}
---- !u!4 &5863736588922878578 stripped
+--- !u!4 &7474097761224412182 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3952323241739531879, guid: 207d5b72793758245a6f059c4b075b05, type: 3}
   m_PrefabInstance: {fileID: 5863736588922878577}

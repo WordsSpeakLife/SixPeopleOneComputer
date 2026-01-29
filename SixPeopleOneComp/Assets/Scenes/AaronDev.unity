@@ -5283,6 +5283,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: New_Level2 Easy
       objectReference: {fileID: 0}
+    - target: {fileID: 3906723010585253941, guid: 7afb12a3c8925e74bac5e9b9a0000766, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3919956405171363287, guid: 7afb12a3c8925e74bac5e9b9a0000766, type: 3}
       propertyPath: m_Mesh
       value: 
