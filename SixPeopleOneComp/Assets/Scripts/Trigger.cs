@@ -5,7 +5,6 @@ public class Trigger : MonoBehaviour
 {
 
     [SerializeField] MeleeEnemyAI enemyScript;
-    [SerializeField] ParticleSystem explosionEffect;
     [SerializeField] LayerMask damageableLayers;
     [SerializeField] float explosionDelay;
     [SerializeField] float explosionRadius;
@@ -48,7 +47,6 @@ public class Trigger : MonoBehaviour
                 dmg.takeDamage(damage);
             }
         }
-        Instantiate(explosionEffect, transform.position, transform.rotation);
         enemyScript.die();
     }
 }
