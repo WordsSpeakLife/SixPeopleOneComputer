@@ -2990,7 +2990,7 @@ MonoBehaviour:
   startMenu: {fileID: 0}
   menuAudio: {fileID: 0}
   HealthBar: {fileID: 1433878098863813345}
-  creditsText: {fileID: 0}
+  creditsText: {fileID: 5721075055372892605}
   credits: 0
   tutorialPopup: {fileID: 2750426416800536614}
   tutorialText: {fileID: 5553175914020252831}

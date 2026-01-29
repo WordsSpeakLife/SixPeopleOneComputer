@@ -86,11 +86,16 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   model: {fileID: 488114861992175647}
-  lookTransform: {fileID: 0}
   ShootPos: {fileID: 3757661936134131098}
   bullet: {fileID: 1481135220882722262, guid: 5105ff43295a3ee44a7f80ff155a53d6, type: 3}
   lineRenderer: {fileID: 0}
-  HeathBar: {fileID: 0}
+  mainCamera: {fileID: 0}
+  aimMask:
+    serializedVersion: 2
+    m_Bits: 0
+  reticle: {fileID: 0}
+  reticleYOffset: 0.02
+  reticleDistance: 12
   Hp: 10
   speed: 5
   sprintMod: 0
@@ -100,19 +105,24 @@ MonoBehaviour:
   wallJumpSideforce: 6
   wallRunSpeed: 0
   wallRunTimeOnWall: 0
+  wallStickForce: 5
   dashSpeed: 10
   dashTime: 0.1
+  DashResetTime: 0
+  Dashmax: 0
   sens: 1
   MouseOn: 0
   turnCalmVelocity: 0.5
   turnCalmTime: 0.1
   gravity: 25
-  wallRunGravity: 26
+  wallRunGravity: 0
   RayDistance: 0.5
   BottomRayDistance: 0.8
+  airDrag: 0
   ShootDamage: 5
   ShootDistance: 50
   ShootRate: 0.2
+  shootSpeed: 0
   gunRayOn: 0
 --- !u!143 &7205097495694300032
 CharacterController:
