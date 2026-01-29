@@ -250,7 +250,7 @@ MonoBehaviour:
   mainCamera: {fileID: 0}
   aimMask:
     serializedVersion: 2
-    m_Bits: 43272
+    m_Bits: 1689864
   reticle: {fileID: 4877269447020804245}
   reticleYOffset: 0.02
   reticleDistance: 7

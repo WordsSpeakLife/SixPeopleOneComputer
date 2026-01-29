@@ -1,5 +1,6 @@
-using UnityEngine;
 using System.Collections;
+using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour, IDamage
@@ -8,10 +9,12 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] NavMeshAgent agent;
     [SerializeField] Renderer model;
     [SerializeField] Transform shootPos;
+    [SerializeField] Transform headPOS;
     [SerializeField] string enemyType;
 
     [SerializeField] int HP;
     [SerializeField] int faceTargetSpeed;
+    [Range(15, 360)][SerializeField] int FOV;
 
     [SerializeField] GameObject bullet;
     [SerializeField] float shootRate;
@@ -24,8 +27,13 @@ public class EnemyAI : MonoBehaviour, IDamage
     Color colorOrig;
 
     float shootTimer;
+    float angleToPlayer;
+    float stoppingDistOrig;
 
     Vector3 playerDir;
+    Vector3 startingPos;
+
+    public bool playerInTrigger;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -41,19 +49,42 @@ public class EnemyAI : MonoBehaviour, IDamage
     {
         shootTimer += Time.deltaTime;
 
-        playerDir = (GameManager.instance.player.transform.position - transform.position);
-
-        agent.SetDestination(GameManager.instance.player.transform.position);
-
-        if (agent.remainingDistance <= agent.stoppingDistance)
+        if (playerInTrigger)
         {
-            faceTarget();
+            canSeePlayer();
+        }
+    }
+
+    bool canSeePlayer()
+    {
+        playerDir = (GameManager.instance.player.transform.position - headPOS.position);
+        angleToPlayer = Vector3.Angle(playerDir, transform.forward);
+        Debug.DrawRay(headPOS.position, playerDir);
+
+        RaycastHit hit;
+        if (Physics.Raycast(headPOS.position, playerDir, out hit))
+        {
+            if (angleToPlayer <= FOV && hit.collider.CompareTag("Player"))
+            {
+                agent.SetDestination(GameManager.instance.player.transform.position);
+
+                if (agent.remainingDistance <= agent.stoppingDistance)
+                {
+                    faceTarget();
+                }
+
+                if (shootTimer >= shootRate)
+                {
+                    shoot();
+                }
+
+                agent.stoppingDistance = stoppingDistOrig;
+                return true;
+            }
         }
 
-        if(shootTimer >= shootRate)
-        {
-            shoot();
-        }
+        agent.stoppingDistance = 0;
+        return false;
     }
 
     void faceTarget()

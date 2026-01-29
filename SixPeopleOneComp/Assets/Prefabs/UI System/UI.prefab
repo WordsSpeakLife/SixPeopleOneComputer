@@ -3259,6 +3259,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameType: 1
   GoalTimerEnd: 0
+  isMainMenu: 0
   menuActive: {fileID: 0}
   menuPause: {fileID: 6259563574184250235}
   menuWin: {fileID: 7529495877999181556}
@@ -3274,12 +3275,14 @@ MonoBehaviour:
   credits: 0
   tutorialPopup: {fileID: 2750426416800536614}
   tutorialText: {fileID: 5553175914020252831}
+  LevelNumber: 0
+  levels: {fileID: 11400000, guid: 4bc26bdcb7b7ed14bb92345e21618b31, type: 2}
   isPaused: 0
   player: {fileID: 0}
   playerScript: {fileID: 0}
   audioMixer: {fileID: 0}
   MusicSlider: {fileID: 0}
-  SoundSlider: {fileID: 0}
+  SfxSlider: {fileID: 0}
   playerCamera: {fileID: 0}
 --- !u!1 &5829013074594880696
 GameObject:

@@ -8,7 +8,13 @@ public class ButtonFunctions : MonoBehaviour
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
-        SceneManager.LoadScene(level);
+        GameManager.instance.stateUnpause();
+        SceneManager.LoadScene(level); 
+    }
+
+    public void resetSave()
+    {
+        GameManager.instance.levels.levelsUnlocked = 0;
     }
 
     public void MainMenu()
