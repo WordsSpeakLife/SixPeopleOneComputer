@@ -41,6 +41,10 @@ public class GameManager : MonoBehaviour
     [Tooltip("Starts at 1, add 1 per level (ex: this is level 3 so it would be 1+1+1+1+1 so 5")]
     [SerializeField] int LevelNumber;
 
+    [Tooltip("Leave blank if not in use")]
+    [SerializeField] string NextLevelName;
+
+
     [Header("---- Save Data ----")]
     [SerializeField] public SaveData levels;
 

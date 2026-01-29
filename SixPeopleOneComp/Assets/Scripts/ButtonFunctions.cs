@@ -34,6 +34,16 @@ public class ButtonFunctions : MonoBehaviour
         GameManager.instance.stateUnpause();
     }
 
+    public void nextLevel(string level)
+    {
+        if (level == null) return;
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
+        GameManager.instance.stateUnpause();
+        SceneManager.LoadScene(level);
+    }
+
     public void quit()
     {
 #if UNITY_EDITOR
