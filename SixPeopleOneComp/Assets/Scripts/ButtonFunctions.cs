@@ -12,6 +12,11 @@ public class ButtonFunctions : MonoBehaviour
         SceneManager.LoadScene(level); 
     }
 
+    public void resetSave()
+    {
+        GameManager.instance.levels.levelsUnlocked = 0;
+    }
+
     public void MainMenu()
     {
         GameManager.instance.stateUnpauseMM();
