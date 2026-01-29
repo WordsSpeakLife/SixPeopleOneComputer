@@ -5215,6 +5215,63 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 207d5b72793758245a6f059c4b075b05, type: 3}
+--- !u!1001 &467814161
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3318162768824834039, guid: 2ecc685b976dc0f41af7839fdc424c4e, type: 3}
+      propertyPath: m_Name
+      value: Basic Weapon Pickup
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715230118660825237, guid: 2ecc685b976dc0f41af7839fdc424c4e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -9.285985
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715230118660825237, guid: 2ecc685b976dc0f41af7839fdc424c4e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -16.711126
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715230118660825237, guid: 2ecc685b976dc0f41af7839fdc424c4e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -51.411
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715230118660825237, guid: 2ecc685b976dc0f41af7839fdc424c4e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715230118660825237, guid: 2ecc685b976dc0f41af7839fdc424c4e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715230118660825237, guid: 2ecc685b976dc0f41af7839fdc424c4e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715230118660825237, guid: 2ecc685b976dc0f41af7839fdc424c4e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715230118660825237, guid: 2ecc685b976dc0f41af7839fdc424c4e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715230118660825237, guid: 2ecc685b976dc0f41af7839fdc424c4e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715230118660825237, guid: 2ecc685b976dc0f41af7839fdc424c4e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2ecc685b976dc0f41af7839fdc424c4e, type: 3}
 --- !u!43 &524174511
 Mesh:
   m_ObjectHideFlags: 0
@@ -11240,10 +11297,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5296324045309253198, guid: e4bd2e955bf553048a242348c6f97d1c, type: 3}
-      propertyPath: FOV
-      value: 45
-      objectReference: {fileID: 0}
     - target: {fileID: 6014359034079221822, guid: e4bd2e955bf553048a242348c6f97d1c, type: 3}
       propertyPath: m_Name
       value: Enemy_Bomber
@@ -11251,10 +11304,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6014359034079221822, guid: e4bd2e955bf553048a242348c6f97d1c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1809315622}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4bd2e955bf553048a242348c6f97d1c, type: 3}
 --- !u!43 &1498109422
 Mesh:
@@ -13089,32 +13139,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &1809315621 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6014359034079221822, guid: e4bd2e955bf553048a242348c6f97d1c, type: 3}
-  m_PrefabInstance: {fileID: 1490743871}
-  m_PrefabAsset: {fileID: 0}
---- !u!135 &1809315622
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1809315621}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 15
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!43 &1811742306
 Mesh:
   m_ObjectHideFlags: 0
@@ -14750,3 +14774,4 @@ SceneRoots:
   - {fileID: 2073801204}
   - {fileID: 1490743871}
   - {fileID: 2105437439}
+  - {fileID: 467814161}

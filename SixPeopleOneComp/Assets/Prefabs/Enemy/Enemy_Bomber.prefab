@@ -139,7 +139,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 320
   explosionDelay: 1
-  explosionRadius: 5
+  explosionRadius: 3
   damage: 5
 --- !u!33 &3566596881252814667
 MeshFilter:
@@ -227,6 +227,7 @@ GameObject:
   - component: {fileID: 5296324045309253198}
   - component: {fileID: 6056668636050723592}
   - component: {fileID: 2725673328537361761}
+  - component: {fileID: 2900397635111487245}
   m_Layer: 8
   m_Name: Enemy_Bomber
   m_TagString: Untagged
@@ -242,7 +243,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6014359034079221822}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.98, y: -12.743, z: -32.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -270,7 +271,7 @@ MonoBehaviour:
   enemyType: Bomber
   HP: 5
   faceTargetSpeed: 9
-  FOV: 15
+  FOV: 45
   roamDist: 15
   roamPauseTime: 1
   dropItem: {fileID: 0}
@@ -319,6 +320,27 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!135 &2900397635111487245
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6014359034079221822}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 15
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6250812956752734472
 GameObject:
   m_ObjectHideFlags: 0

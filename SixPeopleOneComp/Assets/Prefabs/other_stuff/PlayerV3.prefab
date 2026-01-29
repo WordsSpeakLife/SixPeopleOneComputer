@@ -99,7 +99,6 @@ GameObject:
   - component: {fileID: 2196022900471761273}
   - component: {fileID: 3947901728561403470}
   - component: {fileID: 6601459297563817866}
-  - component: {fileID: 3949948874365949664}
   m_Layer: 6
   m_Name: PlayerV3
   m_TagString: Player
@@ -175,11 +174,17 @@ MonoBehaviour:
   RayDistance: 0.5
   BottomRayDistance: 0.9
   airDrag: 8.01
+  weaponList: []
   ShootDamage: 5
   ShootDistance: 50
   ShootRate: 0.2
-  shootSpeed: 0
+  ShootSpeed: 0
   gunRayOn: 0
+  ammoHold: 0
+  ammoAdd: 0
+  ammoReload: 0
+  isTri: 0
+  weaponIcon: {fileID: 0}
 --- !u!143 &2196022900471761273
 CharacterController:
   m_ObjectHideFlags: 0
@@ -258,29 +263,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &3949948874365949664
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6460914180498589648}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8091517560992213651
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,7 +305,6 @@ GameObject:
   - component: {fileID: 3328921862141925901}
   - component: {fileID: 636746023094401522}
   - component: {fileID: 6701440910221419679}
-  - component: {fileID: 3459388624905042171}
   m_Layer: 6
   m_Name: face
   m_TagString: Untagged
@@ -399,24 +380,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &3459388624905042171
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9197535207496958664}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}

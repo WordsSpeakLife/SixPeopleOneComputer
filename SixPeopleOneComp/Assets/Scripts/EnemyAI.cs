@@ -67,14 +67,14 @@ public class EnemyAI : MonoBehaviour, IDamage
         shootTimer = 0;
         if (enemyType == "Basic")
         {
-            Instantiate(bullet, shootPos.position, transform.rotation);
+            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(playerDir.x, playerDir.y, playerDir.z)));
             SoundManager.instance.PlaySound3D("shoots", transform.position);
         }
         else if (enemyType == "Burst")
         {
-            Instantiate(bullet, shootPos.position, transform.rotation * Quaternion.Euler(0,15, 0));
-            Instantiate(bullet, shootPos.position, transform.rotation );
-            Instantiate(bullet, shootPos.position, transform.rotation * Quaternion.Euler(0,-15, 0));
+            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(playerDir.x, playerDir.y, playerDir.z)) * Quaternion.Euler(0,15, 0));
+            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(playerDir.x, playerDir.y, playerDir.z)));
+            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(playerDir.x, playerDir.y, playerDir.z)) * Quaternion.Euler(0,-15, 0));
             SoundManager.instance.PlaySound3D("shoots", transform.position);
         }
     }
