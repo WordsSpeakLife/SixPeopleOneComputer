@@ -164,7 +164,7 @@ MonoBehaviour:
   dashSpeed: 17
   dashTime: 0.2
   DashResetTime: 1
-  Dashmax: 2
+  Dashmax: 1
   sens: 2
   MouseOn: 1
   turnCalmVelocity: 0.5
