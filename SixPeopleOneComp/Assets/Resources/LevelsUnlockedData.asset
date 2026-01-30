@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 076e4952920bee545b362aa4fc5b9978, type: 3}
   m_Name: LevelsUnlockedData
   m_EditorClassIdentifier: 
-  levelsUnlocked: 5
+  levelsUnlocked: 0
