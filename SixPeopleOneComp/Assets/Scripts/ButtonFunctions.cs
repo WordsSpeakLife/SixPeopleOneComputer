@@ -8,7 +8,13 @@ public class ButtonFunctions : MonoBehaviour
     {
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
-        SceneManager.LoadScene(level);
+        GameManager.instance.stateUnpause();
+        SceneManager.LoadScene(level); 
+    }
+
+    public void resetSave()
+    {
+        GameManager.instance.levels.levelsUnlocked = 0;
     }
 
     public void MainMenu()
@@ -26,6 +32,16 @@ public class ButtonFunctions : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         GameManager.instance.stateUnpause();
+    }
+
+    public void nextLevel()
+    {
+        if (GameManager.instance.NextLevelName == "") return;
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Confined;
+        GameManager.instance.stateUnpause();
+        SceneManager.LoadScene(GameManager.instance.NextLevelName);
     }
 
     public void quit()

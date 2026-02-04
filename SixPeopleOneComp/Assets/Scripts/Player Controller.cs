@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] Renderer model;
     [SerializeField] Transform ShootPos;
-    [SerializeField] GameObject bullet;
     [SerializeField] GameObject lineRenderer;
 
     [Header("---- Aim / Reticle ----")]
@@ -160,7 +159,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
             if (wallRunActive && timerRunning)
             {
-
                 RaycastHit leftHit;
                 RaycastHit rightHit;
                 bool hitLeft = Physics.Raycast(controller.transform.position, -controller.transform.right, out leftHit, RayDistance, ~ignoreLayer);
@@ -259,6 +257,10 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
             if (Input.GetButton("Fire1") && weaponList.Count > 0 && weaponList[weaponListPos].ammoCur > 0 && shootTimer >= ShootRate)
             {
+                if(weaponList.Count == 0)
+                {
+                    return;
+                }
                 shoot();
             }
         selectWep();
@@ -420,13 +422,13 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         Quaternion bulletRot = Quaternion.LookRotation(shootDir);
         if (!isTri)
         {
-            Instantiate(bullet, shootOrigin, bulletRot);
+            Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot);
         }
         else if (isTri)
         {
-            Instantiate(bullet, shootOrigin, transform.rotation * Quaternion.Euler(0, 15, 0));
-            Instantiate(bullet, shootOrigin, transform.rotation);
-            Instantiate(bullet, shootOrigin, transform.rotation * Quaternion.Euler(0, -15, 0));
+            Instantiate(weaponList[weaponListPos].bullet, shootOrigin,bulletRot * Quaternion.Euler(0, 15, 0));
+            Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot);
+            Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, -15, 0));
         }
         SoundManager.instance.PlaySound3D("shoots", transform.position);
     }

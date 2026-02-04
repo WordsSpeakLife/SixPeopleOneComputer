@@ -367,8 +367,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 2
   rb: {fileID: 0}
+  col: {fileID: 0}
+  rend: {fileID: 0}
   damageAmount: 5
   damageRate: 1
   speed: 0
   destroyTime: 0
   hitEffect: {fileID: 0}
+  startColor: {r: 0, g: 0, b: 0, a: 1}
+  endColor: {r: 1, g: 0, b: 0, a: 1}
+  duration: 2

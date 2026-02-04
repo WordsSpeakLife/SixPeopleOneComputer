@@ -1,5 +1,73 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &698090412786105195
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8858867884032942307}
+  - component: {fileID: 8265071007756607636}
+  - component: {fileID: 7394511844153950224}
+  m_Layer: 0
+  m_Name: VisionCollison
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8858867884032942307
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698090412786105195}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2064355512165814078}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8265071007756607636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698090412786105195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 178137be63702d1439afbf1f66f65e76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemy: {fileID: 5296324045309253198}
+  agent: {fileID: 6056668636050723592}
+--- !u!135 &7394511844153950224
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698090412786105195}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 15
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4750421926461812084
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,7 +202,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyScript: {fileID: 5296324045309253198}
-  explosionEffect: {fileID: 8504844906412684055, guid: 27347c2fa1269f04c9cb5db2bf93129e, type: 3}
   damageableLayers:
     serializedVersion: 2
     m_Bits: 320
@@ -227,7 +294,6 @@ GameObject:
   - component: {fileID: 5296324045309253198}
   - component: {fileID: 6056668636050723592}
   - component: {fileID: 2725673328537361761}
-  - component: {fileID: 2900397635111487245}
   m_Layer: 8
   m_Name: Enemy_Bomber
   m_TagString: Untagged
@@ -243,7 +309,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6014359034079221822}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: -2.98, y: -12.743, z: -32.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -251,8 +317,9 @@ Transform:
   - {fileID: 8852454442671223942}
   - {fileID: 8490720079946658911}
   - {fileID: 1856787082811061641}
+  - {fileID: 8858867884032942307}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
 --- !u!114 &5296324045309253198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,12 +336,14 @@ MonoBehaviour:
   model: {fileID: 6806484286369851689}
   headPOS: {fileID: 1856787082811061641}
   enemyType: Bomber
+  explosionEffect: {fileID: 8692346434794658565, guid: 27347c2fa1269f04c9cb5db2bf93129e, type: 3}
   HP: 5
   faceTargetSpeed: 9
-  FOV: 45
+  FOV: 360
   roamDist: 15
   roamPauseTime: 1
   dropItem: {fileID: 0}
+  playerInTrigger: 0
 --- !u!195 &6056668636050723592
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -320,27 +389,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
---- !u!135 &2900397635111487245
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6014359034079221822}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 15
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6250812956752734472
 GameObject:
   m_ObjectHideFlags: 0

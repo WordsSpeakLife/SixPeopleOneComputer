@@ -9,6 +9,7 @@ public class MeleeEnemyAI : MonoBehaviour, IDamage
     [SerializeField] Renderer model;
     [SerializeField] Transform headPOS;
     [SerializeField] string enemyType;
+    [SerializeField] GameObject explosionEffect;
 
     [SerializeField] int HP;
     [SerializeField] int faceTargetSpeed;
@@ -31,7 +32,7 @@ public class MeleeEnemyAI : MonoBehaviour, IDamage
     Vector3 playerDir;
     Vector3 startingPos;
 
-    bool playerInTrigger;
+    public bool playerInTrigger;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -108,20 +109,6 @@ public class MeleeEnemyAI : MonoBehaviour, IDamage
         return false;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-            playerInTrigger = true;
-    }
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerInTrigger = false;
-            agent.stoppingDistance = 0;
-        }
-    }
-
     void faceTarget()
     {
         Quaternion rot = Quaternion.LookRotation(new Vector3(playerDir.x, transform.position.y, playerDir.z));
@@ -150,6 +137,7 @@ public class MeleeEnemyAI : MonoBehaviour, IDamage
 
     public void die()
     {
+        Instantiate(explosionEffect, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
 

@@ -17,7 +17,7 @@ public class TutorialPopup : MonoBehaviour
     IEnumerator ShowMessage()
     {
         GameManager.instance.ShowTutorial(message);
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(8);
         GameManager.instance.HideTutorial();
     }
 }

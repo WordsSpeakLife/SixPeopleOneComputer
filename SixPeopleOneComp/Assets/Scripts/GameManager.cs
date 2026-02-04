@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     [Header("---- Game Controls ----")]
     [SerializeField] public GameGoal GameType;
     [SerializeField] float GoalTimerEnd;
+    [SerializeField] bool isMainMenu;
 
     [Header("---- Menus ----")]
     [SerializeField] GameObject menuActive;
@@ -23,6 +24,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject startMenu;
     [SerializeField] GameObject menuAudio;
     [SerializeField] public GameObject HealthBar;
+    [SerializeField] public GameObject BossHealthBar;
     [SerializeField] TMP_Text keyCountText;
     public Sprite weaponIcon;
     [SerializeField] public GameObject CurrentWeapon;
@@ -36,7 +38,19 @@ public class GameManager : MonoBehaviour
     public GameObject tutorialPopup;
     [SerializeField] TMP_Text tutorialText;
 
+    [Header("---- Level Data ----")]
+    [Tooltip("Starts at 1, add 1 per level (ex: this is level 3 so it would be 1+1+1+1+1 so 5")]
+    [SerializeField] int LevelNumber;
 
+    [Tooltip("Leave blank if not in use")]
+    [SerializeField] public string NextLevelName;
+
+
+    [Header("---- Save Data ----")]
+    [SerializeField] public SaveData levels;
+
+
+    [Header("---- Other ----")]
     public bool isPaused;
     public GameObject player;
     public PlayerController playerScript;
@@ -50,6 +64,7 @@ public class GameManager : MonoBehaviour
     int gameGoalCount;
     float gameGoalTimer;
 
+
     private int keyCount;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -61,8 +76,7 @@ public class GameManager : MonoBehaviour
         SetCreditsRequiredUI(0);
         timeScaleOrig = Time.timeScale;
         if (GameType != GameGoal.None)
-        { 
-
+        {
             player = GameObject.FindWithTag("Player");
             playerScript = player.GetComponent<PlayerController>();
             playerCamera = Camera.main;
@@ -87,18 +101,20 @@ public class GameManager : MonoBehaviour
             if (gameGoalTimer >= GoalTimerEnd)
                 updateGameGoal(0);
         }
-
-        if (Input.GetButtonDown("Cancel"))
+        if (!isMainMenu)
         {
-            if (menuActive == null)
+            if (Input.GetButtonDown("Cancel"))
             {
-                statePause();
-                menuActive = menuPause;
-                menuActive.SetActive(true);
-            }
-            else if (menuActive == menuPause)
-            {
-                stateUnpause();
+                if (menuActive == null)
+                {
+                    statePause();
+                    menuActive = menuPause;
+                    menuActive.SetActive(true);
+                }
+                else if (menuActive == menuPause)
+                {
+                    stateUnpause();
+                }
             }
         }
     }
@@ -115,10 +131,13 @@ public class GameManager : MonoBehaviour
     {
         isPaused = false;
         Time.timeScale = timeScaleOrig;
-        Cursor.visible = true;
+        Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
-        menuActive.SetActive(false);
-        menuActive = null;
+        if (menuActive != null)
+        {
+            menuActive.SetActive(false);
+            menuActive = null;
+        }
     }
 
     public void stateUnpauseMM()
@@ -127,8 +146,11 @@ public class GameManager : MonoBehaviour
         Time.timeScale = timeScaleOrig;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
-        menuActive.SetActive(false);
-        menuActive = null;
+        if (menuActive != null)
+        {
+            menuActive.SetActive(false);
+            menuActive = null;
+        }
     }
 
     public void youLose()
@@ -150,6 +172,10 @@ public class GameManager : MonoBehaviour
                 statePause();
                 menuActive = menuWin;
                 menuActive.SetActive(true);
+                if (levels.levelsUnlocked < LevelNumber)
+                {
+                    levels.levelsUnlocked = LevelNumber;
+                }
             }
         }
         else if (GameType == GameGoal.ReachGoal)
@@ -162,6 +188,10 @@ public class GameManager : MonoBehaviour
                 statePause();
                 menuActive = menuWin;
                 menuActive.SetActive(true);
+                if (levels.levelsUnlocked < LevelNumber)
+                {
+                    levels.levelsUnlocked = LevelNumber;
+                }
             }
         }
         else if (GameType == GameGoal.Timed)
@@ -174,6 +204,10 @@ public class GameManager : MonoBehaviour
                 statePause();
                 menuActive = menuWin;
                 menuActive.SetActive(true);
+                if (levels.levelsUnlocked < LevelNumber)
+                {
+                    levels.levelsUnlocked = LevelNumber;
+                }
             }
         }
     }

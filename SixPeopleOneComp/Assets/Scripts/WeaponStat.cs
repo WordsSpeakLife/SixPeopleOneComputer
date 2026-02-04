@@ -7,7 +7,7 @@ public class WeaponStat : ScriptableObject
     [Range(0, 500)] public float shootDistance;
     [Range(0.1f, 3)] public float shootRate;
     [Range(0, 10)] public float shootSpeed;
-    [SerializeField] GameObject bullet;
+    [SerializeField] public GameObject bullet;
 
     public bool isTri;
 
