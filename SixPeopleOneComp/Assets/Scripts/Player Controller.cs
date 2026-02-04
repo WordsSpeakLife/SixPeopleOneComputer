@@ -73,8 +73,8 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     [Header("---- Guns ----")]
     [SerializeField] List<WeaponStat> weaponList = new List<WeaponStat>();
     [Range(0, 20)][SerializeField] int ShootDamage;
-    [Range(0, 50)][SerializeField] float ShootDistance;
-    [Range(0, 10)][SerializeField] float ShootRate;
+    [Range(0, 500)][SerializeField] float ShootDistance;
+    [Range(0.1f, 3)][SerializeField] float ShootRate;
     [Range(0, 10)][SerializeField] float ShootSpeed;
     [Range(0, 1)][SerializeField] int gunRayOn;
 
@@ -257,7 +257,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             }
 
 
-            if (Input.GetButton("Fire1") && shootTimer >= ShootRate)
+            if (Input.GetButton("Fire1") && weaponList.Count > 0 && weaponList[weaponListPos].ammoCur > 0 && shootTimer >= ShootRate)
             {
                 shoot();
             }
