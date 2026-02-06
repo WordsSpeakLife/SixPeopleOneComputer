@@ -9,7 +9,8 @@ public class WeaponStat : ScriptableObject
     [Range(0, 10)] public float shootSpeed;
     [SerializeField] public GameObject bullet;
 
-    public bool isTri;
+    [Range(1,3)] public int radial;
+    [Range(1, 8)] public int bulletAmount;
 
     public Sprite weaponIcon;
 

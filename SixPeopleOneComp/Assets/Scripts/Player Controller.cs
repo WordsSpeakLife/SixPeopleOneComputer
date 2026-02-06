@@ -76,11 +76,11 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     [Range(0.1f, 3)][SerializeField] float ShootRate;
     [Range(0, 10)][SerializeField] float ShootSpeed;
     [Range(0, 1)][SerializeField] int gunRayOn;
-
+    [Range(1, 8)] public int bulletAmount;
     public int ammoHold;
     public int ammoAdd;
     public int ammoReload;
-    public bool isTri;
+    public int radial;
 
     bool wallRunActive = false;
 
@@ -409,6 +409,8 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
         Vector3 shootOrigin = ShootPos ? ShootPos.position : transform.position;
         Vector3 shootDir = GetAimDirection();
+        float addAngle = 0;
+
 
         if (gunRayOn == 1)
         {
@@ -420,17 +422,57 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             }
         }
         Quaternion bulletRot = Quaternion.LookRotation(shootDir);
-        if (!isTri)
+        if (radial == 1) //Single Shot!
         {
             Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot);
         }
-        else if (isTri)
+        else if (radial == 2) //Burst Shot!
         {
-            Instantiate(weaponList[weaponListPos].bullet, shootOrigin,bulletRot * Quaternion.Euler(0, 15, 0));
-            Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot);
-            Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, -15, 0));
+                if (bulletAmount % 2 == 1) //Odd number
+                {
+                    Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot);
+
+                    for (int i = 0; i < bulletAmount / 2; i++)
+                    {
+                        Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, (45 / bulletAmount) + addAngle, 0));
+                        Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, (-45 / bulletAmount) - addAngle, 0));
+                    addAngle = addAngle + (45 / bulletAmount);
+                    }
+                }
+                else if (bulletAmount % 2 == 0) // Even number
+                {
+                    for (int i = 0; i < bulletAmount / 2; i++)
+                    {
+                        Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, ((45 / bulletAmount)/2 + addAngle), 0));
+                        Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, ((-45 / bulletAmount)/2 - addAngle), 0));
+                        addAngle = addAngle + (45 / bulletAmount);
+                    }
+            }
         }
-        SoundManager.instance.PlaySound3D("shoots", transform.position);
+        else if (radial == 3) //Radial Shot!
+        {
+            if (bulletAmount % 2 == 1)
+            {
+                Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot);
+                for (int i = 0; i < bulletAmount; i++)
+                {
+                    Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, (360 / bulletAmount) + addAngle, 0));
+
+                    addAngle += (360 / bulletAmount);
+                }
+            }
+            else if(bulletAmount % 2 == 0)
+            {
+                for (int i = 0; i < bulletAmount; i++)
+                {
+                    Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, (360 / bulletAmount) + addAngle, 0));
+
+                    addAngle += (360 / bulletAmount);
+                }
+            }
+
+        }
+            SoundManager.instance.PlaySound3D("shoots", transform.position);
     }
 
 
@@ -509,7 +551,8 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         ShootDistance = weaponList[weaponListPos].shootDistance;
         ShootRate = weaponList[weaponListPos].shootRate;
         ShootSpeed = weaponList[weaponListPos].shootSpeed;
-        isTri = weaponList[weaponListPos].isTri;
+        radial = weaponList[weaponListPos].radial;
+        bulletAmount = weaponList[weaponListPos].bulletAmount;
 
         weaponIcon.GetComponent<SpriteRenderer>().sprite = weaponList[weaponListPos].weaponIcon;
         // GameManager.instance.CurrentWeapon.GetComponent<SpriteRenderer>().sprite = weaponList[weaponListPos].weaponIcon;
@@ -518,6 +561,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         //GameManager.instance.weaponIcon = weaponIcon;
 
         //GameManager.instance.CurrentWeapon.GetComponent<SpriteRenderer>().sprite = weaponIcon.GetComponent<SpriteRenderer>().sprite;
+
     }
 
     void selectWep()

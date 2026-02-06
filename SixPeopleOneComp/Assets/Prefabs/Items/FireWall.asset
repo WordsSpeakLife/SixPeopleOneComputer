@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b24d54dafb060b04d88699bf88490309, type: 3}
-  m_Name: BasicShot
+  m_Name: FireWall
   m_EditorClassIdentifier: 
   shootDamage: 2
-  shootDistance: 50
-  shootRate: 0.2
+  shootDistance: 1
+  shootRate: 1
   shootSpeed: 0
-  bullet: {fileID: 1481135220882722262, guid: 5105ff43295a3ee44a7f80ff155a53d6, type: 3}
-  radial: 1
-  bulletAmount: 1
-  weaponIcon: {fileID: 21300000, guid: f4dc387e58eaaea43bea62014845e583, type: 3}
-  ammoCur: 14
-  ammoMax: 25
+  bullet: {fileID: 4269867625469957046, guid: 5899cf070ce20214c9b00b9800c0de9d, type: 3}
+  radial: 3
+  bulletAmount: 8
+  weaponIcon: {fileID: 21300000, guid: e1383f98d55288a469e0d3032efccfa6, type: 3}
+  ammoCur: 0
+  ammoMax: 5
