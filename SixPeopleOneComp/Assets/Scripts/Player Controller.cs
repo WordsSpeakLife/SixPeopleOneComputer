@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     [Range(0, 35)][SerializeField] int gravity;
     [Range(0, -35)][SerializeField] float wallRunGravity;
     [SerializeField] float RayDistance;
-     [SerializeField] float WallJumpRayDistance;
+    [SerializeField] float WallJumpRayDistance;
     [SerializeField] float WallRunRayDistance;
 
     [SerializeField] float BottomRayDistance;
@@ -116,6 +116,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     Vector3 wallMoveVector;
     bool hasWallForRun;
     float GroundCheck;
+    bool Fast;
 
 
 
@@ -159,8 +160,12 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             {
                 RaycastHit leftHit;
                 RaycastHit rightHit;
+                RaycastHit FrontHit;
+                RaycastHit BackHit;
                 bool hitLeft = Physics.Raycast(controller.transform.position, -controller.transform.right, out leftHit, RayDistance, ~ignoreLayer);
                 bool hitRight = Physics.Raycast(controller.transform.position, controller.transform.right, out rightHit, RayDistance, ~ignoreLayer);
+                bool hitFront = Physics.Raycast(controller.transform.position, controller.transform.forward, out FrontHit, RayDistance, ~ignoreLayer);
+                bool hitBack = Physics.Raycast(controller.transform.position, -controller.transform.forward, out BackHit, RayDistance, ~ignoreLayer);
                 hasWallForRun = false;
                 if (hitLeft && !IsRayOnGround(leftHit) && leftHit.collider.CompareTag("wall"))
                 {
@@ -170,6 +175,16 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 else if (hitRight && !IsRayOnGround(rightHit) && rightHit.collider.CompareTag("wall"))
                 {
                     currentWallHit = rightHit;
+                    hasWallForRun = true;
+                }
+                else if (hitFront && !IsRayOnGround(FrontHit) && FrontHit.collider.CompareTag("wall"))
+                {
+                    currentWallHit = FrontHit;
+                    hasWallForRun = true;
+                }
+                else if (hitBack && !IsRayOnGround(BackHit) && BackHit.collider.CompareTag("wall"))
+                {
+                    currentWallHit = BackHit;
                     hasWallForRun = true;
                 }
                 if (!hasWallForRun)
@@ -215,8 +230,20 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             HandleButtonPress(isGrounded);
             Vector3 movement = (moveDir * speed) + PlayerVelo; //+ wallMoveVector;
             controller.Move(movement * Time.deltaTime);
-        }
 
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                Fast = !Fast;
+            }
+            if (Fast)
+            {
+                speed = 40;
+            }
+            else
+            {
+                speed = 6;
+            }
+        }
         void HandleButtonPress(bool grounded)
         {
 
@@ -290,6 +317,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         }
 
 
+
         void wallJump()
         {
 
@@ -332,7 +360,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
             RaycastHit leftHit;
             RaycastHit rightHit;
-
             RaycastHit FrontHit;
             RaycastHit BackHit;
             bool hitLeft = Physics.Raycast(controller.transform.position, -controller.transform.right, out leftHit, WallRunRayDistance, ~ignoreLayer);
