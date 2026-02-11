@@ -10,6 +10,7 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
     [SerializeField] GameObject EyeLeftPos;
     [SerializeField] GameObject EyeRightPos;
     [SerializeField] Transform[] shootPos;
+    [SerializeField] Transform[] spawnPos;
     [SerializeField] string enemyType;
     [SerializeField] GameObject bullet;
 
@@ -19,6 +20,7 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
     [SerializeField] float shootRate;
     [SerializeField] float waveRate;
     [SerializeField] float lazerRate;
+
 
     Color colorOrig;
     Vector3 playerDirRight;
@@ -69,11 +71,11 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
         HP -= amount;
         GameManager.instance.BossHealthBar.GetComponent<Slider>().value = HP;
 
-        if(HP <= 200)
+        if(HP <= 250)
         {
             waveStart = true;
         }
-        if (HP <= 100)
+        if (HP <= 150)
         {
             lazerStart = true;
         }
@@ -117,7 +119,7 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
     IEnumerator shootLazer()
     {
         lazerTimer = 0;
-        yield return new WaitForSeconds(1f); 
+        yield return new WaitForSeconds(1f);
         Instantiate(bullet, EyeRightPos.transform.position, Quaternion.LookRotation(new Vector3(playerDirRight.x, playerDirRight.y, playerDirRight.z)));
         Instantiate(bullet, EyeLeftPos.transform.position, Quaternion.LookRotation(new Vector3(playerDirLeft.x, playerDirLeft.y, playerDirLeft.z)));
     }
