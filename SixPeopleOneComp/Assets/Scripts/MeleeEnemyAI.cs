@@ -137,8 +137,8 @@ public class MeleeEnemyAI : MonoBehaviour, IDamage
 
     public void die()
     {
-        Instantiate(explosionEffect, transform.position, Quaternion.identity);
         Destroy(gameObject);
+        Instantiate(explosionEffect, transform.position, Quaternion.identity);
     }
 
     public void flash()
