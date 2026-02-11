@@ -133,7 +133,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
 
 
-
         void Movement()
         {
 

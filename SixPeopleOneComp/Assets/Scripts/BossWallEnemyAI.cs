@@ -16,6 +16,9 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
 
     [SerializeField] int HP;
 
+    [SerializeField] PlatformManager FirstPlatforms;
+    [SerializeField] PlatformManager SecondPlatforms;
+
     [SerializeField] GameObject[] projectiles;
     [SerializeField] float shootRate;
     [SerializeField] float waveRate;
@@ -74,6 +77,7 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
         if(HP <= 250)
         {
             waveStart = true;
+            FirstPlatforms.startDroppingPlats();
         }
         if (HP <= 150)
         {
