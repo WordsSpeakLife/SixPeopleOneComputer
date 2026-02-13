@@ -269,7 +269,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 wallRun();
             }
 
-            if (Input.GetButtonDown("Fire2") && !grounded)
+            if (Input.GetButtonDown("Sprint") && !grounded)
             {
                 wallRunActive = false;
                 timerRunning = false;

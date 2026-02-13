@@ -23,11 +23,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject menuLose;
     [SerializeField] GameObject startMenu;
     [SerializeField] GameObject menuAudio;
+
+    [SerializeField]public GameObject LevelbuttonSelected;
     [SerializeField] public GameObject HealthBar;
     [SerializeField] public GameObject BossHealthBar;
     [SerializeField] TMP_Text keyCountText;
     public Sprite weaponIcon;
     [SerializeField] public GameObject CurrentWeapon;
+    [SerializeField] public GameObject EventSystem;
 
     [Header("---- Credits ----")]
     [SerializeField] TMP_Text creditsText;
@@ -59,7 +62,7 @@ public class GameManager : MonoBehaviour
     public Slider SfxSlider;
     public Camera playerCamera;
     float timeScaleOrig;
-    
+
 
     int gameGoalCount;
     float gameGoalTimer;
@@ -90,7 +93,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
-       // LoadVolume();
+        // LoadVolume();
         // UpdateMusicVolume(MusicSlider.value);
         // UpdateSoundVolume(SfxSlider.value);
         // SaveVolume();
