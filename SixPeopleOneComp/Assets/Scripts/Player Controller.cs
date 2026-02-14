@@ -347,7 +347,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                     //Debug.Log(" nuh huh ");
                     return;
                 }
-                else if (!IsRayOnGround(hit) && (prevWallJumpName == null || prevWallJumpName != hit.collider.name))
+                else if (!IsRayOnGround(hit) && (prevWallJumpName == null || prevWallJumpName != hit.collider.name) && hit.collider.CompareTag("wall"))
                 {
                     DashCount = 0;
                     Debug.Log(hit.collider.name + " wall Jump");
