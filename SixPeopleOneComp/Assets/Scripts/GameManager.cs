@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject menuLose;
     [SerializeField] GameObject startMenu;
     [SerializeField] GameObject menuAudio;
+    [SerializeField] GameObject menuStats;
     [SerializeField] public GameObject HealthBar;
     [SerializeField] public GameObject BossHealthBar;
     [SerializeField] TMP_Text keyCountText;
