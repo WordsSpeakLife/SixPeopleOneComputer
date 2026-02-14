@@ -10,6 +10,8 @@ public class DroppingPlatform : MonoBehaviour
     [SerializeField] float shakeDelay;
     [SerializeField] float destroyDelay;
 
+    Color colorOrig;
+
     float step;
     bool shouldShake;
     float shakeDelayTimer;
@@ -17,6 +19,7 @@ public class DroppingPlatform : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        colorOrig = model.material.color;
         shouldShake = false;
         shakeDelayTimer = 0.0f;
     }
@@ -26,7 +29,6 @@ public class DroppingPlatform : MonoBehaviour
     {
         if (shouldShake)
         {
-            StartCoroutine(ShakePlatform());
             step = speed * Time.deltaTime;
             shakeDelayTimer += Time.deltaTime;
         }
@@ -40,7 +42,8 @@ public class DroppingPlatform : MonoBehaviour
 
     public void dropPlatform()
     {
-        shouldShake = true;
+        shouldShake = true; 
+        StartCoroutine(ShakePlatform());
     }
 
     IEnumerator ShakePlatform()
@@ -48,9 +51,14 @@ public class DroppingPlatform : MonoBehaviour
         //Platform.position = new Vector3(Platform.position.x - 0.05f, Platform.position.y, Platform.position.z);
         //yield return new WaitForSeconds(0.1f);
         //Platform.position = new Vector3(Platform.position.x + 0.05f, Platform.position.y, Platform.position.z);
-        model.material.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
-        model.material.color = colorOrig;
+        while (true)
+        {
+
+            yield return new WaitForSeconds(0.4f);
+            model.material.color = Color.red;
+            yield return new WaitForSeconds(Random.Range(0.1f, 0.2f));
+            model.material.color = colorOrig;
+        }
     }
 
 }

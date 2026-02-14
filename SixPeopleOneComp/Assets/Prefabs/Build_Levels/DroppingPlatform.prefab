@@ -398,6 +398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bee8fa5b74a5bd94d8a53df79d33ed39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  model: {fileID: 1724673577241142620}
   endPoint: {fileID: 7420273138010651800}
   Platform: {fileID: 7555890013215143270}
   speed: 1

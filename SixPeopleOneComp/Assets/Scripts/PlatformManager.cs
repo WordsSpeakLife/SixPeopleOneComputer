@@ -14,14 +14,11 @@ public class PlatformManager : MonoBehaviour
     }
     public DropingPlatArrays[] PlatformWaves;
 
-    bool dropPlatforms;
-    float dropTimer;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        dropPlatforms = false;
-        dropTimer = 0.0f;
+
     }
 
     // Update is called once per frame
