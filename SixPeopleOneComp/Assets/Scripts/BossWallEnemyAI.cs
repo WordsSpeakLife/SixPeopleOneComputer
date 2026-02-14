@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Net;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -42,7 +43,8 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
 
     bool waveStart;
     bool lazerStart;
-
+    bool phaseTwo;
+    bool phaseThree;
 
     bool phaseTwoStart;
     bool phaseThreeStart;
@@ -88,6 +90,18 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
             if (mainObject.transform.position == secondPhasePos.position)
             {
                 phaseTwoStart = false;
+                step = 0f;
+            }
+        }
+
+        if (phaseThreeStart)
+        {
+            step = moveSpeed * Time.deltaTime;
+            mainObject.transform.position = Vector3.MoveTowards(mainObject.transform.position, thirdPhasePos.position, step);
+            if (mainObject.transform.position == thirdPhasePos.position)
+            {
+                phaseThreeStart = false;
+                step = 0f;
             }
         }
     }
@@ -107,17 +121,21 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
             Destroy(gameObject);
             SoundManager.instance.PlaySound3D("enemies", transform.position);
         }
-        else if (HP <= 150)
+        else if (HP <= 150 && !phaseThree)
         {
+            phaseThree = true;
             lazerStart = true;
-            //StartCoroutine(dropPlats(SecondPlatforms));
+            Instantiate(shield, shieldPos);
+            phaseThreeStart = true;
+            SecondPlatforms.startDroppingPlats();
         }
-        else if(HP <= 250)
+        else if(HP <= 250 && !phaseTwo)
         {
+            phaseTwo = true;
             waveStart = true;
             Instantiate(shield, shieldPos);
             phaseTwoStart = true;
-            StartCoroutine(dropPlats(FirstPlatforms));
+            FirstPlatforms.startDroppingPlats();
         }
         else
         {
@@ -137,14 +155,18 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
     {
         shootTimer = 0;
         yield return new WaitForSeconds(1f);
-        Instantiate(projectiles[Random.Range(0,projectiles.Length - 1)], shootPos[Random.Range(0, shootPos.Length - 1)]);
+        Vector3 spawnPos = shootPos[Random.Range(0, shootPos.Length - 1)].position;
+        Quaternion spawnRot = shootPos[Random.Range(0, shootPos.Length - 1)].rotation;
+        Instantiate(projectiles[Random.Range(0,projectiles.Length - 1)], spawnPos, spawnRot);
         
     }
     IEnumerator shootWave()
     {
         waveTimer = 0;
         yield return new WaitForSeconds(1f);
-        Instantiate(projectiles[2], shootPos[9]);
+        Vector3 spawnPos = shootPos[9].position;
+        Quaternion spawnRot = shootPos[9].rotation;
+        GameObject newObject = Instantiate(projectiles[2], spawnPos, spawnRot);
 
     }
     IEnumerator shootLazer()
@@ -153,12 +175,6 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
         yield return new WaitForSeconds(1f);
         Instantiate(bullet, EyeRightPos.transform.position, Quaternion.LookRotation(new Vector3(playerDirRight.x, playerDirRight.y, playerDirRight.z)));
         Instantiate(bullet, EyeLeftPos.transform.position, Quaternion.LookRotation(new Vector3(playerDirLeft.x, playerDirLeft.y, playerDirLeft.z)));
-    }
-
-    IEnumerator dropPlats(PlatformManager manager)
-    {
-        yield return new WaitForSeconds(1f);
-        manager.startDroppingPlats();
     }
 
 }

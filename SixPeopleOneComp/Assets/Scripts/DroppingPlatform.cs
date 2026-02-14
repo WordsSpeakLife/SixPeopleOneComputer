@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class DroppingPlatform : MonoBehaviour
 {
+    [SerializeField] Renderer model;
     [SerializeField] Transform endPoint;
     [SerializeField] Transform Platform;
     [SerializeField] float speed;
@@ -44,9 +45,12 @@ public class DroppingPlatform : MonoBehaviour
 
     IEnumerator ShakePlatform()
     {
-        Platform.position = new Vector3(Platform.position.x - 0.05f, Platform.position.y, Platform.position.z);
+        //Platform.position = new Vector3(Platform.position.x - 0.05f, Platform.position.y, Platform.position.z);
+        //yield return new WaitForSeconds(0.1f);
+        //Platform.position = new Vector3(Platform.position.x + 0.05f, Platform.position.y, Platform.position.z);
+        model.material.color = Color.red;
         yield return new WaitForSeconds(0.1f);
-        Platform.position = new Vector3(Platform.position.x + 0.05f, Platform.position.y, Platform.position.z);
+        model.material.color = colorOrig;
     }
 
 }
