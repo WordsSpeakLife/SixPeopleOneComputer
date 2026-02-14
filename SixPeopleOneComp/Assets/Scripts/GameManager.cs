@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
     [Header("---- Other ----")]
     public bool isPaused;
     public GameObject player;
+    public KeyBinds keyBinds;  
     public PlayerController playerScript;
     public AudioMixer audioMixer;
     public Slider MusicSlider;
@@ -85,7 +86,6 @@ public class GameManager : MonoBehaviour
             playerCamera = Camera.main;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
-
         }
     }
 

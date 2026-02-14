@@ -250,7 +250,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         void HandleButtonPress(bool grounded)
         {
 
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetKeyDown(GameManager.instance.keyBinds.Jump))
             {
 
                 if (!grounded && canWallJumpCheck())
@@ -272,7 +272,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 wallRun();
             }
 
-            if (Input.GetButtonDown("Sprint"))
+            if (Input.GetKeyDown(GameManager.instance.keyBinds.Dash))
             {
                 wallRunActive = false;
                 timerRunning = false;
@@ -292,7 +292,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             }
 
 
-            if (Input.GetButton("Fire1") && shootTimer >= ShootRate)
+            if (Input.GetKey(GameManager.instance.keyBinds.Shoot) && shootTimer >= ShootRate)
             {
                 if (weaponList.Count == 0)
                 {
