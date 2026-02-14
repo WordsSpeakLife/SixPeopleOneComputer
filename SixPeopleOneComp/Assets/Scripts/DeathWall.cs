@@ -12,7 +12,7 @@ public class DeathWall : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         transform.position += moveDir * Time.deltaTime;
     }
