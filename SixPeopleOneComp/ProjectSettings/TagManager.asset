@@ -10,6 +10,7 @@ TagManager:
   - Fadeable
   - playerBullet
   - Shoot_Obj
+  - Climbable
   layers:
   - Default
   - TransparentFX

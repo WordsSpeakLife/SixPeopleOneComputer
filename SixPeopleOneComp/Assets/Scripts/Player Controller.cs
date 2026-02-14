@@ -42,13 +42,16 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     [Range(0, 100)][SerializeField] float wallRunTimeOnWall;
     [Range(0, 20)][SerializeField] float wallStickForce = 5f;
     //[Range(0, 20)][SerializeField] int wallRunMax;
-
     [Header("---- Dash ----")]
     [Range(0, 50)][SerializeField] int dashSpeed;
     [Range(0, 1)][SerializeField] float dashTime;
     [Range(0, 1)][SerializeField] float DashResetTime;
     int DashCount;
+    int DashCountGround;
     [Range(0, 2)][SerializeField] int Dashmax;
+    [Range(0, 2)][SerializeField] int DashmaxGround;
+
+
 
     bool isDashing;
 
@@ -61,7 +64,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     [Range(0, 1)][SerializeField] float turnCalmTime;
 
     [Header("---- Physics ----")]
-    [Range(0, 35)][SerializeField] int gravity;
+    [Range(0, 35)][SerializeField] public int gravity;
     [Range(0, -35)][SerializeField] float wallRunGravity;
     [SerializeField] float RayDistance;
     [SerializeField] float WallJumpRayDistance;
@@ -92,7 +95,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     int jumpCount;
 
     int OriginalHp;
-    int gravityOrig;
+    public int gravityOrig;
     int weaponListPos;
 
     public GameObject weaponIcon;
@@ -101,7 +104,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
     Vector3 dashDir;
     Vector3 moveDir;
-    Vector3 PlayerVelo;
+    public Vector3 PlayerVelo;
     string prevWallJumpName;
     string prevWallRunName;
 
@@ -212,12 +215,13 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             if (isGrounded && PlayerVelo.y <= 0)
             {
                 jumpCount = 0;
-                DashCount = 0;
                 PlayerVelo.y = -2f;
                 prevWallJumpName = null;
                 prevWallRunName = null;
                 wallRunActive = false;
                 model.material.color = Color.cyan;
+                DashCount = 0;
+
                 TurnGravityOn();
             }
             else
@@ -269,16 +273,21 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 wallRun();
             }
 
-            if (Input.GetButtonDown("Sprint") && !grounded)
+            if (Input.GetButtonDown("Sprint"))
             {
                 wallRunActive = false;
                 timerRunning = false;
                 gravity = gravityOrig;
 
-                if (DashCount <= Dashmax)
+                if (DashCount <= Dashmax && !grounded)
                 {
                     dashDir = controller.transform.forward.normalized;
                     StartCoroutine(Dash());
+                }
+                else if (DashCountGround <= DashmaxGround)
+                {
+                    dashDir = controller.transform.forward.normalized;
+                    StartCoroutine(DashOnGround());
                 }
 
             }
@@ -734,7 +743,29 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         isGroundedCyote = Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, BottomRayDistance, ~ignoreLayer);
         cyoteTimeActive = false;
     }
-
+    IEnumerator DashOnGround()
+    {
+        float time = Time.time;
+        SoundManager.instance.PlaySound3D("dash 2", transform.position);
+        if (DashCountGround < DashmaxGround)
+        {
+            DashCountGround++;
+            while (Time.time < time + dashTime)
+            {
+                //Debug.Log("  time start ");
+                controller.Move(dashDir * dashSpeed * Time.deltaTime);
+                model.material.color = Color.green;
+                yield return null;
+                // Debug.Log("  time end ");
+            }
+            StartCoroutine(WaitAndResetDashCount());
+        }
+    }
+    IEnumerator WaitAndResetDashCount()
+    {
+        yield return new WaitForSeconds(1);
+        DashCountGround -= 1;
+    }
 
 
 }
