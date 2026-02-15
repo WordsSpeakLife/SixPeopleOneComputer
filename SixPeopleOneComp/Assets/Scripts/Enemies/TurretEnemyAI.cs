@@ -47,7 +47,9 @@ public class TurretEnemyAI : MonoBehaviour, IDamage
     float stoppingDistOrig;
 
     private Transform currentTarget;
-    private bool isTargetingA = true;
+    private Quaternion startRotation;
+    private Quaternion targetRotation;
+    private bool isTargetingA;
 
     Vector3 playerDir;
     Vector3 shootDir;
@@ -58,7 +60,9 @@ public class TurretEnemyAI : MonoBehaviour, IDamage
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        currentTarget = targetA;
+        currentTarget = targetA; 
+        startRotation = transform.rotation;
+        //targetRotation = Quaternion.Euler(0, 90, 0) * startRotation;
         colorOrig = model.material.color;
         if(GameManager.instance.GameType == GameManager.GameGoal.DefeatAllEnemies)
             GameManager.instance.updateGameGoal(1);
@@ -73,10 +77,10 @@ public class TurretEnemyAI : MonoBehaviour, IDamage
         {
             step = sweepSpeed * Time.deltaTime;
             Quaternion targetRot;
-            if (currentTarget)
-                targetRot = Quaternion.LookRotation(new Vector3(transform.rotation.x, transform.rotation.y + degreesToTurn, transform.rotation.z));
+            if (currentTarget == targetA)
+                targetRot = Quaternion.Euler(0, 90, 0) * startRotation;
             else
-                targetRot = Quaternion.LookRotation(new Vector3(transform.rotation.x, transform.rotation.y - (degreesToTurn * 2), transform.rotation.z));
+                targetRot = Quaternion.Euler(0, -90, 0) * startRotation;
 
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRot, step);
             if (Quaternion.Angle(transform.rotation, targetRot) <= 0.1f)
