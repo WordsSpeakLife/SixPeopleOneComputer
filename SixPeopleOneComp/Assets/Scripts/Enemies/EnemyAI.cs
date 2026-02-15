@@ -17,6 +17,8 @@ public class EnemyAI : MonoBehaviour, IDamage
     [Range(15, 360)][SerializeField] int FOV;
 
     [SerializeField] GameObject bullet;
+    [SerializeField] GameObject chargeBall;
+    [SerializeField] Color colorChargeOrig;
     [SerializeField] float shootRate;
 
     [SerializeField] GameObject creditsPickupPrefab;
@@ -30,16 +32,21 @@ public class EnemyAI : MonoBehaviour, IDamage
     float angleToPlayer;
     float stoppingDistOrig;
 
+    int faceTargetSpeedOrig;
+
     Vector3 playerDir;
+    Vector3 shootDir;
     Vector3 startingPos;
 
     public bool playerInTrigger;
+    bool firing = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        faceTargetSpeedOrig = faceTargetSpeed;
         colorOrig = model.material.color;
-        if(GameManager.instance.GameType == GameManager.GameGoal.DefeatAllEnemies)
+        if (GameManager.instance.GameType == GameManager.GameGoal.DefeatAllEnemies)
             GameManager.instance.updateGameGoal(1);
 
     }
@@ -58,6 +65,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     bool canSeePlayer()
     {
         playerDir = (GameManager.instance.player.transform.position - headPOS.position);
+        shootDir = (GameManager.instance.player.transform.position - shootPos.position);
         angleToPlayer = Vector3.Angle(playerDir, transform.forward);
         Debug.DrawRay(headPOS.position, playerDir);
 
@@ -73,7 +81,7 @@ public class EnemyAI : MonoBehaviour, IDamage
                     faceTarget();
                 }
 
-                if (shootTimer >= shootRate)
+                if (shootTimer >= shootRate && !firing)
                 {
                     shoot();
                 }
@@ -98,15 +106,19 @@ public class EnemyAI : MonoBehaviour, IDamage
         shootTimer = 0;
         if (enemyType == "Basic")
         {
-            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(playerDir.x, playerDir.y, playerDir.z)));
+            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(shootDir.x, shootDir.y, shootDir.z)));
             SoundManager.instance.PlaySound3D("shoots", transform.position);
         }
         else if (enemyType == "Burst")
         {
-            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(playerDir.x, playerDir.y, playerDir.z)) * Quaternion.Euler(0,15, 0));
-            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(playerDir.x, playerDir.y, playerDir.z)));
-            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(playerDir.x, playerDir.y, playerDir.z)) * Quaternion.Euler(0,-15, 0));
+            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(shootDir.x, shootDir.y, shootDir.z)) * Quaternion.Euler(0,15, 0));
+            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(shootDir.x, shootDir.y, shootDir.z)));
+            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(shootDir.x, shootDir.y, shootDir.z)) * Quaternion.Euler(0,-15, 0));
             SoundManager.instance.PlaySound3D("shoots", transform.position);
+        }
+        else if (enemyType == "Charged")
+        {
+            StartCoroutine(fireLazer());
         }
     }
     public void takeDamage(int amount)
@@ -145,6 +157,28 @@ public class EnemyAI : MonoBehaviour, IDamage
         model.material.color = Color.red;
         yield return new WaitForSeconds(0.1f);
         model.material.color = colorOrig;
+    }
+
+    IEnumerator fireLazer()
+    {
+        firing = true;
+        GameObject charge = Instantiate(chargeBall, shootPos);
+        for (int i = 0; i < 4; i++)
+        {
+            charge.GetComponent<MeshRenderer>().material.color = Color.red;
+            yield return new WaitForSeconds(0.2f);
+            charge.GetComponent<MeshRenderer>().material.color = colorChargeOrig;
+        }
+        Destroy(charge);
+        faceTargetSpeed = 1;
+        GameObject lazer = Instantiate(bullet, shootPos);
+        SoundManager.instance.PlaySound3D("shoots", transform.position);
+        agent.stoppingDistance = stoppingDistOrig;
+        yield return new WaitForSeconds(4f);
+        Destroy(lazer);
+        faceTargetSpeed = faceTargetSpeedOrig;
+        yield return new WaitForSeconds(4f);
+        firing = false;
     }
 
     public bool heal(int amount) { return false; }

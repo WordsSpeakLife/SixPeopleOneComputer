@@ -49,7 +49,7 @@ public class TurretEnemyAI : MonoBehaviour, IDamage
     private Transform currentTarget;
     private Quaternion startRotation;
     private Quaternion targetRotation;
-    private bool isTargetingA;
+    private bool isTargetingA = true;
 
     Vector3 playerDir;
     Vector3 shootDir;
