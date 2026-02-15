@@ -77,10 +77,14 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     [Range(0, 10)][SerializeField] float ShootSpeed;
     [Range(0, 1)][SerializeField] int gunRayOn;
     [Range(1, 8)] public int bulletAmount;
+    [SerializeField] GameObject constantHitbox;
     public int ammoHold;
     public int ammoAdd;
     public int ammoReload;
-    public int radial;
+    [Range(1, 5)] public int shootType;
+    bool isHoming;
+
+    bool reloading;
 
     bool wallRunActive = false;
 
@@ -92,7 +96,8 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     int gravityOrig;
     int weaponListPos;
 
-    public GameObject weaponIcon;
+    public Image weaponIcon;
+    public Image weaponIconFill;
 
     float shootTimer;
 
@@ -119,6 +124,8 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         OriginalHp = Hp;
         gravityOrig = gravity;
         duration = wallRunTimeOnWall;
+        weaponList[weaponListPos].ammoCur = weaponList[weaponListPos].ammoMax;
+        updateIconFill();
         //     GroundCheck = BottomRayDistance;
     }
 
@@ -255,7 +262,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             }
 
 
-            if (Input.GetButton("Fire1") && weaponList.Count > 0 && weaponList[weaponListPos].ammoCur > 0 && shootTimer >= ShootRate)
+            if (Input.GetButton("Fire1") && weaponList.Count > 0 && weaponList[weaponListPos].ammoCur > 0 && shootTimer >= ShootRate && Time.deltaTime > 0)
             {
                 if(weaponList.Count == 0)
                 {
@@ -263,6 +270,11 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 }
                 shoot();
             }
+
+            //if (Input.GetButton("Fire1") && weaponList.Count > 0 && weaponList[weaponListPos].ammoCur <= 1)
+            //    SoundManager.instance.PlaySound3D("Jumps", transform.position);
+
+            changeWep();
         selectWep();
         reload();
         }
@@ -404,12 +416,11 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     private void shoot()
     {
         shootTimer = 0;
-
         weaponList[weaponListPos].ammoCur--;
-
         Vector3 shootOrigin = ShootPos ? ShootPos.position : transform.position;
         Vector3 shootDir = GetAimDirection();
         float addAngle = 0;
+
 
 
         if (gunRayOn == 1)
@@ -422,11 +433,11 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             }
         }
         Quaternion bulletRot = Quaternion.LookRotation(shootDir);
-        if (radial == 1) //Single Shot!
+        if (shootType == 1) //Single Shot!
         {
             Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot);
         }
-        else if (radial == 2) //Burst Shot!
+        else if (shootType == 2) //Burst Shot!
         {
                 if (bulletAmount % 2 == 1) //Odd number
                 {
@@ -449,7 +460,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                     }
             }
         }
-        else if (radial == 3) //Radial Shot!
+        else if (shootType == 3) //Radial Shot!
         {
             if (bulletAmount % 2 == 1)
             {
@@ -470,8 +481,19 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                     addAngle += (360 / bulletAmount);
                 }
             }
-
         }
+        //else if (shootType == 4)  //Hitbox
+        //{
+        //    if (Input.GetButtonDown("fire1"))
+        //    {
+
+        //    }
+        //    else if (Input.GetButtonUp("fire1"))
+        //    {
+
+        //    }
+        //}
+
             SoundManager.instance.PlaySound3D("shoots", transform.position);
     }
 
@@ -480,7 +502,15 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     {
         if (Input.GetButtonDown("Reload") && weaponList.Count > 0)
         {
-            weaponList[weaponListPos].ammoCur = weaponList[weaponListPos].ammoMax;
+            //reloading = true; 
+
+            //if(reloading == true)
+            //{
+            //    for (int i = 0; i < 50f * Time.deltaTime; i++)
+            //    {
+                    weaponList[weaponListPos].ammoCur = weaponList[weaponListPos].ammoMax;
+            //    }
+            //}
         }
     }
     public void takeDamage(int amount)
@@ -551,30 +581,43 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         ShootDistance = weaponList[weaponListPos].shootDistance;
         ShootRate = weaponList[weaponListPos].shootRate;
         ShootSpeed = weaponList[weaponListPos].shootSpeed;
-        radial = weaponList[weaponListPos].radial;
+        shootType = weaponList[weaponListPos].shootType;
         bulletAmount = weaponList[weaponListPos].bulletAmount;
+        isHoming = weaponList[weaponListPos].isHoming;
 
-        weaponIcon.GetComponent<SpriteRenderer>().sprite = weaponList[weaponListPos].weaponIcon;
-        // GameManager.instance.CurrentWeapon.GetComponent<SpriteRenderer>().sprite = weaponList[weaponListPos].weaponIcon;
+        weaponIcon.sprite = weaponList[weaponListPos].weaponIcon;
+        weaponIconFill.sprite = weaponList[weaponListPos].weaponIconFill;
+        GameManager.instance.weaponIcon.sprite = weaponList[weaponListPos].weaponIcon;
+        GameManager.instance.weaponIconFill.sprite = weaponList[weaponListPos].weaponIconFill;
+
+        updateIconFill();
 
         //weaponIcon = weaponList[weaponListPos].weaponIcon;
         //GameManager.instance.weaponIcon = weaponIcon;
 
         //GameManager.instance.CurrentWeapon.GetComponent<SpriteRenderer>().sprite = weaponIcon.GetComponent<SpriteRenderer>().sprite;
+    }
 
+    public void updateIconFill()
+    {
+        weaponIconFill.fillAmount = (float)weaponList[weaponListPos].ammoCur / weaponList[weaponListPos].ammoMax;
+        GameManager.instance.weaponIconFill.fillAmount = (float)weaponList[weaponListPos].ammoCur / weaponList[weaponListPos].ammoMax;
     }
 
     void selectWep()
     {
-        if (Input.GetAxis("Mouse ScrollWheel") > 0 && weaponListPos < weaponList.Count - 1)
+        if (Time.deltaTime > 0)
         {
-            weaponListPos++;
-            changeWep();
-        }
-        if (Input.GetAxis("Mouse ScrollWheel") < 0 && weaponListPos > 0)
-        {
-            weaponListPos--;
-            changeWep();
+            if (Input.GetAxis("Mouse ScrollWheel") > 0 && weaponListPos < weaponList.Count - 1)
+            {
+                weaponListPos++;
+                changeWep();
+            }
+            if (Input.GetAxis("Mouse ScrollWheel") < 0 && weaponListPos > 0)
+            {
+                weaponListPos--;
+                changeWep();
+            }
         }
     }
 

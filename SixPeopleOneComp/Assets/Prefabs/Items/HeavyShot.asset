@@ -17,8 +17,12 @@ MonoBehaviour:
   shootRate: 1
   shootSpeed: 0
   bullet: {fileID: 1481135220882722262, guid: 1eec6629f9d7875419df0ae64bc86114, type: 3}
-  radial: 1
+  constantHitbox: {fileID: 0}
+  isHoming: 0
+  shootType: 1
   bulletAmount: 1
-  weaponIcon: {fileID: 21300000, guid: f9b38b1c2dc3f8b4dba90004695ae399, type: 3}
+  weaponIcon: {fileID: 21300000, guid: b7ee567e1e8ca70459d7f1d190bc8592, type: 3}
+  weaponIconFill: {fileID: 21300000, guid: f9b38b1c2dc3f8b4dba90004695ae399, type: 3}
+  weaponName: 
   ammoCur: 5
   ammoMax: 5
