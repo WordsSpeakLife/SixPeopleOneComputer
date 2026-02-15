@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 
 public class ButtonFunctions : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class ButtonFunctions : MonoBehaviour
     {
         GameManager.instance.stateUnpauseMM();
         SceneManager.LoadScene("startMenu");
+        EventSystem.current.SetSelectedGameObject(GameManager.instance.LevelbuttonSelected);  
     }
 
     public void resume()

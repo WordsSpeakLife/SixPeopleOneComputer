@@ -416,9 +416,11 @@ MonoBehaviour:
   MouseOn: 1
   turnCalmVelocity: 0.5
   turnCalmTime: 0.1
-  gravity: 17
-  wallRunGravity: -3
+  gravity: 20
+  wallRunGravity: 0
   RayDistance: 0.5
+  WallJumpRayDistance: 0.76
+  WallRunRayDistance: 0.5
   BottomRayDistance: 0.9
   airDrag: 8.01
   weaponList:
