@@ -132,6 +132,9 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+       
+            
+
         OriginalHp = Hp;
         gravityOrig = gravity;
         duration = wallRunTimeOnWall;
@@ -874,11 +877,36 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         DashCountGround -= 1;
     }
 
+
+
+    public int GetHP()
+    {
+        return Hp;
+    }
+
+    public void SetHP(int value)
+    {
+        Hp = value;
+        GameManager.instance.HealthBar.GetComponent<Slider>().value = Hp;
+    }
+
+    public void TeleportTo(Vector3 pos)
+    {
+        PlayerVelo = Vector3.zero;
+        moveDir = Vector3.zero;
+
+        controller.enabled = false;
+        transform.position = pos;
+        controller.enabled = true;
+    }
+
+
     IEnumerator FlashDamage()
     {
         GameManager.instance.DamageFlash.SetActive(true);
         yield return new WaitForSeconds(0.1f);
         GameManager.instance.DamageFlash.SetActive(false);
     }
+
 }
 

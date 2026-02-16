@@ -11,8 +11,6 @@ public class wallFade : MonoBehaviour
     [SerializeField] Material solidWallMaterial;        // Opaque version
     [SerializeField] Material transparentWallMaterial;  // Transparent version
 
-
-
     [Header("Fade Settings")]
     [Range(0f, 1f)]
     [SerializeField] float fadedAlpha = 0.2f;
@@ -21,16 +19,22 @@ public class wallFade : MonoBehaviour
     [Header("Aim")]
     [SerializeField] float aimHeight = 1.0f;
 
-    // Stores original alpha value for each wall renderer
-    Dictionary<Renderer, float> originalAlphaByRenderer = new Dictionary<Renderer, float>();
-    Dictionary<Renderer, Material> originalMaterialByRenderer = new Dictionary<Renderer, Material>();
-
-
+    [Header("Layers")]
+    [SerializeField] int fadedWallLayer = 21;
 
     // Renderers hit THIS frame
+    Dictionary<Renderer, Material> originalMaterialByRenderer = new Dictionary<Renderer, Material>();
     HashSet<Renderer> blockingRenderersThisFrame = new HashSet<Renderer>();
 
+    Dictionary<Collider, int> originalLayerByCollider = new Dictionary<Collider, int>();
 
+    // Stores original alpha value for each wall renderer
+    Dictionary<Renderer, Collider> rendererToCollider = new Dictionary<Renderer, Collider>();
+
+    void Start()
+    {
+        Debug.Log("fadeableLayers mask value = " + fadeableLayers.value);
+    }
     void LateUpdate()
     {
         if (!GameManager.instance.player) return;
@@ -53,26 +57,33 @@ public class wallFade : MonoBehaviour
         // Fade walls currently blocking the view
         for (int i = 0; i < hits.Length; i++)
         {
-            Renderer wallRenderer =
-                hits[i].collider.GetComponentInChildren<Renderer>();
+
+            Collider hitCol = hits[i].collider;
+            if (!hitCol) continue;
+
+            Renderer wallRenderer = hitCol.GetComponent<Renderer>();
+            if (!wallRenderer)
+                wallRenderer = hitCol.GetComponentInChildren<Renderer>();
 
             if (!wallRenderer) continue;
 
             blockingRenderersThisFrame.Add(wallRenderer);
 
+
+
             if (!originalMaterialByRenderer.ContainsKey(wallRenderer))
                 originalMaterialByRenderer[wallRenderer] = wallRenderer.sharedMaterial;
 
-            if (!originalAlphaByRenderer.ContainsKey(wallRenderer))
-                originalAlphaByRenderer[wallRenderer] = 1f;
+            if (!originalLayerByCollider.ContainsKey(hitCol))
+                originalLayerByCollider[hitCol] = hitCol.gameObject.layer;
+
+            hitCol.gameObject.layer = fadedWallLayer;
+
+            if (!rendererToCollider.ContainsKey(wallRenderer))
+                rendererToCollider[wallRenderer] = hitCol;
 
             if (wallRenderer.sharedMaterial != transparentWallMaterial)
                 wallRenderer.sharedMaterial = transparentWallMaterial;
-
-            float currentAlpha = wallRenderer.sharedMaterial.color.a;
-            float newAlpha = Mathf.Lerp(currentAlpha, fadedAlpha, fadeSpeed * Time.deltaTime);
-
-
 
             float fadedValue = Mathf.Lerp(
                 wallRenderer.material.color.a,
@@ -93,7 +104,7 @@ public class wallFade : MonoBehaviour
             if (!wallRenderer)
             {
                 originalMaterialByRenderer.Remove(wallRenderer);
-                originalAlphaByRenderer.Remove(wallRenderer);
+                rendererToCollider.Remove(wallRenderer);
                 continue;
             }
 
@@ -108,8 +119,19 @@ public class wallFade : MonoBehaviour
             if (Mathf.Abs(newAlpha - 1f) < 0.01f)
             {
                 wallRenderer.sharedMaterial = solidWallMaterial;
+
+                if (rendererToCollider.TryGetValue(wallRenderer, out Collider col) && col)
+                {
+                    if (originalLayerByCollider.TryGetValue(col, out int originalLayer))
+                    {
+                        col.gameObject.layer = originalLayer;
+                        originalLayerByCollider.Remove(col);
+                    }
+                }
+
+                rendererToCollider.Remove(wallRenderer);
                 originalMaterialByRenderer.Remove(wallRenderer);
-                originalAlphaByRenderer.Remove(wallRenderer);
+
             }
         }
     }
@@ -121,6 +143,7 @@ public class wallFade : MonoBehaviour
         renderer.material.color = color;
     }
 }
+
 
 
 
