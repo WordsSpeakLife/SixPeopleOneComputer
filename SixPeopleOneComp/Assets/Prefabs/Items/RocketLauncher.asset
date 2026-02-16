@@ -18,9 +18,11 @@ MonoBehaviour:
   shootSpeed: 0
   bullet: {fileID: 1900461727556831851, guid: 0df9b73fb631d384382a565709e4d1ee, type: 3}
   constantHitbox: {fileID: 0}
+  isHoming: 0
   shootType: 1
   bulletAmount: 1
-  weaponIcon: {fileID: 21300000, guid: d903027a8ea064d4a8f61784d36a04b4, type: 3}
+  weaponIcon: {fileID: 21300000, guid: dc1ee523bd65fe144b83c00ab0ec05d8, type: 3}
+  weaponIconFill: {fileID: 21300000, guid: d903027a8ea064d4a8f61784d36a04b4, type: 3}
   weaponName: Rocket
   ammoCur: 4
   ammoMax: 5
