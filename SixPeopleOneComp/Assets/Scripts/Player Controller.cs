@@ -562,24 +562,23 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 }
             }
         }
-        else if (shootType == 4)  //Hitbox
-        {
-            if (FlameThrowerHitbox.activeSelf == false)
-            {
-                if (Input.GetKey(GameManager.instance.keyBinds.Shoot))
-                {
-                    FlameThrowerHitbox.transform.parent = controller.transform;
-                    FlameThrowerHitbox.SetActive(true);
-                }
-            }
-            else
-            {
-                if (Input.GetKeyDown(GameManager.instance.keyBinds.Shoot))
-                {
-                    FlameThrowerHitbox.SetActive(false);
-                }
-            }
-        }
+        // else if (shootType == 4)  //Hitbox
+        // {
+        //     if (FlameThrowerHitbox.activeSelf == false)
+        //     {
+        //         if (Input.GetKey(GameManager.instance.keyBinds.Shoot))
+        //         {
+        //             Instantiate(FlameThrowerHitbox);
+        //         }
+        //     }
+        //     else
+        //     {
+        //         if (Input.GetKeyDown(GameManager.instance.keyBinds.Shoot))
+        //         {
+        //                 Destroy(FlameThrowerHitbox);
+        //         }
+        //     }
+        // }
 
         SoundManager.instance.PlaySound3D("shoots", transform.position);
     }
