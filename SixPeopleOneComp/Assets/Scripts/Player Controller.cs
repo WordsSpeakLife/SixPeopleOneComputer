@@ -525,6 +525,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         Hp -= amount;
         model.material.color = Color.red;
         StartCoroutine(wait(0.2f, false));
+        StartCoroutine(FlashDamage());
 
         GameManager.instance.HealthBar.GetComponent<Slider>().value = Hp;
 
@@ -766,6 +767,11 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         DashCountGround -= 1;
     }
 
-
+    IEnumerator FlashDamage()
+    {
+        GameManager.instance.DamageFlash.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        GameManager.instance.DamageFlash.SetActive(false);
+    }
 }
 
