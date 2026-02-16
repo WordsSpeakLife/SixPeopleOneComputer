@@ -135,6 +135,9 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+       
+            
+
         OriginalHp = Hp;
         gravityOrig = gravity;
         duration = wallRunTimeOnWall;
@@ -657,10 +660,31 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
     public void GetWeaponStats(WeaponStat weapon)
     {
-        weaponList.Add(weapon);
-        weaponListPos = weaponList.Count - 1;
+        bool weaponInList = false;
+        for (int i = 0; i < weaponList.Count; i++)
+        {
+            if (weaponList[i] == weapon)
+            {
+                weaponInList = true; break;
+            }
+        }
+        if (!weaponInList)
+        {
+            weaponList.Add(weapon);
+            weaponListPos = weaponList.Count - 1;
+        }
+        else if (weaponInList)
+        {
+            for (int i = 0; i < weaponList.Count; i++)
+            {
+                if (weaponList[i] == weapon)
+                {
+                    weaponList[i].ammoCur = weaponList[i].ammoMax;
+                }
+            }
+        }
 
-        changeWep();
+            changeWep();
     }
     void changeWep()
     {
@@ -862,11 +886,36 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         DashCountGround -= 1;
     }
 
+
+
+    public int GetHP()
+    {
+        return Hp;
+    }
+
+    public void SetHP(int value)
+    {
+        Hp = value;
+        GameManager.instance.HealthBar.GetComponent<Slider>().value = Hp;
+    }
+
+    public void TeleportTo(Vector3 pos)
+    {
+        PlayerVelo = Vector3.zero;
+        moveDir = Vector3.zero;
+
+        controller.enabled = false;
+        transform.position = pos;
+        controller.enabled = true;
+    }
+
+
     IEnumerator FlashDamage()
     {
         GameManager.instance.DamageFlash.SetActive(true);
         yield return new WaitForSeconds(0.1f);
         GameManager.instance.DamageFlash.SetActive(false);
     }
+
 }
 

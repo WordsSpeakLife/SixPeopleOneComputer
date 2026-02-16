@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b24d54dafb060b04d88699bf88490309, type: 3}
   m_Name: flamethrower
   m_EditorClassIdentifier: 
-  shootDamage: 5
-  shootDistance: 57
+  shootDamage: 0
+  shootDistance: 0
   shootRate: 0.1
   shootSpeed: 0
   bullet: {fileID: 0}
@@ -21,8 +21,8 @@ MonoBehaviour:
   isHoming: 0
   shootType: 4
   bulletAmount: 1
-  weaponIcon: {fileID: 21300000, guid: e1383f98d55288a469e0d3032efccfa6, type: 3}
-  weaponIconFill: {fileID: 0}
+  weaponIcon: {fileID: 21300000, guid: 6b3a2350009219241afd6d633dfa50fc, type: 3}
+  weaponIconFill: {fileID: 21300000, guid: e1383f98d55288a469e0d3032efccfa6, type: 3}
   weaponName: Flamethrower
-  ammoCur: 27
+  ammoCur: 50
   ammoMax: 50
