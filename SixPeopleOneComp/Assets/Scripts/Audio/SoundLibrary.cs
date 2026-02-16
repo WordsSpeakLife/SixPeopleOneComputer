@@ -9,6 +9,7 @@ public struct SoundEffect
 
 public class SoundLibrary : MonoBehaviour
 {
+
     public SoundEffect[] soundEffects;
 
     public AudioClip GetClipFromName(string name)

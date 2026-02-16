@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour
     public Slider SfxSlider;
     public Camera playerCamera;
     float timeScaleOrig;
+    public GameObject DamageFlash;
 
 
     int gameGoalCount;
