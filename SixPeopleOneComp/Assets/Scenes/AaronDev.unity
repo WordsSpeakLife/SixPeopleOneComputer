@@ -2716,15 +2716,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7449485012702052854, guid: ff1465a8f8bf31945b560aa8979fc353, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -18.28
+      value: -115.98
       objectReference: {fileID: 0}
     - target: {fileID: 7449485012702052854, guid: ff1465a8f8bf31945b560aa8979fc353, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.67
+      value: 10.92
       objectReference: {fileID: 0}
     - target: {fileID: 7449485012702052854, guid: ff1465a8f8bf31945b560aa8979fc353, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.82
+      value: -6
       objectReference: {fileID: 0}
     - target: {fileID: 7449485012702052854, guid: ff1465a8f8bf31945b560aa8979fc353, type: 3}
       propertyPath: m_LocalRotation.w
@@ -24100,7 +24100,7 @@ GameObject:
   - component: {fileID: 1942360380}
   - component: {fileID: 1942360379}
   - component: {fileID: 1942360378}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: rewrr
   m_TagString: Untagged
   m_Icon: {fileID: 0}

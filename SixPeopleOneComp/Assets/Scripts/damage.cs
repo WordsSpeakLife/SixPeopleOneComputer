@@ -8,6 +8,7 @@ public class damage : MonoBehaviour
     [SerializeField] Rigidbody rb;
     [SerializeField] Collider col;
     [SerializeField]  Renderer rend;
+    
 
     [SerializeField] int damageAmount;
     [SerializeField] float damageRate;
