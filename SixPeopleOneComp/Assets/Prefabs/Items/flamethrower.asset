@@ -18,9 +18,11 @@ MonoBehaviour:
   shootSpeed: 0
   bullet: {fileID: 0}
   constantHitbox: {fileID: 5498186465426594476, guid: 33db707552407e944abb18dc4268fe06, type: 3}
+  isHoming: 0
   shootType: 4
   bulletAmount: 1
-  weaponIcon: {fileID: 21300000, guid: e1383f98d55288a469e0d3032efccfa6, type: 3}
+  weaponIcon: {fileID: 21300000, guid: 6b3a2350009219241afd6d633dfa50fc, type: 3}
+  weaponIconFill: {fileID: 21300000, guid: e1383f98d55288a469e0d3032efccfa6, type: 3}
   weaponName: Flamethrower
-  ammoCur: 0
+  ammoCur: 50
   ammoMax: 50
