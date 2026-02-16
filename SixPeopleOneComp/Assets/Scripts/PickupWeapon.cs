@@ -10,7 +10,6 @@ public class PickupWeapon : MonoBehaviour
 
         if(pik != null)
         {
-
             SoundManager.instance.PlaySound3D("pickupweapon", transform.position);
             weapon.ammoCur = weapon.ammoMax;
             pik.GetWeaponStats(weapon);
