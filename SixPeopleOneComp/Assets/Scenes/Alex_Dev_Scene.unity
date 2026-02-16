@@ -11587,10 +11587,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8832043349987910927, guid: e354b2d233454c949bb86582bcdd4b4d, type: 3}
-      propertyPath: keyBinds
-      value: 
-      objectReference: {fileID: 11400000, guid: c96c7d6fb32df6b40b59e1bf4aed70e8, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
