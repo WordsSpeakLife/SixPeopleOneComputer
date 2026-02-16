@@ -647,10 +647,31 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
     public void GetWeaponStats(WeaponStat weapon)
     {
-        weaponList.Add(weapon);
-        weaponListPos = weaponList.Count - 1;
+        bool weaponInList = false;
+        for (int i = 0; i < weaponList.Count; i++)
+        {
+            if (weaponList[i] == weapon)
+            {
+                weaponInList = true; break;
+            }
+        }
+        if (!weaponInList)
+        {
+            weaponList.Add(weapon);
+            weaponListPos = weaponList.Count - 1;
+        }
+        else if (weaponInList)
+        {
+            for (int i = 0; i < weaponList.Count; i++)
+            {
+                if (weaponList[i] == weapon)
+                {
+                    weaponList[i].ammoCur = weaponList[i].ammoMax;
+                }
+            }
+        }
 
-        changeWep();
+            changeWep();
     }
     void changeWep()
     {
