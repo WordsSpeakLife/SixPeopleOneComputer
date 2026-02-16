@@ -1102,15 +1102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b361e7f24a749d4094eabc412a2e724, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  allLevels:
-  - {fileID: 1978997819}
-  - {fileID: 1749322952}
-  - {fileID: 426677178}
-  - {fileID: 1533195727}
-  - {fileID: 556712110}
-  - {fileID: 1723574484}
-  - {fileID: 1425460727}
-  levels: {fileID: 11400000, guid: 4bc26bdcb7b7ed14bb92345e21618b31, type: 2}
+  allLevels: []
 --- !u!114 &401290531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7402,7 +7394,6 @@ MonoBehaviour:
   tutorialText: {fileID: 0}
   LevelNumber: 0
   NextLevelName: 
-  levels: {fileID: 11400000, guid: 4bc26bdcb7b7ed14bb92345e21618b31, type: 2}
   isPaused: 0
   player: {fileID: 0}
   playerScript: {fileID: 0}

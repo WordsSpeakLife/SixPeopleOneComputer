@@ -9,7 +9,6 @@ public class Checkpoint : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-        GameManager.instance.SaveGame();
 
         Debug.Log("Checkpoint Saved " + checkpointID);
     }

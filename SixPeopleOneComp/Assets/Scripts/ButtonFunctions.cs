@@ -15,7 +15,7 @@ public class ButtonFunctions : MonoBehaviour
 
     public void resetSave()
     {
-        GameManager.instance.levels.levelsUnlocked = 0;
+        PlayerPrefs.DeleteKey("LevelsUnlocked");
     }
 
     public void MainMenu()
