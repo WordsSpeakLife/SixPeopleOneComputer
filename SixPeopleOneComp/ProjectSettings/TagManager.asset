@@ -32,7 +32,7 @@ TagManager:
   - ignore_wall
   - Stop_nav_mesh
   - door
-  - 
+  - FadedWall
   - 
   - 
   - 

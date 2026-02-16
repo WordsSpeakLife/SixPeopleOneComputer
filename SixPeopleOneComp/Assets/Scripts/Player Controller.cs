@@ -116,6 +116,9 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+       
+            
+
         OriginalHp = Hp;
         gravityOrig = gravity;
         duration = wallRunTimeOnWall;
@@ -656,6 +659,27 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 Physics.Raycast(controller.transform.position, -controller.transform.right, out hit, RayDistance, ~ignoreLayer) ||
                 Physics.Raycast(controller.transform.position, controller.transform.forward, out hit, RayDistance, ~ignoreLayer) ||
                 Physics.Raycast(controller.transform.position, -controller.transform.forward, out hit, RayDistance, ~ignoreLayer);
+    }
+
+    public int GetHP()
+    {
+        return Hp;
+    }
+
+    public void SetHP(int value)
+    {
+        Hp = value;
+        GameManager.instance.HealthBar.GetComponent<Slider>().value = Hp;
+    }
+
+    public void TeleportTo(Vector3 pos)
+    {
+        PlayerVelo = Vector3.zero;
+        moveDir = Vector3.zero;
+
+        controller.enabled = false;
+        transform.position = pos;
+        controller.enabled = true;
     }
 
 }

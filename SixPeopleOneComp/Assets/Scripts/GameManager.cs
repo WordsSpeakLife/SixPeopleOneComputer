@@ -3,6 +3,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -83,6 +84,11 @@ public class GameManager : MonoBehaviour
             Cursor.lockState = CursorLockMode.Confined;
 
         }
+    }
+
+    private void Start()
+    {
+        //LoadGame();
     }
 
     // Update is called once per frame
@@ -281,4 +287,62 @@ public class GameManager : MonoBehaviour
         if (creditsRequiredText)
             creditsRequiredText.text = "Credits Required: " + amount;
     }
+
+    public void SaveCredits()
+    {
+        PlayerPrefs.SetInt("Credits", credits);
+        PlayerPrefs.Save();
+    }
+
+    public void LoadCredits()
+    {
+        if (PlayerPrefs.HasKey("Credits"))
+        {
+            credits = PlayerPrefs.GetInt("Credits");
+            UpdateCreditsUI();
+        }
+    }
+
+    public void SaveGame()
+    {
+        Vector3 pos = player.transform.position;
+
+        PlayerPrefs.SetFloat("PlayerX", pos.x);
+        PlayerPrefs.SetFloat("PlayerY", pos.y);
+        PlayerPrefs.SetFloat("PlayerZ", pos.z);
+
+        PlayerPrefs.SetInt("PlayerHP", playerScript.GetHP());
+        PlayerPrefs.SetInt("Credits", credits);
+
+        PlayerPrefs.Save();
+
+        Debug.Log("Game Saved");
+    }
+
+    public void LoadGame()
+    {
+        if (!PlayerPrefs.HasKey("PlayerX"))
+        {
+            Debug.Log("No Save Found");
+            return;
+        }
+        Vector3 pos = new Vector3
+        (PlayerPrefs.GetFloat("PlayerX"),
+        PlayerPrefs.GetFloat("PlayerY"),
+        PlayerPrefs.GetFloat("PlayerZ"));
+
+        playerScript.TeleportTo(pos);
+
+        playerScript.SetHP(PlayerPrefs.GetInt("PlayerHP", playerScript.GetHP()));
+        credits = PlayerPrefs.GetInt("Credits", credits);
+        UpdateCreditsUI();
+
+
+        Debug.Log("Game Loaded");
+        stateUnpause();
+    }
+
+    
+
+
 }
