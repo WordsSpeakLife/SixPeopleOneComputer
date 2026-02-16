@@ -42,13 +42,16 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     [Range(0, 100)][SerializeField] float wallRunTimeOnWall;
     [Range(0, 20)][SerializeField] float wallStickForce = 5f;
     //[Range(0, 20)][SerializeField] int wallRunMax;
-
     [Header("---- Dash ----")]
     [Range(0, 50)][SerializeField] int dashSpeed;
     [Range(0, 1)][SerializeField] float dashTime;
     [Range(0, 1)][SerializeField] float DashResetTime;
     int DashCount;
+    int DashCountGround;
     [Range(0, 2)][SerializeField] int Dashmax;
+    [Range(0, 2)][SerializeField] int DashmaxGround;
+
+
 
     bool isDashing;
 
@@ -61,9 +64,12 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     [Range(0, 1)][SerializeField] float turnCalmTime;
 
     [Header("---- Physics ----")]
-    [Range(0, 35)][SerializeField] int gravity;
+    [Range(0, 35)][SerializeField] public int gravity;
     [Range(0, -35)][SerializeField] float wallRunGravity;
     [SerializeField] float RayDistance;
+    [SerializeField] float WallJumpRayDistance;
+    [SerializeField] float WallRunRayDistance;
+
     [SerializeField] float BottomRayDistance;
 
     //[SerializeField] float wallRunRayBottomDistance;
@@ -89,16 +95,16 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     int jumpCount;
 
     int OriginalHp;
-    int gravityOrig;
+    public int gravityOrig;
     int weaponListPos;
 
     public GameObject weaponIcon;
 
     float shootTimer;
 
-
+    Vector3 dashDir;
     Vector3 moveDir;
-    Vector3 PlayerVelo;
+    public Vector3 PlayerVelo;
     string prevWallJumpName;
     string prevWallRunName;
 
@@ -107,9 +113,14 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     bool timerRunning = false;
     float timer;
     float duration;
+    // bool isGrounded;
+    bool isGroundedCyote;
+    bool cyoteTimeActive;
     Vector3 wallMoveVector;
     bool hasWallForRun;
     float GroundCheck;
+    bool Fast;
+
 
 
 
@@ -124,34 +135,25 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         duration = wallRunTimeOnWall;
         //     GroundCheck = BottomRayDistance;
     }
-
-    // Update is called once per frame
+    // Update is called once per fram
     void Update()
     {
-
         UpdateAimPoint();
         UpdateReticle();
         Movement();
-
-
-
-
+        if (!cyoteTimeActive)
+        {
+            StartCoroutine(CyoteTime(0.3f));
+        }
 
         void Movement()
         {
 
             bool isGrounded = Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, BottomRayDistance, ~ignoreLayer);
+            //isGroundedCyote = Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, BottomRayDistance, ~ignoreLayer);
             Debug.DrawRay(controller.transform.position, -controller.transform.up * BottomRayDistance, isGrounded ? Color.black : Color.red);
-            // bool isGrounded = Physics.Raycast(transform.position, Vector3.down, (controller.height / 2) + GroundCheck, ~ignoreLayer);
-            // Debug.DrawRay(transform.position, Vector3.down * ((controller.height / 2) + GroundCheck), isGrounded ? Color.green : Color.red);
-            //for wallJump and wallRun
-            // Debug.DrawRay(controller.transform.position, controller.transform.right * RayDistance, Color.green);
-            // Debug.DrawRay(controller.transform.position, -controller.transform.right * RayDistance, Color.blue);
-            //Debug.DrawRay(controller.transform.position, -controller.transform.up * BottomRayDistance, isGrounded ? Color.green : Color.red);
-            // Debug.DrawRay(controller.transform.position, controller.transform.forward * RayDistance, Color.green);
-            // Debug.DrawRay(controller.transform.position, -controller.transform.forward * RayDistance, Color.blue);
-            // // for shoot Distance
-            // Debug.DrawRay(controller.transform.position, controller.transform.forward * ShootDistance, Color.cyan);
+            Debug.DrawRay(controller.transform.position, controller.transform.right * WallJumpRayDistance, Color.green);
+            Debug.DrawRay(controller.transform.position, -controller.transform.right * WallJumpRayDistance, Color.blue);
             shootTimer += Time.deltaTime;
             RotatePlayerYawToMouse();
             moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
@@ -159,13 +161,16 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             PlayerVelo.x = Mathf.Lerp(PlayerVelo.x, 0, Time.deltaTime * airDrag);
             PlayerVelo.z = Mathf.Lerp(PlayerVelo.z, 0, Time.deltaTime * airDrag);
             wallMoveVector = Vector3.zero;
-
             if (wallRunActive && timerRunning)
             {
                 RaycastHit leftHit;
                 RaycastHit rightHit;
+                RaycastHit FrontHit;
+                RaycastHit BackHit;
                 bool hitLeft = Physics.Raycast(controller.transform.position, -controller.transform.right, out leftHit, RayDistance, ~ignoreLayer);
                 bool hitRight = Physics.Raycast(controller.transform.position, controller.transform.right, out rightHit, RayDistance, ~ignoreLayer);
+                bool hitFront = Physics.Raycast(controller.transform.position, controller.transform.forward, out FrontHit, RayDistance, ~ignoreLayer);
+                bool hitBack = Physics.Raycast(controller.transform.position, -controller.transform.forward, out BackHit, RayDistance, ~ignoreLayer);
                 hasWallForRun = false;
                 if (hitLeft && !IsRayOnGround(leftHit) && leftHit.collider.CompareTag("wall"))
                 {
@@ -175,6 +180,16 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 else if (hitRight && !IsRayOnGround(rightHit) && rightHit.collider.CompareTag("wall"))
                 {
                     currentWallHit = rightHit;
+                    hasWallForRun = true;
+                }
+                else if (hitFront && !IsRayOnGround(FrontHit) && FrontHit.collider.CompareTag("wall"))
+                {
+                    currentWallHit = FrontHit;
+                    hasWallForRun = true;
+                }
+                else if (hitBack && !IsRayOnGround(BackHit) && BackHit.collider.CompareTag("wall"))
+                {
+                    currentWallHit = BackHit;
                     hasWallForRun = true;
                 }
                 if (!hasWallForRun)
@@ -202,12 +217,13 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             if (isGrounded && PlayerVelo.y <= 0)
             {
                 jumpCount = 0;
-                DashCount = 0;
                 PlayerVelo.y = -2f;
                 prevWallJumpName = null;
                 prevWallRunName = null;
                 wallRunActive = false;
                 model.material.color = Color.cyan;
+                DashCount = 0;
+
                 TurnGravityOn();
             }
             else
@@ -219,9 +235,21 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             }
             HandleButtonPress(isGrounded);
             Vector3 movement = (moveDir * speed) + PlayerVelo; //+ wallMoveVector;
-            controller.Move(movement * Time.deltaTime + (Vector3.up * wallRunGravity * Time.deltaTime));
-        }
+            controller.Move(movement * Time.deltaTime);
 
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                Fast = !Fast;
+            }
+            if (Fast)
+            {
+                speed = 40;
+            }
+            else
+            {
+                speed = 6;
+            }
+        }
         void HandleButtonPress(bool grounded)
         {
 
@@ -232,9 +260,13 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 {
                     wallJump();
                 }
-                else if (grounded || jumpCount < jumpMax)
+                else if (grounded && jumpCount < jumpMax)
                 {
                     Jump();
+                }
+                else if (isGroundedCyote && !grounded && jumpCount < jumpMax)
+                {
+                    CyoteJump();
                 }
             }
             else if (!grounded && !wallRunActive)
@@ -243,16 +275,21 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 wallRun();
             }
 
-            if (Input.GetButtonDown("Fire2") && !grounded)
+            if (Input.GetButtonDown("Sprint"))
             {
                 wallRunActive = false;
                 timerRunning = false;
                 gravity = gravityOrig;
 
-                if (DashCount <= Dashmax)
+                if (DashCount <= Dashmax && !grounded)
                 {
-
+                    dashDir = controller.transform.forward.normalized;
                     StartCoroutine(Dash());
+                }
+                else if (DashCountGround <= DashmaxGround)
+                {
+                    dashDir = controller.transform.forward.normalized;
+                    StartCoroutine(DashOnGround());
                 }
 
             }
@@ -260,14 +297,14 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
             if (Input.GetButton("Fire1") && shootTimer >= ShootRate)
             {
-                if(weaponList.Count == 0)
+                if (weaponList.Count == 0)
                 {
                     return;
                 }
                 shoot();
             }
-        selectWep();
-        reload();
+            selectWep();
+            reload();
         }
         void Jump()
         {
@@ -279,6 +316,17 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 SoundManager.instance.PlaySound3D("Jumps", transform.position);
             }
         }
+        void CyoteJump()
+        {
+            if (!wallRunActive)
+            {
+                PlayerVelo.y = jumpSpeed;
+                // controller.Move(moveDir * speed * Time.deltaTime);
+                jumpCount++;
+                SoundManager.instance.PlaySound3D("Jumps", transform.position);
+            }
+        }
+
 
 
         void wallJump()
@@ -291,10 +339,10 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             // TurnGravityOn();
 
             RaycastHit GroundHit;
-            if (Physics.Raycast(controller.transform.position, -controller.transform.right, out hit, RayDistance, ~ignoreLayer) ||
-                Physics.Raycast(controller.transform.position, controller.transform.right, out hit, RayDistance, ~ignoreLayer) ||
-                Physics.Raycast(controller.transform.position, -controller.transform.forward, out hit, RayDistance, ~ignoreLayer) ||
-                Physics.Raycast(controller.transform.position, controller.transform.forward, out hit, RayDistance, ~ignoreLayer))
+            if (Physics.Raycast(controller.transform.position, -controller.transform.right, out hit, WallJumpRayDistance, ~ignoreLayer) ||
+                Physics.Raycast(controller.transform.position, controller.transform.right, out hit, WallJumpRayDistance, ~ignoreLayer) ||
+                Physics.Raycast(controller.transform.position, -controller.transform.forward, out hit, WallJumpRayDistance, ~ignoreLayer) ||
+                Physics.Raycast(controller.transform.position, controller.transform.forward, out hit, WallJumpRayDistance, ~ignoreLayer))
             {
 
                 if (Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, BottomRayDistance, ~ignoreLayer))
@@ -302,7 +350,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                     //Debug.Log(" nuh huh ");
                     return;
                 }
-                else if (!IsRayOnGround(hit) && (prevWallJumpName == null || prevWallJumpName != hit.collider.name))
+                else if (!IsRayOnGround(hit) && (prevWallJumpName == null || prevWallJumpName != hit.collider.name) && hit.collider.CompareTag("wall"))
                 {
                     DashCount = 0;
                     Debug.Log(hit.collider.name + " wall Jump");
@@ -323,11 +371,15 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
             RaycastHit leftHit;
             RaycastHit rightHit;
-            bool hitLeft = Physics.Raycast(controller.transform.position, -controller.transform.right, out leftHit, RayDistance, ~ignoreLayer);
-            bool hitRight = Physics.Raycast(controller.transform.position, controller.transform.right, out rightHit, RayDistance, ~ignoreLayer);
+            RaycastHit FrontHit;
+            RaycastHit BackHit;
+            bool hitLeft = Physics.Raycast(controller.transform.position, -controller.transform.right, out leftHit, WallRunRayDistance, ~ignoreLayer);
+            bool hitRight = Physics.Raycast(controller.transform.position, controller.transform.right, out rightHit, WallRunRayDistance, ~ignoreLayer);
+            bool hitFront = Physics.Raycast(controller.transform.position, controller.transform.forward, out FrontHit, WallRunRayDistance, ~ignoreLayer);
+            bool hitBack = Physics.Raycast(controller.transform.position, -controller.transform.forward, out BackHit, WallRunRayDistance, ~ignoreLayer);
 
 
-            if (hitLeft || hitRight)
+            if (hitLeft || hitRight || hitFront || hitBack)
             {
                 if (Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, BottomRayDistance, ~ignoreLayer))
                 {
@@ -338,7 +390,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 }
                 if (hitLeft && !IsRayOnGround(leftHit) && (prevWallRunName == null || prevWallRunName != leftHit.collider.name))
                 {
-                    if (Mathf.Abs(leftHit.normal.x) > 0.6f && leftHit.collider.CompareTag("wall") && !IsRayOnGround(leftHit))
+                    if (Mathf.Abs(leftHit.normal.x) > 0.0f && leftHit.collider.CompareTag("wall") && !IsRayOnGround(leftHit))
                     {
                         DashCount = 0;
                         currentWallHit = leftHit;
@@ -352,7 +404,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 }
                 if (hitRight && !IsRayOnGround(rightHit) && (prevWallRunName == null || prevWallRunName != rightHit.collider.name))
                 {
-                    if (Mathf.Abs(rightHit.normal.x) > 0.6f && rightHit.collider.CompareTag("wall") && !IsRayOnGround(rightHit))
+                    if (Mathf.Abs(rightHit.normal.x) > 0.0f && rightHit.collider.CompareTag("wall") && !IsRayOnGround(rightHit))
                     {
                         DashCount = 0;
                         currentWallHit = rightHit;
@@ -362,6 +414,32 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                         wallRunRayCastDirection(rightHit);
                         return;
 
+                    }
+                }
+                if (hitFront && !IsRayOnGround(FrontHit) && (prevWallRunName == null || prevWallRunName != FrontHit.collider.name))
+                {
+                    if (Mathf.Abs(FrontHit.normal.x) > 0.0f && FrontHit.collider.CompareTag("wall") && !IsRayOnGround(FrontHit))
+                    {
+                        DashCount = 0;
+                        currentWallHit = FrontHit;
+                        prevWallRunName = FrontHit.collider.name;
+                        wallRunActive = true;
+                        StartTimer();
+                        wallRunRayCastDirection(FrontHit);
+                        return;
+                    }
+                }
+                if (hitBack && !IsRayOnGround(BackHit) && (prevWallRunName == null || prevWallRunName != BackHit.collider.name))
+                {
+                    if (Mathf.Abs(BackHit.normal.x) > 0.0f && BackHit.collider.CompareTag("wall") && !IsRayOnGround(BackHit))
+                    {
+                        DashCount = 0;
+                        currentWallHit = BackHit;
+                        prevWallRunName = BackHit.collider.name;
+                        wallRunActive = true;
+                        StartTimer();
+                        wallRunRayCastDirection(BackHit);
+                        return;
                     }
                 }
 
@@ -385,7 +463,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 while (Time.time < time + dashTime)
                 {
                     //Debug.Log("  time start ");
-                    controller.Move(transform.forward.normalized * dashSpeed * Time.deltaTime);
+                    controller.Move(dashDir * dashSpeed * Time.deltaTime);
                     model.material.color = Color.green;
                     yield return null;
                     // Debug.Log("  time end ");
@@ -429,7 +507,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         }
         else if (isTri)
         {
-            Instantiate(weaponList[weaponListPos].bullet, shootOrigin,bulletRot * Quaternion.Euler(0, 15, 0));
+            Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, 15, 0));
             Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot);
             Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, -15, 0));
         }
@@ -655,11 +733,42 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     }
     bool canWallJumpCheck()
     {
-        return Physics.Raycast(controller.transform.position, controller.transform.right, out hit, RayDistance, ~ignoreLayer) ||
-                Physics.Raycast(controller.transform.position, -controller.transform.right, out hit, RayDistance, ~ignoreLayer) ||
-                Physics.Raycast(controller.transform.position, controller.transform.forward, out hit, RayDistance, ~ignoreLayer) ||
-                Physics.Raycast(controller.transform.position, -controller.transform.forward, out hit, RayDistance, ~ignoreLayer);
+        return Physics.Raycast(controller.transform.position, controller.transform.right, out hit, WallRunRayDistance, ~ignoreLayer) ||
+                Physics.Raycast(controller.transform.position, -controller.transform.right, out hit, WallJumpRayDistance, ~ignoreLayer) ||
+                Physics.Raycast(controller.transform.position, controller.transform.forward, out hit, WallJumpRayDistance, ~ignoreLayer) ||
+                Physics.Raycast(controller.transform.position, -controller.transform.forward, out hit, WallJumpRayDistance, ~ignoreLayer);
     }
+    IEnumerator CyoteTime(float amount)
+    {
+        cyoteTimeActive = true;
+        yield return new WaitForSeconds(amount);
+        isGroundedCyote = Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, BottomRayDistance, ~ignoreLayer);
+        cyoteTimeActive = false;
+    }
+    IEnumerator DashOnGround()
+    {
+        float time = Time.time;
+        SoundManager.instance.PlaySound3D("dash 2", transform.position);
+        if (DashCountGround < DashmaxGround)
+        {
+            DashCountGround++;
+            while (Time.time < time + dashTime)
+            {
+                //Debug.Log("  time start ");
+                controller.Move(dashDir * dashSpeed * Time.deltaTime);
+                model.material.color = Color.green;
+                yield return null;
+                // Debug.Log("  time end ");
+            }
+            StartCoroutine(WaitAndResetDashCount());
+        }
+    }
+    IEnumerator WaitAndResetDashCount()
+    {
+        yield return new WaitForSeconds(1);
+        DashCountGround -= 1;
+    }
+
 
     public int GetHP()
     {

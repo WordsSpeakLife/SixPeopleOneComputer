@@ -16,7 +16,7 @@ public class playerControl : MonoBehaviour
     int HPOrig;
 
     Vector3 moveDir;
-    Vector3 playerVelocity;
+ Vector3 playerVelocity;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
