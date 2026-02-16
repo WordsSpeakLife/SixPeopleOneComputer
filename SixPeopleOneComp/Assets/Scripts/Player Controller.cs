@@ -765,7 +765,5 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         yield return new WaitForSeconds(1);
         DashCountGround -= 1;
     }
-
-
 }
 
