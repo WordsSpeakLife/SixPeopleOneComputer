@@ -10,19 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b24d54dafb060b04d88699bf88490309, type: 3}
-  m_Name: TriShot
+  m_Name: RocketLauncher
   m_EditorClassIdentifier: 
-  shootDamage: 2
-  shootDistance: 50
-  shootRate: 0.5
+  shootDamage: 5
+  shootDistance: 500
+  shootRate: 2
   shootSpeed: 0
-  bullet: {fileID: 1481135220882722262, guid: f3cf403c74b6957458b0f7c2f777878c, type: 3}
+  bullet: {fileID: 1900461727556831851, guid: 0df9b73fb631d384382a565709e4d1ee, type: 3}
   constantHitbox: {fileID: 0}
-  isHoming: 0
-  shootType: 2
-  bulletAmount: 3
-  weaponIcon: {fileID: 21300000, guid: a9cbaf7b919892d49a26772f61cfdfb0, type: 3}
-  weaponIconFill: {fileID: 21300000, guid: 4a2688a2c5ac7e34c9938051d23f6250, type: 3}
-  weaponName: 
-  ammoCur: 7
-  ammoMax: 8
+  shootType: 1
+  bulletAmount: 1
+  weaponIcon: {fileID: 21300000, guid: d903027a8ea064d4a8f61784d36a04b4, type: 3}
+  weaponName: Rocket
+  ammoCur: 4
+  ammoMax: 5
