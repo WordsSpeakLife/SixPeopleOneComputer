@@ -17,18 +17,19 @@ public class GameManager : MonoBehaviour
     [SerializeField] bool isMainMenu;
 
     [Header("---- Menus ----")]
-    [SerializeField] GameObject menuActive;
+    [SerializeField] public GameObject menuActive;
     [SerializeField] GameObject menuPause;
     [SerializeField] GameObject menuWin;
     [SerializeField] GameObject menuLose;
     [SerializeField] GameObject startMenu;
     [SerializeField] GameObject menuAudio;
-
+    [SerializeField] public GameObject weaponRadialMenu;
     [SerializeField]public GameObject LevelbuttonSelected;
     [SerializeField] public GameObject HealthBar;
     [SerializeField] public GameObject BossHealthBar;
     [SerializeField] TMP_Text keyCountText;
-    public Sprite weaponIcon;
+    public Image weaponIcon;
+    public Image weaponIconFill;
     [SerializeField] public GameObject CurrentWeapon;
     [SerializeField] public GameObject EventSystem;
 
@@ -108,7 +109,7 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetButtonDown("Cancel"))
             {
-                if (menuActive == null)
+                if (menuActive == null || menuActive == weaponRadialMenu)
                 {
                     statePause();
                     menuActive = menuPause;
@@ -119,6 +120,17 @@ public class GameManager : MonoBehaviour
                     stateUnpause();
                 }
             }
+            //if (Input.GetButtonDown("Weapon Menu"))
+            //{
+            //    if (menuActive == null)
+            //    {
+            //        weaponRadial();
+            //    }
+            //}
+            //else if(Input.GetButtonUp("Weapon Menu") && menuActive == weaponRadialMenu)
+            //{
+            //    stateUnpause();
+            //}
         }
     }
 
@@ -162,6 +174,17 @@ public class GameManager : MonoBehaviour
         menuActive = menuLose;
         menuActive.SetActive(true);
     }
+
+    //public void weaponRadial()
+    //{
+    //    isPaused = false;
+    //    Time.timeScale = timeScaleOrig / 2;
+    //    Cursor.visible = true;
+    //    Cursor.lockState = CursorLockMode.Confined;
+    //    menuActive = weaponRadialMenu;
+    //    menuActive.SetActive(true);
+    //    weaponRadialMenu.GetComponent<RadialMenu>().Open();
+    //}
 
     public void updateGameGoal(int amount)
     {
@@ -214,6 +237,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
 
     public void UpdateMusicVolume(float volume)
     {
