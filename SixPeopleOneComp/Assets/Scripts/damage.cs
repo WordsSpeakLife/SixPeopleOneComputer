@@ -7,7 +7,8 @@ public class damage : MonoBehaviour
     [SerializeField] damageType type;
     [SerializeField] Rigidbody rb;
     [SerializeField] Collider col;
-   [SerializeField]  Renderer rend;
+    [SerializeField]  Renderer rend;
+    
 
     [SerializeField] int damageAmount;
     [SerializeField] float damageRate;
@@ -17,6 +18,14 @@ public class damage : MonoBehaviour
     [SerializeField]  Color startColor = Color.black;
     [SerializeField]  Color endColor = Color.red;
     public float duration = 2.0f;
+
+    [SerializeField] bool isHoming = false;
+    private Transform Target = null;
+    private GameObject[] targets;
+    float distance;
+    float closestTarget = Mathf.Infinity;
+    [SerializeField] int rotation;
+
 
     bool isDamaging;
 
@@ -29,6 +38,19 @@ public class damage : MonoBehaviour
 
             Destroy(gameObject, destroyTime);
 
+            if(isHoming == true)
+            {
+                FindEnemy();
+                rb.angularVelocity = transform.up * speed * Time.deltaTime;
+                if (Target != null)
+                {
+                    Vector3 direction = (Vector3)Target.position - this.transform.position;
+                    direction.Normalize();
+                    float rotationValue = Vector3.Cross(direction, transform.up).z;
+                    //rb.angularVelocity = -rotationValue * rotation;
+                    //rb.lin
+                }
+            }
 
         }
     }
@@ -36,6 +58,7 @@ public class damage : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.isTrigger) return;
+
 
         if (type == damageType.stationary)
         {
@@ -79,6 +102,21 @@ public class damage : MonoBehaviour
         }
     }
 
+    public void FindEnemy()
+    {
+        targets = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach (var enemy in targets)
+        {
+            distance = (enemy.transform.position - rb.transform.position).sqrMagnitude;
+
+            if (distance < closestTarget)
+            {
+                closestTarget = distance;
+                Target = enemy.transform;
+            }
+        }
+    }
     IEnumerator damageOther(IDamage d)
     {
         isDamaging = true;

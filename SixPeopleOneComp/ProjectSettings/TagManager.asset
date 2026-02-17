@@ -10,6 +10,7 @@ TagManager:
   - Fadeable
   - playerBullet
   - Shoot_Obj
+  - Enemy
   - Climbable
   layers:
   - Default
@@ -34,7 +35,8 @@ TagManager:
   - Stop_nav_mesh
   - door
   - FadedWall
-  - 
+  - Player Ability Wall
+  - FlameThrower
   - 
   - 
   - 
