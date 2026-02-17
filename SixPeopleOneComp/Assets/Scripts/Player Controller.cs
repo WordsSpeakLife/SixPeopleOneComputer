@@ -135,8 +135,8 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-       
-            
+
+
 
         OriginalHp = Hp;
         gravityOrig = gravity;
@@ -155,7 +155,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         {
             StartCoroutine(CyoteTime(0.3f));
         }
-
         void Movement()
         {
 
@@ -272,6 +271,16 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 }
                 else if (grounded && jumpCount < jumpMax)
                 {
+                    RaycastHit[] traps = Physics.RaycastAll(controller.transform.position, -controller.transform.up, 0.9f, ~ignoreLayer);
+                    if (traps.Length == 1 && traps[0].collider.CompareTag("Trap"))
+                    {
+                        return;
+                    }
+                    else if (traps.Length == 2)
+                    {
+                        Jump();
+                        return;
+                    }
                     Jump();
                 }
                 else if (isGroundedCyote && !grounded && jumpCount < jumpMax)
@@ -319,6 +328,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             selectWep();
             reload();
         }
+
         void Jump()
         {
             if (!wallRunActive)
@@ -329,6 +339,8 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 SoundManager.instance.PlaySound3D("Jumps", transform.position);
             }
         }
+
+
         void CyoteJump()
         {
             if (!wallRunActive)
@@ -582,7 +594,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         //         }
         //     }
         // }
-
         SoundManager.instance.PlaySound3D("shoots", transform.position);
     }
 
@@ -657,7 +668,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     }
 
 
-
     public void GetWeaponStats(WeaponStat weapon)
     {
         bool weaponInList = false;
@@ -684,7 +694,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             }
         }
 
-            changeWep();
+        changeWep();
     }
     void changeWep()
     {
