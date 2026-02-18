@@ -33094,15 +33094,7 @@ PrefabInstance:
       objectReference: {fileID: 1785462825}
     - target: {fileID: 1063209138923410681, guid: ea264bbe3c0f79643a6fa41c77ef2697, type: 3}
       propertyPath: m_VersionIndex
-      value: 5377
-      objectReference: {fileID: 0}
-    - target: {fileID: 1147360753220423118, guid: ea264bbe3c0f79643a6fa41c77ef2697, type: 3}
-      propertyPath: shield
-      value: 
-      objectReference: {fileID: 969900347761754410, guid: 20c103511e9bf1447a4c64e131b93715, type: 3}
-    - target: {fileID: 1147360753220423118, guid: ea264bbe3c0f79643a6fa41c77ef2697, type: 3}
-      propertyPath: moveSpeed
-      value: 3
+      value: 5380
       objectReference: {fileID: 0}
     - target: {fileID: 1147360753220423118, guid: ea264bbe3c0f79643a6fa41c77ef2697, type: 3}
       propertyPath: thirdPhasePos
@@ -33127,10 +33119,6 @@ PrefabInstance:
     - target: {fileID: 5099358695345143637, guid: ea264bbe3c0f79643a6fa41c77ef2697, type: 3}
       propertyPath: m_Name
       value: BossWall
-      objectReference: {fileID: 0}
-    - target: {fileID: 5099358695345143637, guid: ea264bbe3c0f79643a6fa41c77ef2697, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5983365798775514882, guid: ea264bbe3c0f79643a6fa41c77ef2697, type: 3}
       propertyPath: m_Mesh
@@ -33175,10 +33163,6 @@ PrefabInstance:
     - target: {fileID: 7001229333110529836, guid: ea264bbe3c0f79643a6fa41c77ef2697, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8382658795833603572, guid: ea264bbe3c0f79643a6fa41c77ef2697, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.346
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
