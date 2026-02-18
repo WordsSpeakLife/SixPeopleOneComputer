@@ -16528,6 +16528,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1487399340307712882, guid: 0a7beda6726b7ac45be06e3760823d1e, type: 3}
+      propertyPath: soundEffects.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1487399340307712882, guid: 0a7beda6726b7ac45be06e3760823d1e, type: 3}
+      propertyPath: soundEffects.Array.data[7].groupID
+      value: ShieldUp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1487399340307712882, guid: 0a7beda6726b7ac45be06e3760823d1e, type: 3}
+      propertyPath: soundEffects.Array.data[8].groupID
+      value: ShieldDown
+      objectReference: {fileID: 0}
+    - target: {fileID: 1487399340307712882, guid: 0a7beda6726b7ac45be06e3760823d1e, type: 3}
+      propertyPath: soundEffects.Array.data[7].clips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1487399340307712882, guid: 0a7beda6726b7ac45be06e3760823d1e, type: 3}
+      propertyPath: soundEffects.Array.data[8].clips.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1487399340307712882, guid: 0a7beda6726b7ac45be06e3760823d1e, type: 3}
+      propertyPath: 'soundEffects.Array.data[7].clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 90b703a5c431f6449b75e9a01beb1576, type: 3}
+    - target: {fileID: 1487399340307712882, guid: 0a7beda6726b7ac45be06e3760823d1e, type: 3}
+      propertyPath: 'soundEffects.Array.data[8].clips.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: c3f6e36cc80293846b6f6943cdd59013, type: 3}
     - target: {fileID: 3638825192882113219, guid: 0a7beda6726b7ac45be06e3760823d1e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 956.26666

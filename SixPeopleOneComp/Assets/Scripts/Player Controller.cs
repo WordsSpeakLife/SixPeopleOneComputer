@@ -354,7 +354,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 PlayerVelo.y = jumpSpeed;
                 // controller.Move(moveDir * speed * Time.deltaTime);
                 jumpCount++;
-                SoundManager.instance.PlaySound3D("Jumps", transform.position);
+                SoundManager.instance.PlaySound3D("Jumps", transform.position); 
             }
         }
 

@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 public class SoundManager : MonoBehaviour
@@ -26,7 +27,10 @@ public class SoundManager : MonoBehaviour
     {
         if (clip != null)
         {
-            AudioSource.PlayClipAtPoint(clip, pos);
+            float volume;
+            sfxSource.outputAudioMixerGroup.audioMixer.GetFloat("SFXVolume", out volume);
+            volume = Mathf.Clamp(Mathf.Pow(10,(volume * 0.05f)) * sfxSource.volume, 0.0f, 1.0f);
+            AudioSource.PlayClipAtPoint(clip, pos, volume);
         }
     }
 
