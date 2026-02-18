@@ -124,6 +124,7 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
         {
             phaseThree = true;
             lazerStart = true;
+            SoundManager.instance.PlaySound3D("ShieldUp", transform.position);
             Instantiate(shield, shieldPos);
             phaseThreeStart = true;
             SecondPlatforms.startDroppingPlats();
@@ -132,6 +133,7 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
         {
             phaseTwo = true;
             waveStart = true;
+            SoundManager.instance.PlaySound3D("ShieldUp", transform.position);
             Instantiate(shield, shieldPos);
             phaseTwoStart = true;
             FirstPlatforms.startDroppingPlats();
