@@ -7,8 +7,15 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
 {
 
     [SerializeField] GameObject mainObject;
+    [SerializeField] AudioSource audioplayer;
+    [SerializeField] AudioClip rumble;
     [SerializeField] Renderer model;
     [SerializeField] GameObject Face;
+    [SerializeField] GameObject Eyes;
+    [SerializeField] GameObject EyerisLeft;
+    [SerializeField] GameObject EyerisRight;
+    [SerializeField] GameObject EyeHurtLeft;
+    [SerializeField] GameObject EyeHurtRight;
     [SerializeField] GameObject EyeLeftPos;
     [SerializeField] GameObject EyeRightPos;
     [SerializeField] Transform[] shootPos;
@@ -51,6 +58,9 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
     float shootTimer;
     float waveTimer;
     float lazerTimer;
+    float blinkTimer;
+
+    bool isHurt = false;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -63,6 +73,7 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
     void Update()
     {
         shootTimer += Time.deltaTime;
+        blinkTimer += Time.deltaTime;
         waveTimer += Time.deltaTime;
         lazerTimer += Time.deltaTime;
 
@@ -103,6 +114,11 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
                 step = 0f;
             }
         }
+        if (blinkTimer >= Random.Range(2f,4.5f) && !isHurt)
+        {
+            StartCoroutine(blink());
+            blinkTimer = 0;
+        }
     }
 
     public bool heal(int amount) {return false;}
@@ -130,6 +146,7 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
             phaseThreeStart = true;
             Camera.main.GetComponent<CameraShake>().StartCameraShake();
             SecondPlatforms.startDroppingPlats();
+            StartCoroutine(playRumble(15.6f));
         }
         else if(HP <= 250 && !phaseTwo)
         {
@@ -140,19 +157,53 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
             phaseTwoStart = true;
             Camera.main.GetComponent<CameraShake>().StartCameraShake();
             FirstPlatforms.startDroppingPlats();
+            StartCoroutine(playRumble(10.5f));
         }
         else
         {
             StartCoroutine(flashRed());
+            if (!isHurt)
+                StartCoroutine(hurt());
         }
     }
 
+
+    IEnumerator blink()
+    {
+        Eyes.SetActive(false);
+        yield return new WaitForSeconds(0.2f);
+        Eyes.SetActive(true);
+    }
+
+    IEnumerator hurt()
+    {
+        isHurt = true;
+        EyerisLeft.SetActive(false);
+        EyerisRight.SetActive(false);
+        EyeHurtLeft.SetActive(true);
+        EyeHurtRight.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        EyerisLeft.SetActive(true);
+        EyerisRight.SetActive(true);
+        EyeHurtLeft.SetActive(false);
+        EyeHurtRight.SetActive(false);
+        yield return new WaitForSeconds(.4f);
+        isHurt = false;
+    }
 
     IEnumerator flashRed()
     {
         model.material.color = Color.red;
         yield return new WaitForSeconds(0.1f);
         model.material.color = colorOrig;
+    }
+
+    IEnumerator playRumble(float dur)
+    {
+        audioplayer.clip = rumble;
+        audioplayer.Play();
+        yield return new WaitForSeconds(dur);
+        audioplayer.Stop();
     }
 
     IEnumerator shootProjectile()
