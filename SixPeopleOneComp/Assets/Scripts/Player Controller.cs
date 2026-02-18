@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] Renderer model;
     [SerializeField] Transform ShootPos;
-    [SerializeField] GameObject lineRenderer;
+    [SerializeField] Animator animator;
 
     [Header("---- Aim / Reticle ----")]
     [SerializeField] Camera mainCamera;
@@ -142,6 +142,8 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         gravityOrig = gravity;
         duration = wallRunTimeOnWall;
         weaponList[weaponListPos].ammoCur = weaponList[weaponListPos].ammoMax;
+        animator = GetComponentInChildren<Animator>();
+        animator.SetFloat("Speed", 0);
         updateIconFill();
         //     GroundCheck = BottomRayDistance;
     }
@@ -155,6 +157,8 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         {
             StartCoroutine(CyoteTime(0.3f));
         }
+
+
         void Movement()
         {
 
@@ -223,6 +227,11 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 }
             }
 
+
+
+
+
+
             if (isGrounded && PlayerVelo.y <= 0)
             {
                 jumpCount = 0;
@@ -245,6 +254,14 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             HandleButtonPress(isGrounded);
             Vector3 movement = (moveDir * speed) + PlayerVelo; //+ wallMoveVector;
             controller.Move(movement * Time.deltaTime);
+            if (movement.z == 0 && movement.x == 0)
+            {
+                animator.SetFloat("Speed", 0);
+            }
+            else
+            {
+                animator.SetFloat("Speed", 0.02f);
+            }
 
             if (Input.GetKeyDown(KeyCode.F))
             {
@@ -333,6 +350,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         {
             if (!wallRunActive)
             {
+                animator.SetTrigger("Jump");
                 PlayerVelo.y = jumpSpeed;
                 // controller.Move(moveDir * speed * Time.deltaTime);
                 jumpCount++;
