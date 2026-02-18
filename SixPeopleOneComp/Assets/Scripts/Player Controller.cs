@@ -82,6 +82,9 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     [Range(0.1f, 3)][SerializeField] float ShootRate;
     [Range(0, 10)][SerializeField] float ShootSpeed;
     [Range(0, 1)][SerializeField] int gunRayOn;
+
+    [SerializeField] GameObject FlameThrowerHitbox;
+
     [Range(1, 8)] public int bulletAmount;
     [SerializeField] GameObject constantHitbox;
     public int ammoHold;
@@ -300,7 +303,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 }
 
             }
-            
+
             if (Input.GetKey(GameManager.instance.keyBinds.Shoot) && weaponList.Count > 0 && weaponList[weaponListPos].ammoCur > 0 && shootTimer >= ShootRate && Time.deltaTime > 0)
             {
                 if (weaponList.Count == 0)
@@ -312,9 +315,9 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             //if (Input.GetButton("Fire1") && weaponList.Count > 0 && weaponList[weaponListPos].ammoCur <= 1)
             //    SoundManager.instance.PlaySound3D("Jumps", transform.position);
 
-        changeWep();
-        selectWep();
-        reload();
+            changeWep();
+            selectWep();
+            reload();
         }
         void Jump()
         {
@@ -323,7 +326,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 PlayerVelo.y = jumpSpeed;
                 // controller.Move(moveDir * speed * Time.deltaTime);
                 jumpCount++;
-                SoundManager.instance.PlaySound3D("Jumps", transform.position);
+                SoundManager.instance.PlaySound3D("Jumps", transform.position); 
             }
         }
         void CyoteJump()
@@ -518,25 +521,25 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         }
         else if (shootType == 2) //Burst Shot!
         {
-                if (bulletAmount % 2 == 1) //Odd number
-                {
-                    Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot);
+            if (bulletAmount % 2 == 1) //Odd number
+            {
+                Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot);
 
-                    for (int i = 0; i < bulletAmount / 2; i++)
-                    {
-                        Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, (45 / bulletAmount) + addAngle, 0));
-                        Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, (-45 / bulletAmount) - addAngle, 0));
-                    addAngle = addAngle + (45 / bulletAmount);
-                    }
-                }
-                else if (bulletAmount % 2 == 0) // Even number
+                for (int i = 0; i < bulletAmount / 2; i++)
                 {
-                    for (int i = 0; i < bulletAmount / 2; i++)
-                    {
-                        Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, ((45 / bulletAmount)/2 + addAngle), 0));
-                        Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, ((-45 / bulletAmount)/2 - addAngle), 0));
-                        addAngle = addAngle + (45 / bulletAmount);
-                    }
+                    Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, (45 / bulletAmount) + addAngle, 0));
+                    Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, (-45 / bulletAmount) - addAngle, 0));
+                    addAngle = addAngle + (45 / bulletAmount);
+                }
+            }
+            else if (bulletAmount % 2 == 0) // Even number
+            {
+                for (int i = 0; i < bulletAmount / 2; i++)
+                {
+                    Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, ((45 / bulletAmount) / 2 + addAngle), 0));
+                    Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, ((-45 / bulletAmount) / 2 - addAngle), 0));
+                    addAngle = addAngle + (45 / bulletAmount);
+                }
             }
 
         }
@@ -552,7 +555,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                     addAngle += (360 / bulletAmount);
                 }
             }
-            else if(bulletAmount % 2 == 0)
+            else if (bulletAmount % 2 == 0)
             {
                 for (int i = 0; i < bulletAmount; i++)
                 {
@@ -562,19 +565,25 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 }
             }
         }
-        //else if (shootType == 4)  //Hitbox
-        //{
-        //    if (Input.GetButtonDown("fire1"))
-        //    {
+        // else if (shootType == 4)  //Hitbox
+        // {
+        //     if (FlameThrowerHitbox.activeSelf == false)
+        //     {
+        //         if (Input.GetKey(GameManager.instance.keyBinds.Shoot))
+        //         {
+        //             Instantiate(FlameThrowerHitbox);
+        //         }
+        //     }
+        //     else
+        //     {
+        //         if (Input.GetKeyDown(GameManager.instance.keyBinds.Shoot))
+        //         {
+        //                 Destroy(FlameThrowerHitbox);
+        //         }
+        //     }
+        // }
 
-        //    }
-        //    else if (Input.GetButtonUp("fire1"))
-        //    {
-
-        //    }
-        //}
-
-            SoundManager.instance.PlaySound3D("shoots", transform.position);
+        SoundManager.instance.PlaySound3D("shoots", transform.position);
     }
 
 
@@ -588,7 +597,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             //{
             //    for (int i = 0; i < 50f * Time.deltaTime; i++)
             //    {
-                    weaponList[weaponListPos].ammoCur = weaponList[weaponListPos].ammoMax;
+            weaponList[weaponListPos].ammoCur = weaponList[weaponListPos].ammoMax;
             //    }
             //}
         }

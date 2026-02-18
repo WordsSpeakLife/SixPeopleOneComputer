@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 4441226452298452716}
   - component: {fileID: 7268433045977280104}
   - component: {fileID: 8381397577265498085}
-  - component: {fileID: 6709293550564024718}
   - component: {fileID: 5095196642364582921}
+  - component: {fileID: 2284213032772322184}
   m_Layer: 9
-  m_Name: HeavyBullet
+  m_Name: FlameThowerBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.5, y: 1.5951465, z: -14.25}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 68.892914, y: 1, z: 20.497}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -51,11 +51,11 @@ MonoBehaviour:
   rb: {fileID: 8381397577265498085}
   col: {fileID: 0}
   rend: {fileID: 0}
-  damageAmount: 2
+  damageAmount: 1
   damageRate: 0
-  speed: 15
-  destroyTime: 3
-  hitEffect: {fileID: 36743694370729304, guid: ef24bceec0c6f604c95b65de4d1a8e22, type: 3}
+  speed: 10
+  destroyTime: 1.5
+  hitEffect: {fileID: 36743694370729304, guid: 96da92b1034446044b59c8e61c3730a2, type: 3}
   startColor: {r: 0, g: 0, b: 0, a: 1}
   endColor: {r: 1, g: 0, b: 0, a: 1}
   duration: 2
@@ -88,27 +88,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!135 &6709293550564024718
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1481135220882722262}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 128
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!96 &5095196642364582921
 TrailRenderer:
   serializedVersion: 3
@@ -158,7 +137,7 @@ TrailRenderer:
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.15
+    widthMultiplier: 0.05
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -176,8 +155,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.5754717, g: 0, b: 0.28924015, a: 1}
-      key1: {r: 0.11707648, g: 0, b: 0.9137255, a: 1}
+      key0: {r: 1, g: 0.25471687, b: 0.25471687, a: 1}
+      key1: {r: 0.91194963, g: 0.39649984, b: 0, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -216,3 +195,24 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!65 &2284213032772322184
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481135220882722262}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.008012435, y: 0.05, z: 0.05}
+  m_Center: {x: 0, y: 0, z: 0}

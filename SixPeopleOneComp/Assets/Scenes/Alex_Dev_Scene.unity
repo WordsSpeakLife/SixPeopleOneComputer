@@ -3869,6 +3869,10 @@ PrefabInstance:
       propertyPath: wallClimbSpeed
       value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 8265268638020887049, guid: ff1465a8f8bf31945b560aa8979fc353, type: 3}
+      propertyPath: FlameThrowerHitbox
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16272,6 +16276,8 @@ MonoBehaviour:
   faceTargetSpeed: 9
   FOV: 15
   bullet: {fileID: 1481135220882722262, guid: c1f2a23237f7ff3468f16d556f401c90, type: 3}
+  chargeBall: {fileID: 0}
+  colorChargeOrig: {r: 0, g: 0, b: 0, a: 0}
   shootRate: 1e+14
   creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
   creditsDropAmount: 10
@@ -16298,6 +16304,8 @@ MonoBehaviour:
   faceTargetSpeed: 9
   FOV: 15
   bullet: {fileID: 1481135220882722262, guid: c56af4be21e83674980da955d0a98d70, type: 3}
+  chargeBall: {fileID: 0}
+  colorChargeOrig: {r: 0, g: 0, b: 0, a: 0}
   shootRate: 1e+14
   creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
   creditsDropAmount: 10
@@ -16324,6 +16332,8 @@ MonoBehaviour:
   faceTargetSpeed: 9
   FOV: 15
   bullet: {fileID: 1481135220882722262, guid: c56af4be21e83674980da955d0a98d70, type: 3}
+  chargeBall: {fileID: 0}
+  colorChargeOrig: {r: 0, g: 0, b: 0, a: 0}
   shootRate: 1e+14
   creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
   creditsDropAmount: 10
@@ -16350,6 +16360,8 @@ MonoBehaviour:
   faceTargetSpeed: 9
   FOV: 15
   bullet: {fileID: 1481135220882722262, guid: c1f2a23237f7ff3468f16d556f401c90, type: 3}
+  chargeBall: {fileID: 0}
+  colorChargeOrig: {r: 0, g: 0, b: 0, a: 0}
   shootRate: 1e+14
   creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
   creditsDropAmount: 10
@@ -16376,6 +16388,8 @@ MonoBehaviour:
   faceTargetSpeed: 9
   FOV: 15
   bullet: {fileID: 1481135220882722262, guid: c56af4be21e83674980da955d0a98d70, type: 3}
+  chargeBall: {fileID: 0}
+  colorChargeOrig: {r: 0, g: 0, b: 0, a: 0}
   shootRate: 1e+14
   creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
   creditsDropAmount: 10
@@ -16402,6 +16416,8 @@ MonoBehaviour:
   faceTargetSpeed: 9
   FOV: 15
   bullet: {fileID: 1481135220882722262, guid: c1f2a23237f7ff3468f16d556f401c90, type: 3}
+  chargeBall: {fileID: 0}
+  colorChargeOrig: {r: 0, g: 0, b: 0, a: 0}
   shootRate: 1e+14
   creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
   creditsDropAmount: 10
@@ -19057,6 +19073,8 @@ MonoBehaviour:
   faceTargetSpeed: 9
   FOV: 15
   bullet: {fileID: 1481135220882722262, guid: c1f2a23237f7ff3468f16d556f401c90, type: 3}
+  chargeBall: {fileID: 0}
+  colorChargeOrig: {r: 0, g: 0, b: 0, a: 0}
   shootRate: 1e+11
   creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
   creditsDropAmount: 10
@@ -19083,6 +19101,8 @@ MonoBehaviour:
   faceTargetSpeed: 9
   FOV: 15
   bullet: {fileID: 1481135220882722262, guid: c1f2a23237f7ff3468f16d556f401c90, type: 3}
+  chargeBall: {fileID: 0}
+  colorChargeOrig: {r: 0, g: 0, b: 0, a: 0}
   shootRate: 1e+11
   creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
   creditsDropAmount: 10
@@ -19109,6 +19129,8 @@ MonoBehaviour:
   faceTargetSpeed: 9
   FOV: 15
   bullet: {fileID: 1481135220882722262, guid: c1f2a23237f7ff3468f16d556f401c90, type: 3}
+  chargeBall: {fileID: 0}
+  colorChargeOrig: {r: 0, g: 0, b: 0, a: 0}
   shootRate: 1e+11
   creditsPickupPrefab: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
   creditsDropAmount: 10

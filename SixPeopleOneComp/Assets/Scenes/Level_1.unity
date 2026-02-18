@@ -8940,6 +8940,10 @@ PrefabInstance:
       propertyPath: m_VersionIndex
       value: 2221
       objectReference: {fileID: 0}
+    - target: {fileID: 3048302160692679829, guid: 0fa19af527cd9644ca8e324741f27138, type: 3}
+      propertyPath: m_NavMeshData
+      value: 
+      objectReference: {fileID: 23800000, guid: a473ad2a535e1ea43b09a824d8982b33, type: 2}
     - target: {fileID: 3068122154041770686, guid: 0fa19af527cd9644ca8e324741f27138, type: 3}
       propertyPath: m_Mesh
       value: 
