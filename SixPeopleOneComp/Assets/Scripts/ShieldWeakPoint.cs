@@ -40,6 +40,7 @@ public class ShieldWeakPoint : MonoBehaviour, IDamage
                 SoundManager.instance.PlaySound3D("ShieldDown", transform.position);
                 Instantiate(shieldEffect, shield.transform.position, Quaternion.identity);
                 Destroy(shield);
+                Camera.main.GetComponent<CameraShake>().StartCameraShake();
             }
             if (true)
             {
@@ -57,6 +58,7 @@ public class ShieldWeakPoint : MonoBehaviour, IDamage
                 }
                 Destroy(gameObject);
                 Instantiate(WeakpointEffect, transform.position, Quaternion.identity);
+                Camera.main.GetComponent<CameraShake>().StartCameraShake();
             }
         }
         else

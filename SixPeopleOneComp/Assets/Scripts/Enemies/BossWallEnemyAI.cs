@@ -118,6 +118,7 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
                 GameManager.instance.updateGameGoal(-1);
 
             Destroy(gameObject);
+            Camera.main.GetComponent<CameraShake>().StartCameraShake();
             SoundManager.instance.PlaySound3D("enemies", transform.position);
         }
         else if (HP <= 150 && !phaseThree)
@@ -127,6 +128,7 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
             SoundManager.instance.PlaySound3D("ShieldUp", transform.position);
             Instantiate(shield, shieldPos);
             phaseThreeStart = true;
+            Camera.main.GetComponent<CameraShake>().StartCameraShake();
             SecondPlatforms.startDroppingPlats();
         }
         else if(HP <= 250 && !phaseTwo)
@@ -136,6 +138,7 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
             SoundManager.instance.PlaySound3D("ShieldUp", transform.position);
             Instantiate(shield, shieldPos);
             phaseTwoStart = true;
+            Camera.main.GetComponent<CameraShake>().StartCameraShake();
             FirstPlatforms.startDroppingPlats();
         }
         else
