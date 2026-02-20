@@ -7,7 +7,7 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
 {
 
     [SerializeField] GameObject mainObject;
-    [SerializeField] AudioSource audioplayer;
+    [SerializeField] AudioSource rumbleplayer;
     [SerializeField] AudioClip rumble;
     [SerializeField] Renderer model;
     [SerializeField] GameObject Face;
@@ -200,10 +200,10 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
 
     IEnumerator playRumble(float dur)
     {
-        audioplayer.clip = rumble;
-        audioplayer.Play();
+        rumbleplayer.clip = rumble;
+        rumbleplayer.Play();
         yield return new WaitForSeconds(dur);
-        audioplayer.Stop();
+        rumbleplayer.Stop();
     }
 
     IEnumerator shootProjectile()
@@ -230,6 +230,7 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
         yield return new WaitForSeconds(1f);
         Instantiate(bullet, EyeRightPos.transform.position, Quaternion.LookRotation(new Vector3(playerDirRight.x, playerDirRight.y, playerDirRight.z)));
         Instantiate(bullet, EyeLeftPos.transform.position, Quaternion.LookRotation(new Vector3(playerDirLeft.x, playerDirLeft.y, playerDirLeft.z)));
+        SoundManager.instance.PlaySound3D("Laser", transform.position);
     }
 
 }
