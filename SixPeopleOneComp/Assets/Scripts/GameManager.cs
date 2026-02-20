@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.ProBuilder.Shapes;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -29,8 +30,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject startMenu;
     [SerializeField] GameObject menuAudio;
     [SerializeField] public GameObject weaponRadialMenu;
-    [SerializeField]public GameObject LevelbuttonSelected;
+    [SerializeField] public GameObject LevelbuttonSelected;
     [SerializeField] public Image HealthBar;
+
     [SerializeField] public GameObject BossHealthBar;
     [SerializeField] TMP_Text keyCountText;
     public Image weaponIcon;
@@ -52,14 +54,14 @@ public class GameManager : MonoBehaviour
 
     [Header("---- Level Data ----")]
     [Tooltip("Starts at 1, add 1 per level (ex: this is level 3 so it would be 1+1+1+1+1 so 5")]
-    [SerializeField] int LevelNumber;
+    [SerializeField] int LevelNumber = 1;
 
     [Tooltip("Leave blank if not in use")]
     [SerializeField] public string NextLevelName;
 
 
-    [Header("---- Save Data ----")]
-    [SerializeField] public SaveData levels;
+    //[Header("---- Save Data ----")]
+    //[SerializeField] public SaveData levels;
 
 
     [Header("---- Other ----")]
@@ -85,6 +87,7 @@ public class GameManager : MonoBehaviour
 
 
     private int keyCount;
+    const string LEVELS_UNLOCKED_KEY = "LevelsUnlocked";
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -101,6 +104,12 @@ public class GameManager : MonoBehaviour
             playerCamera = Camera.main;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
+        }
+
+        if (!PlayerPrefs.HasKey(LEVELS_UNLOCKED_KEY))
+        {
+            PlayerPrefs.SetInt(LEVELS_UNLOCKED_KEY, 1);
+            PlayerPrefs.Save();
         }
     }
 
@@ -214,49 +223,66 @@ public class GameManager : MonoBehaviour
         {
             gameGoalCount += amount;
 
-            if (gameGoalCount <= 0)
-            {
-                //you win!!
-                statePause();
-                menuActive = menuWin;
-                menuActive.SetActive(true);
-                if (levels.levelsUnlocked < LevelNumber)
-                {
-                    levels.levelsUnlocked = LevelNumber;
-                }
-            }
+            if (gameGoalCount <= 0) OnWin();
+            
         }
         else if (GameType == GameGoal.ReachGoal)
         {
             gameGoalCount -= amount;
 
-            if (gameGoalCount <= 0)
-            {
-                //you win!!
-                statePause();
-                menuActive = menuWin;
-                menuActive.SetActive(true);
-                if (levels.levelsUnlocked < LevelNumber)
-                {
-                    levels.levelsUnlocked = LevelNumber;
-                }
-            }
+            if (gameGoalCount <= 0) OnWin();
+
         }
         else if (GameType == GameGoal.Timed)
         {
-            gameGoalCount += amount;
+            gameGoalCount -= amount;
 
-            if (gameGoalTimer >= GoalTimerEnd)
-            {
-                //you win!!
-                statePause();
-                menuActive = menuWin;
-                menuActive.SetActive(true);
-                if (levels.levelsUnlocked < LevelNumber)
-                {
-                    levels.levelsUnlocked = LevelNumber;
-                }
-            }
+            if (gameGoalTimer >= GoalTimerEnd) OnWin();
+        }
+    }
+
+    void OnWin()
+    {
+        statePause();
+        menuActive = menuWin;
+        menuActive.SetActive(true);
+
+        SaveLevelProgress();
+    }
+
+    void SaveLevelProgress()
+    {
+        int currentlyUnlocked = PlayerPrefs.GetInt(LEVELS_UNLOCKED_KEY, 1);
+        int shouldBeUnlocked = Mathf.Max(currentlyUnlocked, LevelNumber + 1);
+
+        PlayerPrefs.SetInt(LEVELS_UNLOCKED_KEY, shouldBeUnlocked);
+        PlayerPrefs.Save();
+
+        Debug.Log("Saved LevelsUnlocked = " + shouldBeUnlocked);
+    }
+
+    public void CompleteLevel(int levelIndex)
+    {
+        int unlocked = PlayerPrefs.GetInt(LEVELS_UNLOCKED_KEY, 1);
+
+        if (levelIndex + 1 > unlocked)
+        {
+            PlayerPrefs.SetInt(LEVELS_UNLOCKED_KEY, levelIndex + 1);
+            PlayerPrefs.Save();
+
+            Debug.Log("Unlocked level " + (levelIndex + 1));
+        }
+
+        LoadNextLevel();
+    }
+    public void LoadNextLevel()
+    {
+        stateUnpauseMM();
+
+        if (!string.IsNullOrEmpty(NextLevelName))
+        {
+            SceneManager.LoadScene(NextLevelName);
+                return;
         }
     }
 
@@ -423,7 +449,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
+    
     public void SaveCredits()
     {
         PlayerPrefs.SetInt("Credits", credits);
@@ -493,6 +519,4 @@ public class GameManager : MonoBehaviour
     }
 
     
-
-
 }

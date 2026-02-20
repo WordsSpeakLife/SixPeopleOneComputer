@@ -6894,6 +6894,10 @@ PrefabInstance:
       propertyPath: m_VersionIndex
       value: 4579
       objectReference: {fileID: 0}
+    - target: {fileID: 3303709306358443858, guid: e7e801799862acf4cb921969fbc321b4, type: 3}
+      propertyPath: levelIndex
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3359624885412410520, guid: e7e801799862acf4cb921969fbc321b4, type: 3}
       propertyPath: m_Mesh
       value: 
@@ -7074,6 +7078,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 0b24d55f53637c747be9974c41b0d52a, type: 2}
+    - target: {fileID: 4679998472949307591, guid: e7e801799862acf4cb921969fbc321b4, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4731406038942584955, guid: e7e801799862acf4cb921969fbc321b4, type: 3}
       propertyPath: m_Mesh
       value: 

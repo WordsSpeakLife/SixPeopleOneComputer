@@ -79,6 +79,9 @@ MonoBehaviour:
   - groupID: loose
     clips:
     - {fileID: 8300000, guid: a11b905fceece5c43937d49df026372f, type: 3}
+  - groupID: Explosions
+    clips:
+    - {fileID: 8300000, guid: 0713fa4e0fa25d041ba1f505207b327e, type: 3}
 --- !u!114 &7170597200771402377
 MonoBehaviour:
   m_ObjectHideFlags: 0
