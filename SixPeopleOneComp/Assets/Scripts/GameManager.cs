@@ -1,9 +1,12 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.EventSystems;
+using UnityEngine.ProBuilder.Shapes;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -16,6 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] public GameGoal GameType;
     [SerializeField] float GoalTimerEnd;
     [SerializeField] bool isMainMenu;
+    [SerializeField] CreditDoorSimple door;
 
     [Header("---- Menus ----")]
     [SerializeField] public GameObject menuActive;
@@ -26,7 +30,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject menuAudio;
     [SerializeField] public GameObject weaponRadialMenu;
     [SerializeField]public GameObject LevelbuttonSelected;
-    [SerializeField] public GameObject HealthBar;
+    [SerializeField] public Image HealthBar;
     [SerializeField] public GameObject BossHealthBar;
     [SerializeField] TMP_Text keyCountText;
     public Image weaponIcon;
@@ -35,9 +39,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] public GameObject EventSystem;
 
     [Header("---- Credits ----")]
-    [SerializeField] TMP_Text creditsText;
+    [SerializeField] public TMP_Text creditsText;
     [SerializeField] TMP_Text creditsRequiredText;
     public int credits;
+    int creditsRequired;
+    bool isCounting = false;
+    bool bitChangeType;
 
     [Header("---- Tutorial Popup ----")]
     public GameObject tutorialPopup;
@@ -67,6 +74,11 @@ public class GameManager : MonoBehaviour
     float timeScaleOrig;
     public GameObject DamageFlash;
 
+    public Image dmgIndLeft;
+    public RectTransform leftPos;
+    public Image dmgIndRight;
+    public RectTransform rightPos;
+
 
     int gameGoalCount;
     float gameGoalTimer;
@@ -95,6 +107,9 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         //LoadGame();
+        creditsRequired = door.creditsRequired;
+        SetCreditsRequiredUI(creditsRequired);
+
     }
 
     // Update is called once per frame
@@ -273,15 +288,78 @@ public class GameManager : MonoBehaviour
 
     public void AddCredits(int amount)
     {
+        bitChangeType = true;
+        int beforeAmount = credits;
         credits += amount;
+        if(isCounting == false)
+        StartCoroutine(CountToBits(beforeAmount, credits));
+    }
+
+    IEnumerator CountToBits(int current, int target)
+    {
+        Vector2 sizeOrig = creditsText.rectTransform.localScale;
+        Color origColor = creditsText.color;
+        float frac=0;
+        float t = 0;
+        while (frac < 1)
+        {
+            t += Time.deltaTime;
+            frac = t / 10;
+        }
+
+        Vector2 sizeChange1 = new Vector2(creditsText.rectTransform.localScale.x + .05f, creditsText.rectTransform.localScale.y + .05f);
+        Vector2 sizeChange2 = new Vector2(creditsText.rectTransform.localScale.x + .1f, creditsText.rectTransform.localScale.y + .1f);
+
+        isCounting = true;
+        if(bitChangeType == true)
+        {
+            while (current < target)
+            {
+                current++;
+
+                creditsText.text = "x" + current;
+                creditsText.rectTransform.localScale = sizeChange2;
+                creditsText.color = Color.Lerp(creditsText.color, Color.yellow, 0.1f);
+                yield return new WaitForSeconds(.05f);
+                creditsText.rectTransform.localScale = sizeChange1;
+                sizeChange1 = new Vector2(creditsText.rectTransform.localScale.x + .05f, creditsText.rectTransform.localScale.y + .05f);
+                sizeChange2 = new Vector2(creditsText.rectTransform.localScale.x + .1f, creditsText.rectTransform.localScale.y + .1f);
+                yield return new WaitForSeconds(.1f);
+            }
+        }
+        else if (bitChangeType == false)
+        {
+            while (current > target)
+            {
+                current--;
+
+                creditsText.text = "x" + current;
+                creditsText.rectTransform.localScale = sizeChange2;
+                creditsText.color = Color.Lerp(creditsText.color, Color.magenta, 0.1f);
+                yield return new WaitForSeconds(.05f);
+                creditsText.rectTransform.localScale = sizeChange1;
+                sizeChange1 = new Vector2(creditsText.rectTransform.localScale.x - .025f, creditsText.rectTransform.localScale.y - .025f);
+                sizeChange2 = new Vector2(creditsText.rectTransform.localScale.x - .05f, creditsText.rectTransform.localScale.y - .05f);
+                yield return new WaitForSeconds(.1f);
+            }
+        }
+        creditsText.rectTransform.localScale = Vector2.Lerp(creditsText.rectTransform.localScale, sizeOrig, frac);
+        creditsText.color = origColor;
+        isCounting = false;
+
         UpdateCreditsUI();
+
+        yield return null;
     }
 
     void UpdateCreditsUI()
     {
         if (creditsText)
-            creditsText.text = "Credits: " + credits;
+        {
+            creditsText.text = "x" + credits;
+        }
     }
+
 
     public void ShowTutorial(string message)
     {
@@ -304,17 +382,46 @@ public class GameManager : MonoBehaviour
 
     public bool SpendCredits(int amount)
     {
+        bitChangeType = false;
+        int beforeAmount = credits;
+
         if (credits < amount) return false;
 
         credits -= amount;
-        UpdateCreditsUI();
+
+        if (!isCounting)
+        StartCoroutine(CountToBits(beforeAmount, credits));
+
         return true;
     }
 
     public void SetCreditsRequiredUI(int amount)
     {
         if (creditsRequiredText)
-            creditsRequiredText.text = "Credits Required: " + amount;
+        {
+            if (door.isOpen != true)
+            {
+                if (GameType == GameGoal.ReachGoal)
+                {
+                    if (amount > 0)
+                    {
+                        creditsRequiredText.text = "Collect " + amount + " more bits to progress!";
+                    }
+                    else if (amount <= 0)
+                    {
+                        creditsRequiredText.text = "Get to the door!";
+                    }
+                }
+                else if (GameType == GameGoal.DefeatAllEnemies)
+                {
+                    creditsRequiredText.text = "Defeat the enemies!";
+                }
+            }
+            else
+            {
+                creditsRequiredText.text = "Progress!";
+            }
+        }
     }
 
     public void SaveCredits()
@@ -329,6 +436,20 @@ public class GameManager : MonoBehaviour
         {
             credits = PlayerPrefs.GetInt("Credits");
             UpdateCreditsUI();
+        }
+    }
+
+    public void creditCheck()
+    {
+        if (credits <= door.creditsRequired)
+        {
+            creditsRequired = door.creditsRequired - credits;
+            SetCreditsRequiredUI(creditsRequired);
+        }
+        else if (credits > door.creditsRequired)
+        {
+            creditsRequired = door.creditsRequired - credits;
+            SetCreditsRequiredUI(creditsRequired);
         }
     }
 

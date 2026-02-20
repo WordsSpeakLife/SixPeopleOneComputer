@@ -20,6 +20,8 @@ public class PickupCredits : MonoBehaviour
 
         float bob = Mathf.Sin(Time.time * bobSpeed) * bobHeight;
         transform.position = startPos + Vector3.up * bob;
+
+
     }
 
     void OnTriggerEnter(Collider other)
@@ -31,6 +33,8 @@ public class PickupCredits : MonoBehaviour
             SoundManager.instance.PlaySound3D("pickup", transform.position);
             GameManager.instance.AddCredits(creditsAmount);
         }
+
+        GameManager.instance.creditCheck();
 
         Destroy(gameObject);
     }

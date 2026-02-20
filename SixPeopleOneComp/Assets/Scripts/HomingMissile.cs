@@ -1,44 +1,36 @@
 using System.Collections;
 using UnityEngine;
 
-public class HomingMissile : MonoBehaviour
+public class HomingMissile : damage
 {
-    [SerializeField] private Rigidbody rb;
+    [SerializeField] float turn;
     private Transform Target;
-    private GameObject[] targets;
-    float distance;
-    float closestTarget = Mathf.Infinity;
-    float rotation;
+    private Transform rocketTransform;
+
+    private void FindEnemy()
+    {
+
+    }
 
     private void FixedUpdate()
     {
-        //Vector3 direction = (Vector3)Target.position - rb.position;
-        //direction.Normalize();
-        //float rotateAmount = Vector3.Cross(direction, transform.up).z;
-        //rb.angularVelocity = -rotation * rotateAmount;
-    }
-    public void FindEnemy()
-    {
-        targets = GameObject.FindGameObjectsWithTag("Enemy");
-
-        foreach (var enemy in targets)
+        if (!rb)
         {
-            distance = (enemy.transform.position - this.transform.position).sqrMagnitude;
-
-            if (distance < closestTarget)
-            {
-                closestTarget = distance;
-                Target = enemy.transform;
-            }
+            return;
         }
 
-        if (Target != null)
-        {
-           Vector3 direction = (Vector3)Target.position - this.transform.position;
-            direction.Normalize();
-            float rotationValue = Vector3.Cross(direction, transform.up).z;
-        }
+        rb.linearVelocity = transform.forward * speed;
+
+        var rocketTargetRotation = Quaternion.LookRotation(Target.position - transform.position);
+
+        rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rocketTargetRotation, turn));
+
+        //Target = GameObject.FindGameObjectWithTag("Enemy").transform;
+
+        //rb.angularVelocity = rocketTransform.forward * speed;
+
+        //var targetRot = Quaternion.LookRotation(Target.position - rocketTransform.position);
+
+        //rb.MoveRotation(Quaternion.RotateTowards(rocketTransform.rotation, targetRot, rotateSpeed));
     }
-
-
 }

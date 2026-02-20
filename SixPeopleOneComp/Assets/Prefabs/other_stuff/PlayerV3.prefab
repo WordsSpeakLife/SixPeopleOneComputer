@@ -430,12 +430,14 @@ MonoBehaviour:
   ShootRate: 0.2
   ShootSpeed: 0
   gunRayOn: 0
+  FlameThrowerHitbox: {fileID: 0}
   bulletAmount: 1
   constantHitbox: {fileID: 0}
   ammoHold: 0
   ammoAdd: 0
   ammoReload: 0
   shootType: 1
+  OriginalHp: 10
   gravityOrig: 0
   weaponIcon: {fileID: 6643222200828001212}
   weaponIconFill: {fileID: 3948560553168030223}

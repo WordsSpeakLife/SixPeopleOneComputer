@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
     [Header("---- Stats ----")]
     [Range(1, 10)][SerializeField] int Hp;
+    [Range(1,10)][SerializeField] int OriginalHp;
     [Range(0, 10)][SerializeField] int speed;
     [Range(0, 10)][SerializeField] int sprintMod;
 
@@ -91,8 +92,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     public int ammoAdd;
     public int ammoReload;
     [Range(1, 5)] public int shootType;
-    bool isHoming;
-
     bool reloading;
 
     bool wallRunActive = false;
@@ -101,7 +100,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
     int jumpCount;
 
-    int OriginalHp;
     public int gravityOrig;
     int weaponListPos;
 
@@ -127,7 +125,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     Vector3 wallMoveVector;
     bool hasWallForRun;
     float GroundCheck;
-    bool Fast;
 
 
 
@@ -135,10 +132,8 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-       
-            
-
-        OriginalHp = Hp;
+        Hp = OriginalHp;
+        GameManager.instance.HealthBar.fillAmount = Hp;
         gravityOrig = gravity;
         duration = wallRunTimeOnWall;
         weaponList[weaponListPos].ammoCur = weaponList[weaponListPos].ammoMax;
@@ -247,18 +242,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             Vector3 movement = (moveDir * speed) + PlayerVelo; //+ wallMoveVector;
             controller.Move(movement * Time.deltaTime);
 
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                Fast = !Fast;
-            }
-            if (Fast)
-            {
-                speed = 40;
-            }
-            else
-            {
-                speed = 6;
-            }
         }
         void HandleButtonPress(bool grounded)
         {
@@ -605,12 +588,30 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     public void takeDamage(int amount)
     {
         SoundManager.instance.PlaySound3D("damage", transform.position);
-        Hp -= amount;
+        bool overDamage = false;
+        int tempAmount = Hp;
+        if (amount > Hp)
+        {
+            overDamage = true;
+            tempAmount = Hp;
+            Hp -= tempAmount;
+        }
+        else
+            Hp -= amount;
+        GameManager.instance.HealthBar.fillAmount = (float)Hp / OriginalHp;
         model.material.color = Color.red;
-        StartCoroutine(wait(0.2f, false));
-        StartCoroutine(FlashDamage());
 
-        GameManager.instance.HealthBar.GetComponent<Slider>().value = Hp;
+        GameManager.instance.leftPos.transform.position = new Vector3(GameManager.instance.leftPos.position.x + (Screen.width/ 102) * ((overDamage) ? tempAmount:amount), GameManager.instance.leftPos.position.y, GameManager.instance.leftPos.position.z);
+
+        GameManager.instance.dmgIndLeft.color = new Color(GameManager.instance.dmgIndLeft.color.r, GameManager.instance.dmgIndLeft.color.g, GameManager.instance.dmgIndLeft.color.b, GameManager.instance.dmgIndLeft.color.a + .05f * ((overDamage) ? tempAmount : amount));
+
+        GameManager.instance.rightPos.transform.position = new Vector3(GameManager.instance.rightPos.position.x - (Screen.width / 102) * ((overDamage) ? tempAmount : amount), GameManager.instance.rightPos.position.y, GameManager.instance.rightPos.position.z);
+        GameManager.instance.dmgIndRight.color = new Color(GameManager.instance.dmgIndRight.color.r, GameManager.instance.dmgIndRight.color.g, GameManager.instance.dmgIndRight.color.b, GameManager.instance.dmgIndRight.color.a + .05f * ((overDamage) ? tempAmount:amount));
+
+        StartCoroutine(wait(0.2f, false));
+        Color barOrig = GameManager.instance.HealthBar.color;
+        StartCoroutine(FlashDamage(amount, barOrig));
+
 
         //check if the player is dead
         if (Hp <= 0)
@@ -630,13 +631,26 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
     public bool heal(int amount)
     {
+        Color barOrig = new Color(0.3824615f, 1, 0);
         if (Hp >= OriginalHp) return false;
         Hp += amount;
         if (Hp > OriginalHp)
         {
             Hp = OriginalHp;
         }
-        GameManager.instance.HealthBar.GetComponent<Slider>().value = Hp;
+        GameManager.instance.HealthBar.fillAmount = (float)Hp / OriginalHp;
+
+        Color curColor = GameManager.instance.HealthBar.color;
+
+        GameManager.instance.HealthBar.color = Color.Lerp(curColor, barOrig, 0.3f * amount);
+
+        GameManager.instance.leftPos.transform.position = new Vector3(GameManager.instance.leftPos.position.x - ((Screen.width / 102) * amount), GameManager.instance.leftPos.position.y, GameManager.instance.leftPos.position.z);
+
+        GameManager.instance.dmgIndLeft.color = new Color(GameManager.instance.dmgIndLeft.color.r, GameManager.instance.dmgIndLeft.color.g, GameManager.instance.dmgIndLeft.color.b, GameManager.instance.dmgIndLeft.color.a - (.05f * amount));
+
+        GameManager.instance.rightPos.transform.position = new Vector3(GameManager.instance.rightPos.position.x + ((Screen.width / 102) * amount), GameManager.instance.rightPos.position.y, GameManager.instance.rightPos.position.z);
+        GameManager.instance.dmgIndRight.color = new Color(GameManager.instance.dmgIndRight.color.r, GameManager.instance.dmgIndRight.color.g, GameManager.instance.dmgIndRight.color.b, GameManager.instance.dmgIndRight.color.a - (.05f * amount));
+
         return true;
     }
     IEnumerator wait(float amount, bool Randcolor)
@@ -694,7 +708,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         ShootSpeed = weaponList[weaponListPos].shootSpeed;
         shootType = weaponList[weaponListPos].shootType;
         bulletAmount = weaponList[weaponListPos].bulletAmount;
-        isHoming = weaponList[weaponListPos].isHoming;
 
         weaponIcon.sprite = weaponList[weaponListPos].weaponIcon;
         weaponIconFill.sprite = weaponList[weaponListPos].weaponIconFill;
@@ -896,7 +909,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     public void SetHP(int value)
     {
         Hp = value;
-        GameManager.instance.HealthBar.GetComponent<Slider>().value = Hp;
+        GameManager.instance.HealthBar.fillAmount = (float)Hp / OriginalHp;
     }
 
     public void TeleportTo(Vector3 pos)
@@ -910,11 +923,14 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     }
 
 
-    IEnumerator FlashDamage()
+    IEnumerator FlashDamage(int amount, Color barOrig)
     {
         GameManager.instance.DamageFlash.SetActive(true);
+        GameManager.instance.HealthBar.color = Color.white;
         yield return new WaitForSeconds(0.1f);
         GameManager.instance.DamageFlash.SetActive(false);
+        GameManager.instance.HealthBar.color = Color.Lerp(barOrig, Color.magenta, 0.1f * amount);
+
     }
 
 }

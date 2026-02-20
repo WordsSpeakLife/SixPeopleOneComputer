@@ -1828,6 +1828,17 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!114 &248735672 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3783271686732124549, guid: 7afb12a3c8925e74bac5e9b9a0000766, type: 3}
+  m_PrefabInstance: {fileID: 505423157683160234}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ace6eff9871c13046aceafa70f748407, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &272173412
 Mesh:
   m_ObjectHideFlags: 0
@@ -11736,6 +11747,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8832043349987910927, guid: e354b2d233454c949bb86582bcdd4b4d, type: 3}
+      propertyPath: door
+      value: 
+      objectReference: {fileID: 248735672}
+    - target: {fileID: 8832043349987910927, guid: e354b2d233454c949bb86582bcdd4b4d, type: 3}
       propertyPath: LevelNumber
       value: 2
       objectReference: {fileID: 0}
@@ -17523,6 +17538,11 @@ PrefabInstance:
     - target: {fileID: 8082924868330469940, guid: 7afb12a3c8925e74bac5e9b9a0000766, type: 3}
       propertyPath: m_VersionIndex
       value: 5386
+      objectReference: {fileID: 0}
+    - target: {fileID: 8106091917693633592, guid: 7afb12a3c8925e74bac5e9b9a0000766, type: 3}
+      propertyPath: message
+      value: Pick up the floating Bits after you have deleted the enemy! Bits are
+        required to open the door to exit the level.
       objectReference: {fileID: 0}
     - target: {fileID: 8199168510162442852, guid: 7afb12a3c8925e74bac5e9b9a0000766, type: 3}
       propertyPath: m_Mesh

@@ -10115,6 +10115,17 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!114 &625998935 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1621345508668637472, guid: e7e801799862acf4cb921969fbc321b4, type: 3}
+  m_PrefabInstance: {fileID: 503706222}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ace6eff9871c13046aceafa70f748407, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &674029901
 Mesh:
   m_ObjectHideFlags: 0
@@ -20319,6 +20330,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8832043349987910927, guid: e354b2d233454c949bb86582bcdd4b4d, type: 3}
+      propertyPath: door
+      value: 
+      objectReference: {fileID: 625998935}
     - target: {fileID: 8832043349987910927, guid: e354b2d233454c949bb86582bcdd4b4d, type: 3}
       propertyPath: LevelNumber
       value: 4

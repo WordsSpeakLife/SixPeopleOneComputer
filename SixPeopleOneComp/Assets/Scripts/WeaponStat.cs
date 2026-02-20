@@ -9,7 +9,6 @@ public class WeaponStat : ScriptableObject
     [Range(0, 10)] public float shootSpeed;
     [SerializeField] public GameObject bullet;
     [SerializeField] public GameObject constantHitbox;
-    [SerializeField] public bool isHoming;
 
     [Range(1,5)] public int shootType;
     [Range(1, 8)] public int bulletAmount;

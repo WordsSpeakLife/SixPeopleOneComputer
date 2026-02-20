@@ -5,15 +5,11 @@ using UnityEngine;
 public class HomingMissileTurn : MonoBehaviour
 {
     public Transform target;
+
     [SerializeField] float turnSpeed;
-    [SerializeField] float homedSpeed;
+    [SerializeField] float snapSpeed;
     Vector3 destination;
 
-
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -25,11 +21,11 @@ public class HomingMissileTurn : MonoBehaviour
         Vector3 delta = destination - transform.position;
 
         Vector3 forward = transform.forward;
-        forward = Vector3.Slerp(forward, delta.normalized, turnSpeed * Time.deltaTime);
+        forward = Vector3.Slerp(forward, delta.normalized, snapSpeed * Time.deltaTime);
         transform.forward = forward;
 
         Vector3 movement = transform.forward;
-
+        movement *= turnSpeed;
         transform.position += movement * Time.deltaTime;
     }
 }
