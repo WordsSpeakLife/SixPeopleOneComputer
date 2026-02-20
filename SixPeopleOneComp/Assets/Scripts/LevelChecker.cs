@@ -1,40 +1,17 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class LevelChecker : MonoBehaviour
 {
-
     [SerializeField] GameObject[] allLevels;
-    [SerializeField] SaveData levels;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        int unlocked = PlayerPrefs.GetInt("LevelsUnlocked", 1);
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void checkLevels()
-    {
-        for (int i = 0; i < levels.levelsUnlocked; i++)
+        for (int i = 0; i < allLevels.Length; i++)
         {
-            if(i <= allLevels.Length)
-                allLevels[i].SetActive(true);
+            allLevels[i].SetActive(i < unlocked);
         }
     }
-
-    public void resetLevels()
-    {
-        foreach (GameObject level in allLevels)
-        {
-                level.SetActive(false);
-        }
-    }
-
 }
+

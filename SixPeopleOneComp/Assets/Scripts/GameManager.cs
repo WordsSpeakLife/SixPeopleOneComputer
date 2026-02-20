@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -45,14 +46,14 @@ public class GameManager : MonoBehaviour
 
     [Header("---- Level Data ----")]
     [Tooltip("Starts at 1, add 1 per level (ex: this is level 3 so it would be 1+1+1+1+1 so 5")]
-    [SerializeField] int LevelNumber;
+    [SerializeField] int LevelNumber = 1;
 
     [Tooltip("Leave blank if not in use")]
     [SerializeField] public string NextLevelName;
 
 
-    [Header("---- Save Data ----")]
-    [SerializeField] public SaveData levels;
+    //[Header("---- Save Data ----")]
+    //[SerializeField] public SaveData levels;
 
 
     [Header("---- Other ----")]
@@ -73,6 +74,7 @@ public class GameManager : MonoBehaviour
 
 
     private int keyCount;
+    const string LEVELS_UNLOCKED_KEY = "LevelsUnlocked";
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Awake()
@@ -89,6 +91,12 @@ public class GameManager : MonoBehaviour
             playerCamera = Camera.main;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
+        }
+
+        if (!PlayerPrefs.HasKey(LEVELS_UNLOCKED_KEY))
+        {
+            PlayerPrefs.SetInt(LEVELS_UNLOCKED_KEY, 1);
+            PlayerPrefs.Save();
         }
     }
 
@@ -199,49 +207,66 @@ public class GameManager : MonoBehaviour
         {
             gameGoalCount += amount;
 
-            if (gameGoalCount <= 0)
-            {
-                //you win!!
-                statePause();
-                menuActive = menuWin;
-                menuActive.SetActive(true);
-                if (levels.levelsUnlocked < LevelNumber)
-                {
-                    levels.levelsUnlocked = LevelNumber;
-                }
-            }
+            if (gameGoalCount <= 0) OnWin();
+            
         }
         else if (GameType == GameGoal.ReachGoal)
         {
             gameGoalCount -= amount;
 
-            if (gameGoalCount <= 0)
-            {
-                //you win!!
-                statePause();
-                menuActive = menuWin;
-                menuActive.SetActive(true);
-                if (levels.levelsUnlocked < LevelNumber)
-                {
-                    levels.levelsUnlocked = LevelNumber;
-                }
-            }
+            if (gameGoalCount <= 0) OnWin();
+
         }
         else if (GameType == GameGoal.Timed)
         {
-            gameGoalCount += amount;
+            gameGoalCount -= amount;
 
-            if (gameGoalTimer >= GoalTimerEnd)
-            {
-                //you win!!
-                statePause();
-                menuActive = menuWin;
-                menuActive.SetActive(true);
-                if (levels.levelsUnlocked < LevelNumber)
-                {
-                    levels.levelsUnlocked = LevelNumber;
-                }
-            }
+            if (gameGoalTimer >= GoalTimerEnd) OnWin();
+        }
+    }
+
+    void OnWin()
+    {
+        statePause();
+        menuActive = menuWin;
+        menuActive.SetActive(true);
+
+        SaveLevelProgress();
+    }
+
+    void SaveLevelProgress()
+    {
+        int currentlyUnlocked = PlayerPrefs.GetInt(LEVELS_UNLOCKED_KEY, 1);
+        int shouldBeUnlocked = Mathf.Max(currentlyUnlocked, LevelNumber + 1);
+
+        PlayerPrefs.SetInt(LEVELS_UNLOCKED_KEY, shouldBeUnlocked);
+        PlayerPrefs.Save();
+
+        Debug.Log("Saved LevelsUnlocked = " + shouldBeUnlocked);
+    }
+
+    public void CompleteLevel(int levelIndex)
+    {
+        int unlocked = PlayerPrefs.GetInt(LEVELS_UNLOCKED_KEY, 1);
+
+        if (levelIndex + 1 > unlocked)
+        {
+            PlayerPrefs.SetInt(LEVELS_UNLOCKED_KEY, levelIndex + 1);
+            PlayerPrefs.Save();
+
+            Debug.Log("Unlocked level " + (levelIndex + 1));
+        }
+
+        LoadNextLevel();
+    }
+    public void LoadNextLevel()
+    {
+        stateUnpauseMM();
+
+        if (!string.IsNullOrEmpty(NextLevelName))
+        {
+            SceneManager.LoadScene(NextLevelName);
+                return;
         }
     }
 
@@ -317,61 +342,5 @@ public class GameManager : MonoBehaviour
             creditsRequiredText.text = "Credits Required: " + amount;
     }
 
-    public void SaveCredits()
-    {
-        PlayerPrefs.SetInt("Credits", credits);
-        PlayerPrefs.Save();
-    }
-
-    public void LoadCredits()
-    {
-        if (PlayerPrefs.HasKey("Credits"))
-        {
-            credits = PlayerPrefs.GetInt("Credits");
-            UpdateCreditsUI();
-        }
-    }
-
-    public void SaveGame()
-    {
-        Vector3 pos = player.transform.position;
-
-        PlayerPrefs.SetFloat("PlayerX", pos.x);
-        PlayerPrefs.SetFloat("PlayerY", pos.y);
-        PlayerPrefs.SetFloat("PlayerZ", pos.z);
-
-        PlayerPrefs.SetInt("PlayerHP", playerScript.GetHP());
-        PlayerPrefs.SetInt("Credits", credits);
-
-        PlayerPrefs.Save();
-
-        Debug.Log("Game Saved");
-    }
-
-    public void LoadGame()
-    {
-        if (!PlayerPrefs.HasKey("PlayerX"))
-        {
-            Debug.Log("No Save Found");
-            return;
-        }
-        Vector3 pos = new Vector3
-        (PlayerPrefs.GetFloat("PlayerX"),
-        PlayerPrefs.GetFloat("PlayerY"),
-        PlayerPrefs.GetFloat("PlayerZ"));
-
-        playerScript.TeleportTo(pos);
-
-        playerScript.SetHP(PlayerPrefs.GetInt("PlayerHP", playerScript.GetHP()));
-        credits = PlayerPrefs.GetInt("Credits", credits);
-        UpdateCreditsUI();
-
-
-        Debug.Log("Game Loaded");
-        stateUnpause();
-    }
-
     
-
-
 }
