@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     [SerializeField] CharacterController controller;
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] Renderer model;
+    Renderer modeloriginal;
     [SerializeField] Transform ShootPos;
     [SerializeField] Animator animator;
 
@@ -26,7 +27,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
     [Header("---- Stats ----")]
     [Range(1, 10)][SerializeField] int Hp;
-    [Range(0, 10)][SerializeField] int speed;
+    [Range(0, 10)][SerializeField] float speed;
     [Range(0, 10)][SerializeField] int sprintMod;
 
     [Header("---- Jump ----")]
@@ -71,6 +72,9 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     [SerializeField] float WallRunRayDistance;
 
     [SerializeField] float BottomRayDistance;
+
+    [SerializeField] float HardFallDistance;
+    [SerializeField] float SoftFallDistance;
 
     //[SerializeField] float wallRunRayBottomDistance;
     [Range(0, 10)][SerializeField] float airDrag;
@@ -128,6 +132,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     bool hasWallForRun;
     float GroundCheck;
     bool Fast;
+    bool canMove = true;
 
 
 
@@ -142,32 +147,45 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         gravityOrig = gravity;
         duration = wallRunTimeOnWall;
         weaponList[weaponListPos].ammoCur = weaponList[weaponListPos].ammoMax;
-        animator = GetComponentInChildren<Animator>();
         animator.SetFloat("Speed", 0);
         updateIconFill();
+        modeloriginal = model;
         //     GroundCheck = BottomRayDistance;
     }
     // Update is called once per fram
+
     void Update()
     {
-        UpdateAimPoint();
-        UpdateReticle();
-        Movement();
-        if (!cyoteTimeActive)
+
+        if (canMove)
         {
-            StartCoroutine(CyoteTime(0.3f));
+            UpdateAimPoint();
+            UpdateReticle();
+            Movement();
+            ShowAngle();
+            if (!cyoteTimeActive)
+            {
+                StartCoroutine(CyoteTime(0.3f));
+            }
         }
-
-
+        else
+        {
+            StopPlayerMovement(true);
+        }
         void Movement()
         {
 
             bool isGrounded = Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, BottomRayDistance, ~ignoreLayer);
+            bool isNotSoftFall = Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, SoftFallDistance, ~ignoreLayer);
+            bool LandAnim = Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, HardFallDistance, ~ignoreLayer);
             //isGroundedCyote = Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, BottomRayDistance, ~ignoreLayer);
-            Debug.DrawRay(controller.transform.position, -controller.transform.up * BottomRayDistance, isGrounded ? Color.black : Color.red);
-            Debug.DrawRay(controller.transform.position, controller.transform.right * WallJumpRayDistance, Color.green);
-            Debug.DrawRay(controller.transform.position, -controller.transform.right * WallJumpRayDistance, Color.blue);
-            shootTimer += Time.deltaTime;
+            //Debug.DrawRay(controller.transform.position, -controller.transform.up * BottomRayDistance, isGrounded ? Color.black : Color.red);
+
+            // Debug.DrawRay(controller.transform.position, -controller.transform.up * SoftFallDistance, isNotSoftFall ? Color.black : Color.red);
+            // Debug.DrawRay(controller.transform.position, controller.transform.right * WallJumpRayDistance, Color.green);
+            // Debug.DrawRay(controller.transform.position, -controller.transform.right * WallJumpRayDistance, Color.blue);
+
+            // shootTimer += Time.deltaTime;
             RotatePlayerYawToMouse();
             moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
             // controller.Move(moveDir * speed * Time.deltaTime);  
@@ -226,12 +244,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                     }
                 }
             }
-
-
-
-
-
-
             if (isGrounded && PlayerVelo.y <= 0)
             {
                 jumpCount = 0;
@@ -239,9 +251,8 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 prevWallJumpName = null;
                 prevWallRunName = null;
                 wallRunActive = false;
-                model.material.color = Color.cyan;
+                model = modeloriginal;
                 DashCount = 0;
-
                 TurnGravityOn();
             }
             else
@@ -254,15 +265,16 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             HandleButtonPress(isGrounded);
             Vector3 movement = (moveDir * speed) + PlayerVelo; //+ wallMoveVector;
             controller.Move(movement * Time.deltaTime);
-            if (movement.z == 0 && movement.x == 0)
+            if (moveDir == Vector3.zero)
             {
-                animator.SetFloat("Speed", 0);
+                animator.SetFloat("Speed", 0f);
+                animator.SetBool("IsHardFalling", false);
             }
             else
             {
                 animator.SetFloat("Speed", 0.02f);
+                animator.SetBool("IsHardFalling", false);
             }
-
             if (Input.GetKeyDown(KeyCode.F))
             {
                 Fast = !Fast;
@@ -274,6 +286,31 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             else
             {
                 speed = 6;
+            }
+            if (!isGrounded && !isNotSoftFall && LandAnim)
+            {
+                animator.SetTrigger("Land");
+                animator.SetBool("IsSoftFalling", false);
+                StartCoroutine(ChangeSpeedTemporarily(10f, 5f));
+            }
+            if (isGrounded && isNotSoftFall)
+            {
+                animator.SetBool("IsOnGround", true);
+                animator.SetBool("IsSoftFalling", false);
+                animator.SetTrigger("Land");
+            }
+            else if (!isNotSoftFall)
+            {
+                animator.SetBool("IsSoftFalling", true);
+                if (LandAnim)
+                {
+                    animator.SetTrigger("Land");
+                }
+            }
+            else if (!isGrounded && isNotSoftFall)
+            {
+                animator.SetBool("IsSoftFalling", false);
+                animator.SetBool("IsOnGround", false);
             }
         }
         void HandleButtonPress(bool grounded)
@@ -350,11 +387,14 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         {
             if (!wallRunActive)
             {
+
                 animator.SetTrigger("Jump");
                 PlayerVelo.y = jumpSpeed;
                 // controller.Move(moveDir * speed * Time.deltaTime);
                 jumpCount++;
-                SoundManager.instance.PlaySound3D("Jumps", transform.position); 
+                SoundManager.instance.PlaySound3D("Jumps", transform.position);
+
+
             }
         }
 
@@ -363,6 +403,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         {
             if (!wallRunActive)
             {
+                animator.SetTrigger("Jump");
                 PlayerVelo.y = jumpSpeed;
                 // controller.Move(moveDir * speed * Time.deltaTime);
                 jumpCount++;
@@ -944,6 +985,85 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         yield return new WaitForSeconds(0.1f);
         GameManager.instance.DamageFlash.SetActive(false);
     }
+    void ShowAngle()
+    {
+        if (Vector3.Dot(transform.forward, Vector3.forward) > 0.8f)
+        {
 
+            if (moveDir.z > 0 && moveDir.x > 0) SetBlend(1f, 1f);
+            else if (moveDir.z > 0 && moveDir.x < 0) SetBlend(-1f, 1f);
+            else if (moveDir.z < 0 && moveDir.x > 0) SetBlend(1f, -1f);
+            else if (moveDir.z < 0 && moveDir.x < 0) SetBlend(-1f, -1f);
+            else if (moveDir.z > 0) SetBlend(0f, 1f);
+            else if (moveDir.z < 0) SetBlend(0f, -1f);
+            else if (moveDir.x > 0) SetBlend(1f, 0f);
+            else if (moveDir.x < 0) SetBlend(-1f, 0f);
+
+            Debug.Log("looking forward");
+        }
+        else if (Vector3.Dot(transform.forward, Vector3.right) > 0.6f)
+        {
+            if (moveDir.z > 0 && moveDir.x > 0) SetBlend(-1f, 1f);
+            else if (moveDir.z > 0 && moveDir.x < 0) SetBlend(-1f, -1f);
+            else if (moveDir.z < 0 && moveDir.x > 0) SetBlend(1f, 1f);
+            else if (moveDir.z < 0 && moveDir.x < 0) SetBlend(1f, -1f);
+
+            else if (moveDir.x > 0) SetBlend(0f, 1f);
+            else if (moveDir.x < 0) SetBlend(0f, -1f);
+            else if (moveDir.z > 0) SetBlend(1f, 0f);
+            else if (moveDir.z < 0) SetBlend(-1f, 0f);
+            Debug.Log("looking right");
+        }
+        else if (Vector3.Dot(transform.forward, Vector3.left) > 0.6f)
+        {
+
+            if (moveDir.z > 0 && moveDir.x > 0) SetBlend(1f, -1f);
+            else if (moveDir.z > 0 && moveDir.x < 0) SetBlend(1f, 1f);
+            else if (moveDir.z < 0 && moveDir.x > 0) SetBlend(-1f, -1f);
+            else if (moveDir.z < 0 && moveDir.x < 0) SetBlend(-1f, 1f);
+
+            else if (moveDir.x < 0) SetBlend(0f, 1f);
+            else if (moveDir.x > 0) SetBlend(0f, -1f);
+            else if (moveDir.z > 0) SetBlend(1f, 0f);
+            else if (moveDir.z < 0) SetBlend(-1f, 0f);
+            Debug.Log("looking left");
+        }
+        else if (Vector3.Dot(transform.forward, Vector3.back) > 0.6f)
+        {
+
+            if (moveDir.z > 0 && moveDir.x > 0) SetBlend(-1f, -1f);
+            else if (moveDir.z > 0 && moveDir.x < 0) SetBlend(1f, -1f);
+            else if (moveDir.z < 0 && moveDir.x > 0) SetBlend(-1f, 1f);
+            else if (moveDir.z < 0 && moveDir.x < 0) SetBlend(1f, 1f);
+
+            else if (moveDir.z < 0) SetBlend(0f, 1f);
+            else if (moveDir.z > 0) SetBlend(0f, -1f);
+            else if (moveDir.x > 0) SetBlend(1f, 0f);
+            else if (moveDir.x < 0) SetBlend(-1f, 0f);
+            Debug.Log("looking back");
+        }
+
+
+    }
+    IEnumerator ChangeSpeedTemporarily(float newSpeed, float duration)
+    {
+        float originalSpeed = speed;
+        speed = newSpeed;
+        yield return new WaitForSeconds(duration);
+        speed = originalSpeed;
+    }
+    void SetBlend(float x, float y)
+    {
+        animator.SetFloat("RightLook", x, 0.2f, Time.deltaTime);
+        animator.SetFloat("ForwardLook", y, 0.2f, Time.deltaTime);
+    }
+    public void StopPlayerMovement(bool stopGravity)
+    {
+
+        if (stopGravity) gravity = 0;
+        PlayerVelo = Vector3.zero;
+        moveDir = Vector3.zero;
+        animator.Play("Idle", 0, 0);
+    }
 }
 

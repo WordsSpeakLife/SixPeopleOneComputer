@@ -5839,6 +5839,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 94c438338a55e8d45a5c24764491ffd8, type: 3}
   m_PrefabInstance: {fileID: 1266637726}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &875063802 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 94c438338a55e8d45a5c24764491ffd8, type: 3}
+  m_PrefabInstance: {fileID: 1266637726}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &884971565 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3659082891664317326, guid: 5a9659b06e9a4f749834a85506f8438a, type: 3}
@@ -8336,12 +8341,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 7449485013140426181}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 94c438338a55e8d45a5c24764491ffd8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 94c438338a55e8d45a5c24764491ffd8, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 94c438338a55e8d45a5c24764491ffd8, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 94c438338a55e8d45a5c24764491ffd8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 94c438338a55e8d45a5c24764491ffd8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 94c438338a55e8d45a5c24764491ffd8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -8374,6 +8391,10 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 94c438338a55e8d45a5c24764491ffd8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 94c438338a55e8d45a5c24764491ffd8, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 94c438338a55e8d45a5c24764491ffd8, type: 3}
       propertyPath: m_Name
@@ -21538,8 +21559,8 @@ Transform:
   m_GameObject: {fileID: 6460914180122741731}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalPosition: {x: -2.06, y: 0.5, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9032032395528089823}
@@ -22139,7 +22160,7 @@ MonoBehaviour:
     m_Bits: 576
   model: {fileID: 1014581136}
   ShootPos: {fileID: 9032032395528089823}
-  animator: {fileID: 0}
+  animator: {fileID: 875063802}
   mainCamera: {fileID: 0}
   aimMask:
     serializedVersion: 2
@@ -22161,7 +22182,7 @@ MonoBehaviour:
   dashTime: 0.2
   DashResetTime: 1
   Dashmax: 1
-  DashmaxGround: 0
+  DashmaxGround: 1
   sens: 2
   MouseOn: 1
   turnCalmVelocity: 0.5
@@ -22172,6 +22193,8 @@ MonoBehaviour:
   WallJumpRayDistance: 0.76
   WallRunRayDistance: 0.5
   BottomRayDistance: 0.9
+  HardFallDistance: 1
+  SoftFallDistance: 3.5
   airDrag: 8.01
   weaponList:
   - {fileID: 11400000, guid: 4c9fd01877431f84c98d4da89160503d, type: 2}
@@ -24378,13 +24401,13 @@ CharacterController:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 1.4
-  m_Radius: 0.25
+  m_Height: 4
+  m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.6, z: 0}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!224 &8932641576362280442
 RectTransform:
   m_ObjectHideFlags: 0
