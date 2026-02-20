@@ -471,7 +471,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             float time = Time.time;
             if (DashCount < Dashmax)
             {
-                SoundManager.instance.PlaySound3D("dash 2", transform.position);
+                SoundManager.instance.PlaySound2D("Dash");
                 DashCount++;
                 while (Time.time < time + dashTime)
                 {
@@ -583,7 +583,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         //     }
         // }
 
-        SoundManager.instance.PlaySound3D("shoots", transform.position);
+        SoundManager.instance.PlaySound2D("shoots");
     }
 
 
@@ -604,7 +604,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     }
     public void takeDamage(int amount)
     {
-        SoundManager.instance.PlaySound3D("damage", transform.position);
+        SoundManager.instance.PlaySound2D("damage");
         Hp -= amount;
         model.material.color = Color.red;
         StartCoroutine(wait(0.2f, false));

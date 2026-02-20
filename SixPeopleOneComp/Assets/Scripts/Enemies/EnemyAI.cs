@@ -132,7 +132,7 @@ public class EnemyAI : MonoBehaviour, IDamage
             DropCredits();
             Destroy(gameObject);
 
-            SoundManager.instance.PlaySound3D("enemies", transform.position);
+            SoundManager.instance.PlaySound2D("enemies");
         }
         else
         {
@@ -172,7 +172,7 @@ public class EnemyAI : MonoBehaviour, IDamage
         Destroy(charge);
         faceTargetSpeed = 1;
         GameObject lazer = Instantiate(bullet, shootPos);
-        SoundManager.instance.PlaySound3D("shoots", transform.position);
+        SoundManager.instance.PlaySound2D("shoots");
         agent.stoppingDistance = stoppingDistOrig;
         yield return new WaitForSeconds(4f);
         Destroy(lazer);

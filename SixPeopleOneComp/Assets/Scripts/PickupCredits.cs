@@ -28,7 +28,7 @@ public class PickupCredits : MonoBehaviour
 
         if (GameManager.instance)
         {
-            SoundManager.instance.PlaySound3D("pickup", transform.position);
+            SoundManager.instance.PlaySound2D("pickup");
             GameManager.instance.AddCredits(creditsAmount);
         }
 

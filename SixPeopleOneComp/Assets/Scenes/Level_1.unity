@@ -25315,7 +25315,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 3b5458663d38ab640b25ad592996bf9b, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.15
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -26002,26 +26002,6 @@ PrefabInstance:
     - target: {fileID: 6786287280955083733, guid: 0a7beda6726b7ac45be06e3760823d1e, type: 3}
       propertyPath: m_Name
       value: AudioManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 9168313147675666228, guid: 0a7beda6726b7ac45be06e3760823d1e, type: 3}
-      propertyPath: tracks.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9168313147675666228, guid: 0a7beda6726b7ac45be06e3760823d1e, type: 3}
-      propertyPath: tracks.Array.data[0].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 4781195b4b75f1946947d447470eb602, type: 3}
-    - target: {fileID: 9168313147675666228, guid: 0a7beda6726b7ac45be06e3760823d1e, type: 3}
-      propertyPath: tracks.Array.data[1].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 3f86c6735c57b0540892532321104cd4, type: 3}
-    - target: {fileID: 9168313147675666228, guid: 0a7beda6726b7ac45be06e3760823d1e, type: 3}
-      propertyPath: tracks.Array.data[0].trackName
-      value: menu
-      objectReference: {fileID: 0}
-    - target: {fileID: 9168313147675666228, guid: 0a7beda6726b7ac45be06e3760823d1e, type: 3}
-      propertyPath: tracks.Array.data[1].trackName
-      value: gameplay
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

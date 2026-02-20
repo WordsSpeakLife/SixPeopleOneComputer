@@ -63,6 +63,7 @@ public class GameManager : MonoBehaviour
     public AudioMixer audioMixer;
     public Slider MusicSlider;
     public Slider SfxSlider;
+    public Slider VolumeSlider;
     public Camera playerCamera;
     float timeScaleOrig;
     public GameObject DamageFlash;
@@ -90,6 +91,8 @@ public class GameManager : MonoBehaviour
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.Confined;
         }
+       // SaveVolume();
+       // LoadVolume();
     }
 
     private void Start()
@@ -104,7 +107,7 @@ public class GameManager : MonoBehaviour
         // LoadVolume();
         // UpdateMusicVolume(MusicSlider.value);
         // UpdateSoundVolume(SfxSlider.value);
-        // SaveVolume();
+         
 
         if (GameType == GameGoal.Timed)
         {
@@ -253,7 +256,11 @@ public class GameManager : MonoBehaviour
 
     public void UpdateSoundVolume(float volume)
     {
-        audioMixer.SetFloat("SfxVolume", volume);
+        audioMixer.SetFloat("SFXVolume", volume);
+    }
+    public void UpdateMasterVolume(float volume)
+    {
+        audioMixer.SetFloat("MasterVolume", volume);
     }
 
     public void SaveVolume()
@@ -261,14 +268,18 @@ public class GameManager : MonoBehaviour
         audioMixer.GetFloat("MusicVolume", out float musicVolume);
         PlayerPrefs.SetFloat("MusicVolume", musicVolume);
 
-        audioMixer.GetFloat("SfxVolume", out float SfxVolume);
-        PlayerPrefs.SetFloat("SfxVolume", SfxVolume);
+        audioMixer.GetFloat("SFXVolume", out float SfxVolume);
+        PlayerPrefs.SetFloat("SFXVolume", SfxVolume);
+
+        audioMixer.GetFloat("MasterVolume", out float MasterVolume);
+        PlayerPrefs.SetFloat("MasterVolume", MasterVolume);
     }
 
     public void LoadVolume()
     {
         MusicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
-        SfxSlider.value = PlayerPrefs.GetFloat("SfxVolume");
+        SfxSlider.value = PlayerPrefs.GetFloat("SFXVolume");
+        VolumeSlider.value = PlayerPrefs.GetFloat("MasterVolume");
     }
 
     public void AddCredits(int amount)
