@@ -132,10 +132,8 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
         {
             if (GameManager.instance.GameType == GameManager.GameGoal.DefeatAllEnemies)
                 GameManager.instance.updateGameGoal(-1);
-
+            CleanUpManager.instance.RemoveClonedObjects();
             Destroy(gameObject);
-            Camera.main.GetComponent<CameraShake>().StartCameraShake();
-            SoundManager.instance.PlaySound3D("enemies", transform.position);
         }
         else if (HP <= 150 && !phaseThree)
         {
