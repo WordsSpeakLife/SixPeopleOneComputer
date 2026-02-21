@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour
     public AudioMixer audioMixer;
     public Slider MusicSlider;
     public Slider SfxSlider;
+    public Slider VolumeSlider;
     public Camera playerCamera;
     float timeScaleOrig;
     public GameObject DamageFlash;
@@ -280,11 +281,18 @@ public class GameManager : MonoBehaviour
     {
         audioMixer.SetFloat("SfxVolume", volume);
     }
+    public void UpdateMasterVolume(float volume)
+    {
+        audioMixer.SetFloat("MasterVolume", volume);
+    }
 
     public void SaveVolume()
     {
         audioMixer.GetFloat("MusicVolume", out float musicVolume);
         PlayerPrefs.SetFloat("MusicVolume", musicVolume);
+
+        audioMixer.GetFloat("MasterVolume", out float MasterVolume);
+        PlayerPrefs.SetFloat("MasterVolume", MasterVolume);
 
         audioMixer.GetFloat("SfxVolume", out float SfxVolume);
         PlayerPrefs.SetFloat("SfxVolume", SfxVolume);
@@ -294,6 +302,7 @@ public class GameManager : MonoBehaviour
     {
         MusicSlider.value = PlayerPrefs.GetFloat("MusicVolume");
         SfxSlider.value = PlayerPrefs.GetFloat("SfxVolume");
+        VolumeSlider.value = PlayerPrefs.GetFloat("MasterVolume");
     }
 
     public void AddCredits(int amount)
