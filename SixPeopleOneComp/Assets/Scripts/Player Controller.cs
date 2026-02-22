@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -28,7 +29,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
     [Header("---- Stats ----")]
     [Range(1, 10)][SerializeField] int Hp;
-    [Range(1,10)][SerializeField] int OriginalHp;
+    [Range(1, 10)][SerializeField] int OriginalHp;
     [Range(0, 10)][SerializeField] float speed;
     [Range(0, 10)][SerializeField] int sprintMod;
 
@@ -427,7 +428,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 {
                     DashCount = 0;
                     Debug.Log(hit.collider.name + " wall Jump");
-                    //PlayerVelo.y = WallJumpPower;
+                    //PlayerVelo.y = WallJumpPower;dwa
                     //PlayerVelo.x = hit.normal.x * WallJumpPower;
                     // TurnGravityOn();
                     Vector3 JumpDirection = transform.up * wallJumpUpPower + hit.normal * wallJumpSideforce;
@@ -458,7 +459,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                     wallRunActive = false;
                     return;
                 }
-                if (hitLeft && !IsRayOnGround(leftHit) && (prevWallRunName == null || prevWallRunName != leftHit.collider.name))
+                else if (hitLeft && !IsRayOnGround(leftHit) && (prevWallRunName == null || prevWallRunName != leftHit.collider.name))
                 {
                     if (Mathf.Abs(leftHit.normal.x) > 0.0f && leftHit.collider.CompareTag("wall") && !IsRayOnGround(leftHit))
                     {
@@ -473,7 +474,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                         return;
                     }
                 }
-                if (hitRight && !IsRayOnGround(rightHit) && (prevWallRunName == null || prevWallRunName != rightHit.collider.name))
+                else if (hitRight && !IsRayOnGround(rightHit) && (prevWallRunName == null || prevWallRunName != rightHit.collider.name))
                 {
                     if (Mathf.Abs(rightHit.normal.x) > 0.0f && rightHit.collider.CompareTag("wall") && !IsRayOnGround(rightHit))
                     {
@@ -488,7 +489,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                         return;
                     }
                 }
-                if (hitFront && !IsRayOnGround(FrontHit) && (prevWallRunName == null || prevWallRunName != FrontHit.collider.name))
+                else if (hitFront && !IsRayOnGround(FrontHit) && (prevWallRunName == null || prevWallRunName != FrontHit.collider.name))
                 {
                     if (Mathf.Abs(FrontHit.normal.x) > 0.0f && FrontHit.collider.CompareTag("wall") && !IsRayOnGround(FrontHit))
                     {
@@ -501,7 +502,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                         return;
                     }
                 }
-                if (hitBack && !IsRayOnGround(BackHit) && (prevWallRunName == null || prevWallRunName != BackHit.collider.name))
+                else if (hitBack && !IsRayOnGround(BackHit) && (prevWallRunName == null || prevWallRunName != BackHit.collider.name))
                 {
                     if (Mathf.Abs(BackHit.normal.x) > 0.0f && BackHit.collider.CompareTag("wall") && !IsRayOnGround(BackHit))
                     {
@@ -672,12 +673,12 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         GameManager.instance.HealthBar.fillAmount = (float)Hp / OriginalHp;
         model.material.color = Color.red;
 
-        GameManager.instance.leftPos.transform.position = new Vector3(GameManager.instance.leftPos.position.x + (Screen.width/ 102) * ((overDamage) ? tempAmount:amount), GameManager.instance.leftPos.position.y, GameManager.instance.leftPos.position.z);
+        GameManager.instance.leftPos.transform.position = new Vector3(GameManager.instance.leftPos.position.x + (Screen.width / 102) * ((overDamage) ? tempAmount : amount), GameManager.instance.leftPos.position.y, GameManager.instance.leftPos.position.z);
 
         GameManager.instance.dmgIndLeft.color = new Color(GameManager.instance.dmgIndLeft.color.r, GameManager.instance.dmgIndLeft.color.g, GameManager.instance.dmgIndLeft.color.b, GameManager.instance.dmgIndLeft.color.a + .05f * ((overDamage) ? tempAmount : amount));
 
         GameManager.instance.rightPos.transform.position = new Vector3(GameManager.instance.rightPos.position.x - (Screen.width / 102) * ((overDamage) ? tempAmount : amount), GameManager.instance.rightPos.position.y, GameManager.instance.rightPos.position.z);
-        GameManager.instance.dmgIndRight.color = new Color(GameManager.instance.dmgIndRight.color.r, GameManager.instance.dmgIndRight.color.g, GameManager.instance.dmgIndRight.color.b, GameManager.instance.dmgIndRight.color.a + .05f * ((overDamage) ? tempAmount:amount));
+        GameManager.instance.dmgIndRight.color = new Color(GameManager.instance.dmgIndRight.color.r, GameManager.instance.dmgIndRight.color.g, GameManager.instance.dmgIndRight.color.b, GameManager.instance.dmgIndRight.color.a + .05f * ((overDamage) ? tempAmount : amount));
 
         StartCoroutine(wait(0.2f, false));
         Color barOrig = GameManager.instance.HealthBar.color;
@@ -724,14 +725,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     }
     IEnumerator wait(float amount, bool Randcolor)
     {
-        if (Randcolor)
-        {
-            model.material.color = Random.ColorHSV();
-        }
-        else
-        {
-            model.material.color = Color.cyan;
-        }
         yield return new WaitForSeconds(amount);
         TurnGravityOn();
         wallRunActive = false;
