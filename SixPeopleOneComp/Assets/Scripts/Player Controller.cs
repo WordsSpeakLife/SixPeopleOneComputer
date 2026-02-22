@@ -926,10 +926,9 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     IEnumerator FlashDamage(int amount, Color barOrig)
     {
         GameManager.instance.DamageFlash.SetActive(true);
-        GameManager.instance.HealthBar.color = Color.white;
+        GameManager.instance.HealthBar.color = Color.Lerp(barOrig, Color.magenta, 0.1f * amount);
         yield return new WaitForSeconds(0.1f);
         GameManager.instance.DamageFlash.SetActive(false);
-        GameManager.instance.HealthBar.color = Color.Lerp(barOrig, Color.magenta, 0.1f * amount);
 
     }
 

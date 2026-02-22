@@ -33185,6 +33185,10 @@ PrefabInstance:
       value: 5512
       objectReference: {fileID: 0}
     - target: {fileID: 1147360753220423118, guid: ea264bbe3c0f79643a6fa41c77ef2697, type: 3}
+      propertyPath: HP
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 1147360753220423118, guid: ea264bbe3c0f79643a6fa41c77ef2697, type: 3}
       propertyPath: thirdPhasePos
       value: 
       objectReference: {fileID: 1370710171}

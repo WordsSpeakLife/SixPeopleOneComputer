@@ -171,6 +171,8 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0;
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
+
+        
     }
 
     public void stateUnpause()
@@ -333,14 +335,13 @@ public class GameManager : MonoBehaviour
             frac = t / 10;
         }
 
-        Vector2 sizeChange1 = new Vector2(creditsText.rectTransform.localScale.x + .05f, creditsText.rectTransform.localScale.y + .05f);
-        Vector2 sizeChange2 = new Vector2(creditsText.rectTransform.localScale.x + .1f, creditsText.rectTransform.localScale.y + .1f);
-
         isCounting = true;
         if(bitChangeType == true)
         {
             while (current < target)
             {
+                Vector2 sizeChange1 = new Vector2(creditsText.rectTransform.localScale.x + .05f, creditsText.rectTransform.localScale.y + .05f);
+                Vector2 sizeChange2 = new Vector2(creditsText.rectTransform.localScale.x + .1f, creditsText.rectTransform.localScale.y + .1f);
                 current++;
 
                 creditsText.text = "x" + current;
@@ -357,6 +358,8 @@ public class GameManager : MonoBehaviour
         {
             while (current > target)
             {
+                Vector2 sizeChange1 = new Vector2(creditsText.rectTransform.localScale.x - .025f, creditsText.rectTransform.localScale.y - .025f);
+                Vector2 sizeChange2 = new Vector2(creditsText.rectTransform.localScale.x - .0125f, creditsText.rectTransform.localScale.y - .0125f);
                 current--;
 
                 creditsText.text = "x" + current;
@@ -364,8 +367,6 @@ public class GameManager : MonoBehaviour
                 creditsText.color = Color.Lerp(creditsText.color, Color.magenta, 0.1f);
                 yield return new WaitForSeconds(.05f);
                 creditsText.rectTransform.localScale = sizeChange1;
-                sizeChange1 = new Vector2(creditsText.rectTransform.localScale.x - .025f, creditsText.rectTransform.localScale.y - .025f);
-                sizeChange2 = new Vector2(creditsText.rectTransform.localScale.x - .05f, creditsText.rectTransform.localScale.y - .05f);
                 yield return new WaitForSeconds(.1f);
             }
         }
@@ -425,23 +426,30 @@ public class GameManager : MonoBehaviour
     {
         if (creditsRequiredText)
         {
-            if (door.isOpen != true)
+            if (door)
             {
                 if (GameType == GameGoal.ReachGoal)
                 {
-                    if (amount > 0)
+                    if (door.isOpen != true)
                     {
-                        creditsRequiredText.text = "Collect " + amount + " more bits to progress!";
+                        if (amount > 0)
+                        {
+                            creditsRequiredText.text = "Collect " + amount + " more bits to progress!";
+                        }
+                        else if (amount <= 0)
+                        {
+                            creditsRequiredText.text = "Get to the door!";
+                        }
                     }
-                    else if (amount <= 0)
+                    else
                     {
-                        creditsRequiredText.text = "Get to the door!";
+                        creditsRequiredText.text = "Progress!";
                     }
                 }
-                else if (GameType == GameGoal.DefeatAllEnemies)
-                {
-                    creditsRequiredText.text = "Defeat the enemies!";
-                }
+            }
+            else if (!door && GameType == GameGoal.DefeatAllEnemies)
+            {
+                creditsRequiredText.text = "Defeat the enemies!";
             }
             else
             {
