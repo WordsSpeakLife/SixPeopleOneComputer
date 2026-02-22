@@ -81,6 +81,7 @@ MonoBehaviour:
   reticleYOffset: 0.02
   reticleDistance: 7
   Hp: 10
+  OriginalHp: 1
   speed: 6
   sprintMod: 0
   jumpSpeed: 9
