@@ -119,6 +119,8 @@ public class MeleeEnemyAI : MonoBehaviour, IDamage
     {
         HP -= amount;
 
+        SoundManager.instance.PlaySound2D("damage");
+
         if (HP <= 0)
         {
             if (GameManager.instance.GameType == GameManager.GameGoal.DefeatAllEnemies)
@@ -126,6 +128,7 @@ public class MeleeEnemyAI : MonoBehaviour, IDamage
 
             if (dropItem != null)
                 Instantiate(dropItem, transform.position, transform.rotation);
+            SoundManager.instance.PlaySound2D("loose");
 
             Destroy(gameObject);
         }
@@ -139,6 +142,7 @@ public class MeleeEnemyAI : MonoBehaviour, IDamage
     {
         Destroy(gameObject);
         Instantiate(explosionEffect, transform.position, Quaternion.identity);
+        SoundManager.instance.PlaySound2D("Explosion");
     }
 
     public void flash()

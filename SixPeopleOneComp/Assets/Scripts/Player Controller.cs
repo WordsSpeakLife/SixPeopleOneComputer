@@ -518,6 +518,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         if (shootType == 1) //Single Shot!
         {
             Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot);
+            SoundManager.instance.PlaySound2D("shoots");
         }
         else if (shootType == 2) //Burst Shot!
         {
@@ -530,6 +531,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                     Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, (45 / bulletAmount) + addAngle, 0));
                     Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, (-45 / bulletAmount) - addAngle, 0));
                     addAngle = addAngle + (45 / bulletAmount);
+                    SoundManager.instance.PlaySound2D("Burst");
                 }
             }
             else if (bulletAmount % 2 == 0) // Even number
@@ -539,6 +541,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                     Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, ((45 / bulletAmount) / 2 + addAngle), 0));
                     Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, ((-45 / bulletAmount) / 2 - addAngle), 0));
                     addAngle = addAngle + (45 / bulletAmount);
+                    SoundManager.instance.PlaySound2D("Burst");
                 }
             }
 
@@ -553,6 +556,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                     Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, (360 / bulletAmount) + addAngle, 0));
 
                     addAngle += (360 / bulletAmount);
+                    SoundManager.instance.PlaySound2D("Heavy");
                 }
             }
             else if (bulletAmount % 2 == 0)
@@ -562,6 +566,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                     Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, (360 / bulletAmount) + addAngle, 0));
 
                     addAngle += (360 / bulletAmount);
+                    SoundManager.instance.PlaySound2D("Heavy");
                 }
             }
         }
@@ -582,8 +587,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         //         }
         //     }
         // }
-
-        SoundManager.instance.PlaySound2D("shoots");
     }
 
 
@@ -600,6 +603,8 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             weaponList[weaponListPos].ammoCur = weaponList[weaponListPos].ammoMax;
             //    }
             //}
+
+            SoundManager.instance.PlaySound2D("reload");
         }
     }
     public void takeDamage(int amount)

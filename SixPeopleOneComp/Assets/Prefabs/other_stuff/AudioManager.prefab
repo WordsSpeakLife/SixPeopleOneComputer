@@ -609,7 +609,16 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 0713fa4e0fa25d041ba1f505207b327e, type: 3}
   - groupID: Dash
     clips:
-    - {fileID: 8300000, guid: f7b096a3404e04d4098d76172aa78129, type: 3}
+    - {fileID: 8300000, guid: a86866a60f449cd4ba30e8d6f1bcf30b, type: 3}
+  - groupID: Heavy
+    clips:
+    - {fileID: 8300000, guid: 16421ebe877f8944faf155005e6c8c37, type: 3}
+  - groupID: reload
+    clips:
+    - {fileID: 8300000, guid: cb06e06baacffd44290557d9f3bca55f, type: 3}
+  - groupID: Burst
+    clips:
+    - {fileID: 8300000, guid: 9fc61a2a70978b048a3a897944320aa5, type: 3}
 --- !u!114 &7170597200771402377
 MonoBehaviour:
   m_ObjectHideFlags: 0

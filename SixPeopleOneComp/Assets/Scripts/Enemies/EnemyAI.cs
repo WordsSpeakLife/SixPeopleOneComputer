@@ -107,14 +107,14 @@ public class EnemyAI : MonoBehaviour, IDamage
         if (enemyType == "Basic")
         {
             Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(shootDir.x, shootDir.y, shootDir.z)));
-            SoundManager.instance.PlaySound3D("shoots", transform.position);
+            SoundManager.instance.PlaySound2D("shoots");
         }
         else if (enemyType == "Burst")
         {
             Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(shootDir.x, shootDir.y, shootDir.z)) * Quaternion.Euler(0,15, 0));
             Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(shootDir.x, shootDir.y, shootDir.z)));
             Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(shootDir.x, shootDir.y, shootDir.z)) * Quaternion.Euler(0,-15, 0));
-            SoundManager.instance.PlaySound3D("shoots", transform.position);
+            SoundManager.instance.PlaySound2D("Burst");
         }
         else if (enemyType == "Charged")
         {
@@ -132,7 +132,7 @@ public class EnemyAI : MonoBehaviour, IDamage
             DropCredits();
             Destroy(gameObject);
 
-            SoundManager.instance.PlaySound2D("enemies");
+            SoundManager.instance.PlaySound2D("loose");
         }
         else
         {
