@@ -15,7 +15,7 @@ MonoBehaviour:
   shootDamage: 2
   shootDistance: 50
   shootRate: 0.2
-  shootSpeed: 0
+  shootSpeed: 1.1
   bullet: {fileID: 1481135220882722262, guid: 5105ff43295a3ee44a7f80ff155a53d6, type: 3}
   constantHitbox: {fileID: 0}
   isHoming: 0
