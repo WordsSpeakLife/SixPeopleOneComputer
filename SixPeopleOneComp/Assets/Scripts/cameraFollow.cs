@@ -11,6 +11,7 @@ public class cameraFollow : MonoBehaviour
     [SerializeField] Vector3 cameraRotation = new Vector3(45f, 0f, 0f);
     [SerializeField] float rotationSmoothSpeed = 10f;
 
+    public bool followPlayer = true;
 
     Transform playerTarget;
 
@@ -34,21 +35,22 @@ public class cameraFollow : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void LateUpdate()
     {
+        if (followPlayer)
+        {
+            Vector3 desiredPosition = playerTarget.position + offset;
 
-        Vector3 desiredPosition = playerTarget.position + offset;
+            transform.position = Vector3.Lerp(
+                transform.position,
+                desiredPosition,
+                smoothSpeed * Time.deltaTime);
 
-        transform.position = Vector3.Lerp(
-            transform.position,
-            desiredPosition,
-            smoothSpeed * Time.deltaTime);
+            // --- ROTATION ---
+            Quaternion desiredRotation = Quaternion.Euler(cameraRotation);
 
-        // --- ROTATION ---
-        Quaternion desiredRotation = Quaternion.Euler(cameraRotation);
-
-        transform.rotation = Quaternion.Lerp(
-            transform.rotation,
-            desiredRotation,
-            rotationSmoothSpeed * Time.deltaTime);
-
+            transform.rotation = Quaternion.Lerp(
+                transform.rotation,
+                desiredRotation,
+                rotationSmoothSpeed * Time.deltaTime);
+        }
     }
 }

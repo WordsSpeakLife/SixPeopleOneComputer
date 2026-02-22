@@ -10,8 +10,10 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     [SerializeField] CharacterController controller;
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] Renderer model;
+    Renderer modeloriginal;
     [SerializeField] Transform ShootPos;
-    [SerializeField] GameObject lineRenderer;
+    [SerializeField] Animator animator;
+    [SerializeField] GameObject WallRunPully;
 
     [Header("---- Aim / Reticle ----")]
     [SerializeField] Camera mainCamera;
@@ -27,7 +29,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     [Header("---- Stats ----")]
     [Range(1, 10)][SerializeField] int Hp;
     [Range(1,10)][SerializeField] int OriginalHp;
-    [Range(0, 10)][SerializeField] int speed;
+    [Range(0, 10)][SerializeField] float speed;
     [Range(0, 10)][SerializeField] int sprintMod;
 
     [Header("---- Jump ----")]
@@ -72,6 +74,9 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     [SerializeField] float WallRunRayDistance;
 
     [SerializeField] float BottomRayDistance;
+
+    [SerializeField] float HardFallDistance;
+    [SerializeField] float SoftFallDistance;
 
     //[SerializeField] float wallRunRayBottomDistance;
     [Range(0, 10)][SerializeField] float airDrag;
@@ -126,39 +131,57 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     bool hasWallForRun;
     float GroundCheck;
 
-
-
-
+    bool Fast;
+    bool canMove = true;
+    float speeedOrig;
+    bool NoArms;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Hp = OriginalHp;
+        OriginalHp = Hp;
         GameManager.instance.HealthBar.fillAmount = Hp;
         gravityOrig = gravity;
         duration = wallRunTimeOnWall;
         weaponList[weaponListPos].ammoCur = weaponList[weaponListPos].ammoMax;
+        animator.SetFloat("Speed", 0);
         updateIconFill();
+        modeloriginal = model;
+        speeedOrig = speed;
         //     GroundCheck = BottomRayDistance;
     }
     // Update is called once per fram
+
     void Update()
     {
-        UpdateAimPoint();
-        UpdateReticle();
-        Movement();
-        if (!cyoteTimeActive)
-        {
-            StartCoroutine(CyoteTime(0.3f));
-        }
 
+        if (canMove)
+        {
+            UpdateAimPoint();
+            UpdateReticle();
+            Movement();
+            ShowAngle();
+            if (!cyoteTimeActive)
+            {
+                StartCoroutine(CyoteTime(0.3f));
+            }
+        }
+        else
+        {
+            StopPlayerMovement(true);
+        }
         void Movement()
         {
 
             bool isGrounded = Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, BottomRayDistance, ~ignoreLayer);
+            bool isNotSoftFall = Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, SoftFallDistance, ~ignoreLayer);
+            bool LandAnim = Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, HardFallDistance, ~ignoreLayer);
             //isGroundedCyote = Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, BottomRayDistance, ~ignoreLayer);
-            Debug.DrawRay(controller.transform.position, -controller.transform.up * BottomRayDistance, isGrounded ? Color.black : Color.red);
-            Debug.DrawRay(controller.transform.position, controller.transform.right * WallJumpRayDistance, Color.green);
-            Debug.DrawRay(controller.transform.position, -controller.transform.right * WallJumpRayDistance, Color.blue);
+            //Debug.DrawRay(controller.transform.position, -controller.transform.up * BottomRayDistance, isGrounded ? Color.black : Color.red);
+
+            // Debug.DrawRay(controller.transform.position, -controller.transform.up * SoftFallDistance, isNotSoftFall ? Color.black : Color.red);
+            // Debug.DrawRay(controller.transform.position, controller.transform.right * WallJumpRayDistance, Color.green);
+            // Debug.DrawRay(controller.transform.position, -controller.transform.right * WallJumpRayDistance, Color.blue);
+
             shootTimer += Time.deltaTime;
             RotatePlayerYawToMouse();
             moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
@@ -218,7 +241,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                     }
                 }
             }
-
             if (isGrounded && PlayerVelo.y <= 0)
             {
                 jumpCount = 0;
@@ -226,9 +248,9 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 prevWallJumpName = null;
                 prevWallRunName = null;
                 wallRunActive = false;
-                model.material.color = Color.cyan;
+                NoArms = false;
+                model = modeloriginal;
                 DashCount = 0;
-
                 TurnGravityOn();
             }
             else
@@ -242,6 +264,55 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             Vector3 movement = (moveDir * speed) + PlayerVelo; //+ wallMoveVector;
             controller.Move(movement * Time.deltaTime);
 
+            if (moveDir == Vector3.zero)
+            {
+                animator.SetFloat("Speed", 0f);
+                
+                animator.SetLayerWeight(1, 0);
+            }
+            else
+            {
+                animator.SetFloat("Speed", 0.02f);
+                
+            }
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                Fast = !Fast;
+            }
+            if (Fast)
+            {
+                speed = 40;
+            }
+            else
+            {
+                speed = 6;
+            }
+            if (!isGrounded && !isNotSoftFall && LandAnim)
+            {
+                animator.SetTrigger("Land");
+                animator.SetBool("IsSoftFalling", false);
+            }
+            if (isGrounded && isNotSoftFall)
+            {
+                animator.SetBool("IsOnGround", true);
+                animator.SetBool("IsSoftFalling", false);
+                animator.SetTrigger("Land");
+            }
+            else if (!isNotSoftFall)
+            {
+                animator.SetBool("IsSoftFalling", true);
+                animator.SetLayerWeight(1, 0);
+                if (LandAnim)
+                {
+                    animator.SetTrigger("Land");
+                }
+            }
+            else if (!isGrounded && isNotSoftFall)
+            {
+                animator.SetBool("IsSoftFalling", false);
+                animator.SetBool("IsOnGround", false);
+                animator.SetLayerWeight(1, 0);
+            }
         }
         void HandleButtonPress(bool grounded)
         {
@@ -255,6 +326,16 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 }
                 else if (grounded && jumpCount < jumpMax)
                 {
+                    RaycastHit[] traps = Physics.RaycastAll(controller.transform.position, -controller.transform.up, 0.9f, ~ignoreLayer);
+                    if (traps.Length == 1 && traps[0].collider.CompareTag("Trap"))
+                    {
+                        return;
+                    }
+                    else if (traps.Length == 2)
+                    {
+                        Jump();
+                        return;
+                    }
                     Jump();
                 }
                 else if (isGroundedCyote && !grounded && jumpCount < jumpMax)
@@ -267,13 +348,11 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 //Debug.Log("controller said grounded");
                 wallRun();
             }
-
             if (Input.GetKeyDown(GameManager.instance.keyBinds.Dash))
             {
                 wallRunActive = false;
                 timerRunning = false;
                 gravity = gravityOrig;
-
                 if (DashCount <= Dashmax && !grounded)
                 {
                     dashDir = controller.transform.forward.normalized;
@@ -284,20 +363,18 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                     dashDir = controller.transform.forward.normalized;
                     StartCoroutine(DashOnGround());
                 }
-
             }
-
-            if (Input.GetKey(GameManager.instance.keyBinds.Shoot) && weaponList.Count > 0 && weaponList[weaponListPos].ammoCur > 0 && shootTimer >= ShootRate && Time.deltaTime > 0)
+            if (Input.GetButton("Fire1") && weaponList.Count > 0 && weaponList[weaponListPos].ammoCur > 0 && shootTimer >= ShootRate && Time.deltaTime > 0)
             {
+                Debug.Log("Pew Pew 111");
                 if (weaponList.Count == 0)
                 {
                     return;
                 }
                 shoot();
             }
-            //if (Input.GetButton("Fire1") && weaponList.Count > 0 && weaponList[weaponListPos].ammoCur <= 1)
-            //    SoundManager.instance.PlaySound3D("Jumps", transform.position);
-
+            // if (Input.GetButton("Fire1") && weaponList.Count > 0 && weaponList[weaponListPos].ammoCur <= 1)
+                // SoundManager.instance.PlaySound3D("Jumps", transform.position);
             changeWep();
             selectWep();
             reload();
@@ -306,41 +383,41 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         {
             if (!wallRunActive)
             {
-                PlayerVelo.y = jumpSpeed;
-                // controller.Move(moveDir * speed * Time.deltaTime);
-                jumpCount++;
-                SoundManager.instance.PlaySound3D("Jumps", transform.position); 
-            }
-        }
-        void CyoteJump()
-        {
-            if (!wallRunActive)
-            {
+                NoArms = true;
+                animator.SetLayerWeight(1, 0);
+                animator.SetTrigger("Jump");
                 PlayerVelo.y = jumpSpeed;
                 // controller.Move(moveDir * speed * Time.deltaTime);
                 jumpCount++;
                 SoundManager.instance.PlaySound3D("Jumps", transform.position);
             }
         }
-
-
-
+        void CyoteJump()
+        {
+            if (!wallRunActive)
+            {
+                NoArms = true;
+                animator.SetLayerWeight(1, 0);
+                animator.SetTrigger("Jump");
+                PlayerVelo.y = jumpSpeed;
+                // controller.Move(moveDir * speed * Time.deltaTime);
+                jumpCount++;
+                SoundManager.instance.PlaySound3D("Jumps", transform.position);
+            }
+        }
         void wallJump()
         {
-
             model.material.color = Color.magenta;
             RaycastHit hit;
             wallRunActive = false;
             timerRunning = false;
             // TurnGravityOn();
-
             RaycastHit GroundHit;
             if (Physics.Raycast(controller.transform.position, -controller.transform.right, out hit, WallJumpRayDistance, ~ignoreLayer) ||
                 Physics.Raycast(controller.transform.position, controller.transform.right, out hit, WallJumpRayDistance, ~ignoreLayer) ||
                 Physics.Raycast(controller.transform.position, -controller.transform.forward, out hit, WallJumpRayDistance, ~ignoreLayer) ||
                 Physics.Raycast(controller.transform.position, controller.transform.forward, out hit, WallJumpRayDistance, ~ignoreLayer))
             {
-
                 if (Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, BottomRayDistance, ~ignoreLayer))
                 {
                     //Debug.Log(" nuh huh ");
@@ -364,7 +441,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         void wallRun()
         {
             //Debug.Log("hit wall runnnn")
-
             RaycastHit leftHit;
             RaycastHit rightHit;
             RaycastHit FrontHit;
@@ -373,8 +449,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             bool hitRight = Physics.Raycast(controller.transform.position, controller.transform.right, out rightHit, WallRunRayDistance, ~ignoreLayer);
             bool hitFront = Physics.Raycast(controller.transform.position, controller.transform.forward, out FrontHit, WallRunRayDistance, ~ignoreLayer);
             bool hitBack = Physics.Raycast(controller.transform.position, -controller.transform.forward, out BackHit, WallRunRayDistance, ~ignoreLayer);
-
-
             if (hitLeft || hitRight || hitFront || hitBack)
             {
                 if (Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, BottomRayDistance, ~ignoreLayer))
@@ -391,11 +465,12 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                         DashCount = 0;
                         currentWallHit = leftHit;
                         prevWallRunName = leftHit.collider.name;
+                        // WallRunPully.transform.position = leftHit.normal;
+                        // WallRunPully.SetActive(true);
                         wallRunActive = true;
                         StartTimer();
                         wallRunRayCastDirection(leftHit);
                         return;
-
                     }
                 }
                 if (hitRight && !IsRayOnGround(rightHit) && (prevWallRunName == null || prevWallRunName != rightHit.collider.name))
@@ -405,11 +480,12 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                         DashCount = 0;
                         currentWallHit = rightHit;
                         prevWallRunName = rightHit.collider.name;
+                        // WallRunPully.transform.position = rightHit.point;
+                        // WallRunPully.SetActive(true);
                         wallRunActive = true;
                         StartTimer();
                         wallRunRayCastDirection(rightHit);
                         return;
-
                     }
                 }
                 if (hitFront && !IsRayOnGround(FrontHit) && (prevWallRunName == null || prevWallRunName != FrontHit.collider.name))
@@ -438,7 +514,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                         return;
                     }
                 }
-
             }
             TurnGravityOn();
             wallRunActive = false;
@@ -447,10 +522,8 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         {
             return hit.collider.tag.Contains("ground");
         }
-
         IEnumerator Dash()
         {
-
             float time = Time.time;
             if (DashCount < Dashmax)
             {
@@ -460,11 +533,10 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 {
                     //Debug.Log("  time start ");
                     controller.Move(dashDir * dashSpeed * Time.deltaTime);
-                    model.material.color = Color.green;
+                    
                     yield return null;
                     // Debug.Log("  time end ");
                 }
-
             }
         }
         void wallRunRayCastDirection(RaycastHit hit)
@@ -474,20 +546,16 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             PlayerVelo.y = 0;
             model.material.color = Color.blue;
             jumpCount = 1;
-
         }
     }
-
     private void shoot()
     {
+        Debug.Log("Pew Pew");
         shootTimer = 0;
         weaponList[weaponListPos].ammoCur--;
         Vector3 shootOrigin = ShootPos ? ShootPos.position : transform.position;
         Vector3 shootDir = GetAimDirection();
         float addAngle = 0;
-
-
-
         if (gunRayOn == 1)
         {
             RaycastHit hit;
@@ -507,7 +575,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             if (bulletAmount % 2 == 1) //Odd number
             {
                 Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot);
-
                 for (int i = 0; i < bulletAmount / 2; i++)
                 {
                     Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, (45 / bulletAmount) + addAngle, 0));
@@ -524,7 +591,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                     addAngle = addAngle + (45 / bulletAmount);
                 }
             }
-
         }
         else if (shootType == 3) //Radial Shot!
         {
@@ -534,7 +600,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 for (int i = 0; i < bulletAmount; i++)
                 {
                     Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, (360 / bulletAmount) + addAngle, 0));
-
                     addAngle += (360 / bulletAmount);
                 }
             }
@@ -543,7 +608,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 for (int i = 0; i < bulletAmount; i++)
                 {
                     Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, (360 / bulletAmount) + addAngle, 0));
-
                     addAngle += (360 / bulletAmount);
                 }
             }
@@ -565,17 +629,13 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         //         }
         //     }
         // }
-
         SoundManager.instance.PlaySound3D("shoots", transform.position);
     }
-
-
     void reload()
     {
         if (Input.GetButtonDown("Reload") && weaponList.Count > 0)
         {
             //reloading = true; 
-
             //if(reloading == true)
             //{
             //    for (int i = 0; i < 50f * Time.deltaTime; i++)
@@ -627,8 +687,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     {
         gravity = 0;
     }
-
-
     public bool heal(int amount)
     {
         Color barOrig = new Color(0.3824615f, 1, 0);
@@ -666,10 +724,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         yield return new WaitForSeconds(amount);
         TurnGravityOn();
         wallRunActive = false;
-
-
     }
-
 
 
     public void GetWeaponStats(WeaponStat weapon)
@@ -697,8 +752,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 }
             }
         }
-
-            changeWep();
+        changeWep();
     }
     void changeWep()
     {
@@ -708,17 +762,14 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         ShootSpeed = weaponList[weaponListPos].shootSpeed;
         shootType = weaponList[weaponListPos].shootType;
         bulletAmount = weaponList[weaponListPos].bulletAmount;
-
+        // isHoming = weaponList[weaponListPos].isHoming;
         weaponIcon.sprite = weaponList[weaponListPos].weaponIcon;
         weaponIconFill.sprite = weaponList[weaponListPos].weaponIconFill;
         GameManager.instance.weaponIcon.sprite = weaponList[weaponListPos].weaponIcon;
         GameManager.instance.weaponIconFill.sprite = weaponList[weaponListPos].weaponIconFill;
-
         updateIconFill();
-
         //weaponIcon = weaponList[weaponListPos].weaponIcon;
         //GameManager.instance.weaponIcon = weaponIcon;
-
         //GameManager.instance.CurrentWeapon.GetComponent<SpriteRenderer>().sprite = weaponIcon.GetComponent<SpriteRenderer>().sprite;
     }
 
@@ -727,7 +778,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         weaponIconFill.fillAmount = (float)weaponList[weaponListPos].ammoCur / weaponList[weaponListPos].ammoMax;
         GameManager.instance.weaponIconFill.fillAmount = (float)weaponList[weaponListPos].ammoCur / weaponList[weaponListPos].ammoMax;
     }
-
     void selectWep()
     {
         if (Time.deltaTime > 0)
@@ -744,27 +794,19 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             }
         }
     }
-
-
-
     bool TryGetMouseAimPoint(out Vector3 point)
     {
         point = Vector3.zero;
-
         if (!mainCamera)
             mainCamera = Camera.main;
-
         if (!mainCamera) return false;
-
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 500f, aimMask))
         {
             point = hit.point;
             return true;
         }
-
         return false;
     }
 
@@ -772,9 +814,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     {
         hasAimPoint = TryGetMouseAimPoint(out aimPoint);
     }
-
-
-
     void UpdateReticle()
     {
         if (hasAimPoint)
@@ -785,13 +824,9 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         {
             if (!mainCamera)
                 mainCamera = Camera.main;
-
-
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             reticle.position = ray.origin + ray.direction * reticleDistance;
-
         }
-
         reticle.rotation = Quaternion.Euler(90f, 0f, 0f);
     }
 
@@ -801,24 +836,19 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     Vector3 GetAimDirection()
     {
         Vector3 shootOrigin = ShootPos ? ShootPos.position : transform.position;
-
         if (hasAimPoint)
         {
             return (aimPoint - shootOrigin).normalized;
         }
-
         return transform.forward;
     }
 
     void RotatePlayerYawToMouse()
     {
         if (!hasAimPoint) return;
-
         Vector3 flatDir = aimPoint - transform.position;
         flatDir.y = 0f;
-
         if (flatDir.sqrMagnitude < 0.0001f) return;
-
         Quaternion targetRot = Quaternion.LookRotation(flatDir);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, 15f * Time.deltaTime);
     }
@@ -831,11 +861,9 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     }
 
     IEnumerator MoveToPosition(Vector3 targetPosition, float timeToMove)
-
     {
         Vector3 currentPosition = transform.position;
         float timeElapsed = 0;
-
         while (timeElapsed < timeToMove)
         {
             float t = timeElapsed / timeToMove;
@@ -843,19 +871,16 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             timeElapsed += Time.deltaTime;
             yield return null;
         }
-
         transform.position = targetPosition;
     }
     void TimerFinished()
     {
-
         prevWallJumpName = null;
         prevWallRunName = null;
         timerRunning = false;
         wallRunActive = false;
         hasWallForRun = false;
         timer = 0f;
-
         TurnGravityOn();
         PlayerVelo.y = -2f;
         Debug.Log("Timer finished!");
@@ -886,7 +911,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             {
                 //Debug.Log("  time start ");
                 controller.Move(dashDir * dashSpeed * Time.deltaTime);
-                model.material.color = Color.green;
+                
                 yield return null;
                 // Debug.Log("  time end ");
             }
@@ -898,9 +923,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         yield return new WaitForSeconds(1);
         DashCountGround -= 1;
     }
-
-
-
     public int GetHP()
     {
         return Hp;
@@ -916,7 +938,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     {
         PlayerVelo = Vector3.zero;
         moveDir = Vector3.zero;
-
         controller.enabled = false;
         transform.position = pos;
         controller.enabled = true;
@@ -931,6 +952,75 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         GameManager.instance.DamageFlash.SetActive(false);
 
     }
-
+    void ShowAngle()
+    {
+        if (Vector3.Dot(transform.forward, Vector3.forward) > 0.8f)
+        {
+            if (moveDir.z > 0 && moveDir.x > 0) { SetBlend(1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }
+            else if (moveDir.z > 0 && moveDir.x < 0) { SetBlend(-1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }
+            else if (moveDir.z < 0 && moveDir.x > 0) { SetBlend(1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
+            else if (moveDir.z < 0 && moveDir.x < 0) { SetBlend(-1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
+            else if (moveDir.z > 0) { SetBlend(0f, 1f); animator.SetLayerWeight(1, 0); speed = speeedOrig; }
+            else if (moveDir.z < 0) { SetBlend(0f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }
+            else if (moveDir.x > 0) { SetBlend(1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }
+            else if (moveDir.x < 0) { SetBlend(-1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }
+            // Debug.Log("looking forward");
+        }
+        else if (Vector3.Dot(transform.forward, Vector3.right) > 0.6f)
+        {
+            if (moveDir.z > 0 && moveDir.x > 0) { SetBlend(-1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
+            else if (moveDir.z > 0 && moveDir.x < 0) { SetBlend(-1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
+            else if (moveDir.z < 0 && moveDir.x > 0) { SetBlend(1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
+            else if (moveDir.z < 0 && moveDir.x < 0) { SetBlend(1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
+            else if (moveDir.x > 0) { SetBlend(0f, 1f); animator.SetLayerWeight(1, 0); speed = speeedOrig; }
+            else if (moveDir.x < 0) { SetBlend(0f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }
+            else if (moveDir.z > 0) { SetBlend(1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }
+            else if (moveDir.z < 0) { SetBlend(-1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }
+            // Debug.Log("looking right");
+        }
+        else if (Vector3.Dot(transform.forward, Vector3.left) > 0.6f)
+        {
+            if (moveDir.z > 0 && moveDir.x > 0) { SetBlend(1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
+            else if (moveDir.z > 0 && moveDir.x < 0) { SetBlend(1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
+            else if (moveDir.z < 0 && moveDir.x > 0) { SetBlend(-1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
+            else if (moveDir.z < 0 && moveDir.x < 0) { SetBlend(-1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
+            else if (moveDir.x < 0) { SetBlend(0f, 1f); animator.SetLayerWeight(1, 0); speed = speeedOrig; }
+            else if (moveDir.x > 0) { SetBlend(0f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }
+            else if (moveDir.z > 0) { SetBlend(1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }
+            else if (moveDir.z < 0) { SetBlend(-1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }
+            // Debug.Log("looking left");
+        }
+        else if (Vector3.Dot(transform.forward, Vector3.back) > 0.6f)
+        {
+            if (moveDir.z > 0 && moveDir.x > 0) { SetBlend(-1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
+            else if (moveDir.z > 0 && moveDir.x < 0) { SetBlend(1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
+            else if (moveDir.z < 0 && moveDir.x > 0) { SetBlend(-1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
+            else if (moveDir.z < 0 && moveDir.x < 0) { SetBlend(1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
+            else if (moveDir.z < 0) { SetBlend(0f, 1f); animator.SetLayerWeight(1, 0); speed = speeedOrig; }
+            else if (moveDir.z > 0) { SetBlend(0f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }
+            else if (moveDir.x > 0) { SetBlend(1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }
+            else if (moveDir.x < 0) { SetBlend(-1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }
+            // Debug.Log("looking back");
+        }
+    }
+    IEnumerator ChangeSpeedTemporarily(float newSpeed, float duration)
+    {
+        float originalSpeed = speed;
+        speed = newSpeed;
+        yield return new WaitForSeconds(duration);
+        speed = originalSpeed;
+    }
+    void SetBlend(float x, float y)
+    {
+        animator.SetFloat("RightLook", x, 0.2f, Time.deltaTime);
+        animator.SetFloat("ForwardLook", y, 0.2f, Time.deltaTime);
+    }
+    public void StopPlayerMovement(bool stopGravity)
+    {
+        if (stopGravity) gravity = 0;
+        PlayerVelo = Vector3.zero;
+        moveDir = Vector3.zero;
+        animator.Play("Idle", 0, 0);
+    }
 }
 

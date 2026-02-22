@@ -18,4 +18,3 @@ MonoBehaviour:
   moveRight: 275
   Dash: 304
   Jump: 32
-  Shoot: 323
