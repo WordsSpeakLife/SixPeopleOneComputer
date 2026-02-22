@@ -182,7 +182,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             // Debug.DrawRay(controller.transform.position, controller.transform.right * WallJumpRayDistance, Color.green);
             // Debug.DrawRay(controller.transform.position, -controller.transform.right * WallJumpRayDistance, Color.blue);
 
-            // shootTimer += Time.deltaTime;
+            shootTimer += Time.deltaTime;
             RotatePlayerYawToMouse();
             moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
             // controller.Move(moveDir * speed * Time.deltaTime);  
