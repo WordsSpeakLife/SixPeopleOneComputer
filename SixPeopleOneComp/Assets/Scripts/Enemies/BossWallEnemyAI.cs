@@ -1,14 +1,24 @@
 using System.Collections;
 using System.Net;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.UI;
 
 public class BossWallEnemyAI : MonoBehaviour, IDamage
 {
 
     [SerializeField] GameObject mainObject;
+    [SerializeField] Animator animator;
+    [SerializeField] AudioSource rumbleplayer;
+    [SerializeField] AudioClip rumble;
     [SerializeField] Renderer model;
+    [SerializeField] PlayableDirector Cutscene;
     [SerializeField] GameObject Face;
+    [SerializeField] GameObject Eyes;
+    [SerializeField] GameObject EyerisLeft;
+    [SerializeField] GameObject EyerisRight;
+    [SerializeField] GameObject EyeHurtLeft;
+    [SerializeField] GameObject EyeHurtRight;
     [SerializeField] GameObject EyeLeftPos;
     [SerializeField] GameObject EyeRightPos;
     [SerializeField] Transform[] shootPos;
@@ -42,6 +52,7 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
 
     bool waveStart;
     bool lazerStart;
+    bool shootStart = true;
     bool phaseTwo;
     bool phaseThree;
 
@@ -51,6 +62,9 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
     float shootTimer;
     float waveTimer;
     float lazerTimer;
+    float blinkTimer;
+
+    bool isHurt = false;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -63,13 +77,14 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
     void Update()
     {
         shootTimer += Time.deltaTime;
+        blinkTimer += Time.deltaTime;
         waveTimer += Time.deltaTime;
         lazerTimer += Time.deltaTime;
 
         playerDirRight = (GameManager.instance.player.transform.position - EyeRightPos.transform.position);
         playerDirLeft = (GameManager.instance.player.transform.position - EyeLeftPos.transform.position);
 
-        if (shootTimer >= shootRate)
+        if (shootTimer >= shootRate && shootStart)
         {
             StartCoroutine(shootProjectile());
         }
@@ -103,6 +118,11 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
                 step = 0f;
             }
         }
+        if (blinkTimer >= Random.Range(2f,4.5f) && !isHurt)
+        {
+            StartCoroutine(blink());
+            blinkTimer = 0;
+        }
     }
 
     public bool heal(int amount) {return false;}
@@ -114,11 +134,14 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
 
         if (HP <= 0)
         {
-            if (GameManager.instance.GameType == GameManager.GameGoal.DefeatAllEnemies)
-                GameManager.instance.updateGameGoal(-1);
-
-            Destroy(gameObject);
-            SoundManager.instance.PlaySound3D("enemies", transform.position);
+            lazerStart = false;
+            waveStart = false;
+            shootStart = false;
+            CleanUpManager.instance.RemoveClonedObjects();
+            GameManager.instance.playerCamera.GetComponentInParent<cameraFollow>().followPlayer = false;
+            animator.SetBool("Shake", true);
+            Cutscene.Play();
+            CleanUpManager.instance.RemoveClonedObjects();
         }
         else if (HP <= 150 && !phaseThree)
         {
@@ -127,7 +150,9 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
             SoundManager.instance.PlaySound3D("ShieldUp", transform.position);
             Instantiate(shield, shieldPos);
             phaseThreeStart = true;
+            Camera.main.GetComponent<CameraShake>().StartCameraShake();
             SecondPlatforms.startDroppingPlats();
+            StartCoroutine(playRumble(15.6f));
         }
         else if(HP <= 250 && !phaseTwo)
         {
@@ -136,20 +161,61 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
             SoundManager.instance.PlaySound3D("ShieldUp", transform.position);
             Instantiate(shield, shieldPos);
             phaseTwoStart = true;
+            Camera.main.GetComponent<CameraShake>().StartCameraShake();
             FirstPlatforms.startDroppingPlats();
+            StartCoroutine(playRumble(10.5f));
         }
         else
         {
             StartCoroutine(flashRed());
+            if (!isHurt)
+                StartCoroutine(hurt());
         }
     }
 
+    public void destroyBoss()
+    {
+        if (GameManager.instance.GameType == GameManager.GameGoal.DefeatAllEnemies)
+            GameManager.instance.updateGameGoal(-1);
+        Destroy(gameObject);
+    }
+
+    IEnumerator blink()
+    {
+        Eyes.SetActive(false);
+        yield return new WaitForSeconds(0.2f);
+        Eyes.SetActive(true);
+    }
+
+    IEnumerator hurt()
+    {
+        isHurt = true;
+        EyerisLeft.SetActive(false);
+        EyerisRight.SetActive(false);
+        EyeHurtLeft.SetActive(true);
+        EyeHurtRight.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        EyerisLeft.SetActive(true);
+        EyerisRight.SetActive(true);
+        EyeHurtLeft.SetActive(false);
+        EyeHurtRight.SetActive(false);
+        yield return new WaitForSeconds(.4f);
+        isHurt = false;
+    }
 
     IEnumerator flashRed()
     {
         model.material.color = Color.red;
         yield return new WaitForSeconds(0.1f);
         model.material.color = colorOrig;
+    }
+
+    IEnumerator playRumble(float dur)
+    {
+        rumbleplayer.clip = rumble;
+        rumbleplayer.Play();
+        yield return new WaitForSeconds(dur);
+        rumbleplayer.Stop();
     }
 
     IEnumerator shootProjectile()
@@ -176,6 +242,7 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
         yield return new WaitForSeconds(1f);
         Instantiate(bullet, EyeRightPos.transform.position, Quaternion.LookRotation(new Vector3(playerDirRight.x, playerDirRight.y, playerDirRight.z)));
         Instantiate(bullet, EyeLeftPos.transform.position, Quaternion.LookRotation(new Vector3(playerDirLeft.x, playerDirLeft.y, playerDirLeft.z)));
+        SoundManager.instance.PlaySound3D("Laser", transform.position);
     }
 
 }
