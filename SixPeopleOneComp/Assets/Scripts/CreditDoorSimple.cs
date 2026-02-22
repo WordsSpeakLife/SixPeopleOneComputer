@@ -3,8 +3,8 @@ using UnityEngine;
 public class CreditDoorSimple : MonoBehaviour
 {
     [Header("Door Settings")]
-    [SerializeField] int creditsRequired = 50;
-    [SerializeField] bool spendCredits = true;
+    [SerializeField] public int creditsRequired = 50;
+    [SerializeField] public bool spendCredits = true;
 
     [Header("Door Move")]
     [SerializeField] Transform door;          
@@ -18,7 +18,7 @@ public class CreditDoorSimple : MonoBehaviour
     Vector3 openPos;
 
     bool isOpening;
-    bool isOpen;
+    public bool isOpen;
 
     private void Start()
     {
@@ -48,16 +48,17 @@ public class CreditDoorSimple : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-        GameManager.instance.SetCreditsRequiredUI(creditsRequired);
-
         if (isOpen) return;
 
         if (GameManager.instance.HasCredits(creditsRequired))
         {
             if (spendCredits)
+            {
                 GameManager.instance.SpendCredits(creditsRequired);
+            }
 
             isOpening = true;
+            creditsRequired = 0;
         }
 
     }

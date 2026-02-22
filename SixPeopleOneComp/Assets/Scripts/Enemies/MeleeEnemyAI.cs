@@ -11,6 +11,8 @@ public class MeleeEnemyAI : MonoBehaviour, IDamage
     [SerializeField] string enemyType;
     [SerializeField] GameObject explosionEffect;
 
+    [SerializeField] Animator Anim;
+
     [SerializeField] int HP;
     [SerializeField] int faceTargetSpeed;
     [Range(15, 360)][SerializeField] int FOV;
@@ -24,7 +26,7 @@ public class MeleeEnemyAI : MonoBehaviour, IDamage
 
     Color colorOrig;
 
-    
+
     float roamTimer;
     float angleToPlayer;
     float stoppingDistOrig;
@@ -33,6 +35,7 @@ public class MeleeEnemyAI : MonoBehaviour, IDamage
     Vector3 startingPos;
 
     public bool playerInTrigger;
+    bool cansee;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -54,10 +57,12 @@ public class MeleeEnemyAI : MonoBehaviour, IDamage
         if (playerInTrigger && !canSeePlayer())
         {
             checkRoam();
+
         }
         else if (!playerInTrigger)
         {
             checkRoam();
+
         }
     }
 
@@ -66,6 +71,13 @@ public class MeleeEnemyAI : MonoBehaviour, IDamage
         if (agent.remainingDistance < 0.01f && roamTimer >= roamPauseTime)
         {
             roam();
+            Anim.SetBool("CanSeePlayer", true);
+            Anim.SetLayerWeight(1, 1);
+        }
+        else if (agent.remainingDistance < 0.01f && roamTimer < roamPauseTime)
+        {
+            Anim.SetBool("CanSeePlayer", false);
+            Anim.SetLayerWeight(1, 0);
         }
     }
 
@@ -73,13 +85,13 @@ public class MeleeEnemyAI : MonoBehaviour, IDamage
     {
         roamTimer = 0;
         agent.stoppingDistance = 0;
-
         Vector3 ranPos = Random.insideUnitSphere * roamDist;
         ranPos += startingPos;
-
         NavMeshHit hit;
         NavMesh.SamplePosition(ranPos, out hit, roamDist, 1);
         agent.SetDestination(hit.position);
+        Anim.SetBool("CanSeePlayer", true);
+        Anim.SetLayerWeight(1, 1);
     }
 
     bool canSeePlayer()
@@ -93,15 +105,24 @@ public class MeleeEnemyAI : MonoBehaviour, IDamage
         {
             if (angleToPlayer <= FOV && hit.collider.CompareTag("Player"))
             {
+                Anim.SetBool("CanSeePlayer", true);
+                Anim.SetLayerWeight(1, 1);
                 agent.SetDestination(GameManager.instance.player.transform.position);
 
                 if (agent.remainingDistance <= agent.stoppingDistance)
                 {
                     faceTarget();
+
                 }
 
                 agent.stoppingDistance = stoppingDistOrig;
                 return true;
+            }
+            else
+            {
+
+                Anim.SetBool("CanSeePlayer", false);
+                Anim.SetLayerWeight(1, 0);
             }
         }
 

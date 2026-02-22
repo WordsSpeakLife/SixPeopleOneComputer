@@ -44,7 +44,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1900461727556831851}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c2ee3026333615144953746ce5509aea, type: 3}
   m_Name: 
@@ -61,8 +61,8 @@ MonoBehaviour:
   startColor: {r: 0, g: 0, b: 0, a: 1}
   endColor: {r: 1, g: 0, b: 0, a: 1}
   duration: 2
-  isHoming: 1
-  rotation: 2
+  isExplode: 0
+  explosionEffect: {fileID: 0}
 --- !u!54 &5273057282573794683
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -230,7 +230,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: febe635029cd28447b3eed15da0fca5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
+  type: 0
+  rb: {fileID: 5273057282573794683}
+  col: {fileID: 0}
+  rend: {fileID: 0}
+  damageAmount: 10
+  damageRate: 0
+  speed: 10
+  destroyTime: 500
+  hitEffect: {fileID: 7988000380186695667, guid: d2c9930e840a84c439740dd0849ab327, type: 3}
+  startColor: {r: 0, g: 0, b: 0, a: 1}
+  endColor: {r: 1, g: 0, b: 0, a: 1}
+  duration: 2
+  isExplode: 1
+  explosionEffect: {fileID: 1406251765532226640, guid: 00fb0360f0204a545af88378e05b98f8, type: 3}
+  rotateSpeed: 200
 --- !u!1 &2902778901268039519
 GameObject:
   m_ObjectHideFlags: 0
