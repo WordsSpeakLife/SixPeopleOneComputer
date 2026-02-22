@@ -134,17 +134,14 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
 
         if (HP <= 0)
         {
-            shootRate = 1000f;
-            waveRate = 1000f;
-            lazerRate = 1000f;
             lazerStart = false;
             waveStart = false;
             shootStart = false;
-            CleanUpManager.instance.RemoveClonedObjects();
+            StartCoroutine(clearProjectiles());
             GameManager.instance.playerCamera.GetComponentInParent<cameraFollow>().followPlayer = false;
             animator.SetBool("Shake", true);
+            GameManager.instance.playerScript.StopPlayerMovement(true);
             Cutscene.Play();
-            CleanUpManager.instance.RemoveClonedObjects();
         }
         else if (HP <= 150 && !phaseThree)
         {
@@ -211,6 +208,16 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
         model.material.color = Color.red;
         yield return new WaitForSeconds(0.1f);
         model.material.color = colorOrig;
+    }
+
+    IEnumerator clearProjectiles()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            CleanUpManager.instance.RemoveClonedObjects();
+            yield return new WaitForSeconds(0.2f);
+            CleanUpManager.instance.RemoveClonedObjects();
+        }
     }
 
     IEnumerator playRumble(float dur)
