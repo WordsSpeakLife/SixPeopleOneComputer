@@ -134,6 +134,9 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
 
         if (HP <= 0)
         {
+            shootRate = 1000f;
+            waveRate = 1000f;
+            lazerRate = 1000f;
             lazerStart = false;
             waveStart = false;
             shootStart = false;

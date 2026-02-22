@@ -62,6 +62,8 @@ MonoBehaviour:
   startColor: {r: 0, g: 0, b: 0, a: 1}
   endColor: {r: 1, g: 0, b: 0, a: 1}
   duration: 2
+  isHoming: 0
+  rotation: 0
 --- !u!114 &4108743032630721710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,7 +341,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3a6a69c459996d340b19fcc0353e821f, type: 2}
+  - {fileID: 2100000, guid: 0cdc904085312984f8c8b8367e86d956, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
