@@ -1018,6 +1018,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     public void StopPlayerMovement(bool stopGravity)
     {
         if (stopGravity) gravity = 0;
+        canMove = false;
         PlayerVelo = Vector3.zero;
         moveDir = Vector3.zero;
         animator.Play("Idle", 0, 0);

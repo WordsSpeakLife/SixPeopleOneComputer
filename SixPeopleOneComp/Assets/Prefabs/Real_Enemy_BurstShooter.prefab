@@ -118,7 +118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 649969401768870142}
-  model: {fileID: 0}
+  model: {fileID: 3583397840217215181}
   shootPos: {fileID: 2496063688849196185}
   headPOS: {fileID: 2496063688849196185}
   enemyType: Burst
@@ -353,6 +353,11 @@ PrefabInstance:
 --- !u!4 &964904813869906529 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 94c438338a55e8d45a5c24764491ffd8, type: 3}
+  m_PrefabInstance: {fileID: 787776637733887370}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &3583397840217215181 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4275173836228808007, guid: 94c438338a55e8d45a5c24764491ffd8, type: 3}
   m_PrefabInstance: {fileID: 787776637733887370}
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &6594443052263825435 stripped
