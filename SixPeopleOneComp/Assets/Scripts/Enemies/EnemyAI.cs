@@ -11,6 +11,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] Transform shootPos;
     [SerializeField] Transform headPOS;
     [SerializeField] string enemyType;
+    [SerializeField] Animator Anim;
 
     [SerializeField] int HP;
     [SerializeField] int faceTargetSpeed;
@@ -27,6 +28,7 @@ public class EnemyAI : MonoBehaviour, IDamage
 
 
     Color colorOrig;
+    bool canSee;
 
     float shootTimer;
     float angleToPlayer;
@@ -54,11 +56,17 @@ public class EnemyAI : MonoBehaviour, IDamage
     // Update is called once per frame
     void Update()
     {
-        shootTimer += Time.deltaTime;
 
+        shootTimer += Time.deltaTime;
         if (playerInTrigger)
         {
             canSeePlayer();
+            Anim.SetBool("CanSeePlayer", true);
+        }
+        else
+        {
+            Anim.SetBool("CanSeePlayer", false);
+            Anim.SetLayerWeight(1, 0);
         }
     }
 
@@ -67,7 +75,7 @@ public class EnemyAI : MonoBehaviour, IDamage
         playerDir = (GameManager.instance.player.transform.position - headPOS.position);
         shootDir = (GameManager.instance.player.transform.position - shootPos.position);
         angleToPlayer = Vector3.Angle(playerDir, transform.forward);
-        Debug.DrawRay(headPOS.position, playerDir);
+        Debug.DrawRay(headPOS.position, playerDir + Vector3.up * 1f, Color.red);
 
         RaycastHit hit;
         if (Physics.Raycast(headPOS.position, playerDir, out hit))
@@ -75,6 +83,7 @@ public class EnemyAI : MonoBehaviour, IDamage
             if (angleToPlayer <= FOV && hit.collider.CompareTag("Player"))
             {
                 agent.SetDestination(GameManager.instance.player.transform.position);
+                canSee = true;
 
                 if (agent.remainingDistance <= agent.stoppingDistance)
                 {
@@ -89,6 +98,10 @@ public class EnemyAI : MonoBehaviour, IDamage
                 agent.stoppingDistance = stoppingDistOrig;
                 return true;
             }
+            else
+            {
+                canSee = false;
+            }
         }
 
         agent.stoppingDistance = 0;
@@ -97,7 +110,7 @@ public class EnemyAI : MonoBehaviour, IDamage
 
     void faceTarget()
     {
-        Quaternion rot = Quaternion.LookRotation(new Vector3(playerDir.x,transform.position.y,playerDir.z));
+        Quaternion rot = Quaternion.LookRotation(new Vector3(playerDir.x, transform.position.y, playerDir.z));
         transform.rotation = Quaternion.Lerp(transform.rotation, rot, Time.deltaTime * faceTargetSpeed);
     }
 
@@ -106,15 +119,22 @@ public class EnemyAI : MonoBehaviour, IDamage
         shootTimer = 0;
         if (enemyType == "Basic")
         {
-            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(shootDir.x, shootDir.y, shootDir.z)));
+            Anim.SetLayerWeight(1, 1);
+            Anim.SetTrigger("Shoot");
+            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(shootDir.x, shootDir.y, shootDir.z) + Vector3.up * 1f));
             SoundManager.instance.PlaySound3D("shoots", transform.position);
+            StartCoroutine(waitToReset());
         }
         else if (enemyType == "Burst")
         {
-            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(shootDir.x, shootDir.y, shootDir.z)) * Quaternion.Euler(0,15, 0));
-            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(shootDir.x, shootDir.y, shootDir.z)));
-            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(shootDir.x, shootDir.y, shootDir.z)) * Quaternion.Euler(0,-15, 0));
+
+            Anim.SetLayerWeight(1, 1);
+            Anim.SetTrigger("Shoot");
+            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(shootDir.x, shootDir.y, shootDir.z) + Vector3.up * 1f) * Quaternion.Euler(0, 15, 0));
+            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(shootDir.x, shootDir.y, shootDir.z) + Vector3.up * 1f));
+            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(shootDir.x, shootDir.y, shootDir.z) + Vector3.up * 1f) * Quaternion.Euler(0, -15, 0));
             SoundManager.instance.PlaySound3D("shoots", transform.position);
+            StartCoroutine(waitToReset());
         }
         else if (enemyType == "Charged")
         {
@@ -182,4 +202,9 @@ public class EnemyAI : MonoBehaviour, IDamage
     }
 
     public bool heal(int amount) { return false; }
+    IEnumerator waitToReset()
+    {
+        yield return new WaitForSeconds(0.5f);
+        Anim.SetLayerWeight(1, 0);
+    }
 }

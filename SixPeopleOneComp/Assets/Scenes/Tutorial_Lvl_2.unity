@@ -10442,7 +10442,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8265268638020887049, guid: ff1465a8f8bf31945b560aa8979fc353, type: 3}
       propertyPath: dashSpeed
-      value: 27
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 8265268638020887049, guid: ff1465a8f8bf31945b560aa8979fc353, type: 3}
       propertyPath: mainCamera
