@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Net;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.UI;
 
 public class BossWallEnemyAI : MonoBehaviour, IDamage
 {
 
     [SerializeField] GameObject mainObject;
+    [SerializeField] Animator animator;
     [SerializeField] AudioSource rumbleplayer;
     [SerializeField] AudioClip rumble;
     [SerializeField] Renderer model;
+    [SerializeField] PlayableDirector Cutscene;
     [SerializeField] GameObject Face;
     [SerializeField] GameObject Eyes;
     [SerializeField] GameObject EyerisLeft;
@@ -49,6 +52,7 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
 
     bool waveStart;
     bool lazerStart;
+    bool shootStart = true;
     bool phaseTwo;
     bool phaseThree;
 
@@ -80,7 +84,7 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
         playerDirRight = (GameManager.instance.player.transform.position - EyeRightPos.transform.position);
         playerDirLeft = (GameManager.instance.player.transform.position - EyeLeftPos.transform.position);
 
-        if (shootTimer >= shootRate)
+        if (shootTimer >= shootRate && shootStart)
         {
             StartCoroutine(shootProjectile());
         }
@@ -130,10 +134,14 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
 
         if (HP <= 0)
         {
-            if (GameManager.instance.GameType == GameManager.GameGoal.DefeatAllEnemies)
-                GameManager.instance.updateGameGoal(-1);
+            lazerStart = false;
+            waveStart = false;
+            shootStart = false;
             CleanUpManager.instance.RemoveClonedObjects();
-            Destroy(gameObject);
+            GameManager.instance.playerCamera.GetComponentInParent<cameraFollow>().followPlayer = false;
+            animator.SetBool("Shake", true);
+            Cutscene.Play();
+            CleanUpManager.instance.RemoveClonedObjects();
         }
         else if (HP <= 150 && !phaseThree)
         {
@@ -165,6 +173,12 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
         }
     }
 
+    public void destroyBoss()
+    {
+        if (GameManager.instance.GameType == GameManager.GameGoal.DefeatAllEnemies)
+            GameManager.instance.updateGameGoal(-1);
+        Destroy(gameObject);
+    }
 
     IEnumerator blink()
     {
