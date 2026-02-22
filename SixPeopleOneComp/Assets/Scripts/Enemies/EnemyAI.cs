@@ -119,6 +119,7 @@ public class EnemyAI : MonoBehaviour, IDamage
         shootTimer = 0;
         if (enemyType == "Basic")
         {
+            Anim.speed = 1;
             Anim.SetLayerWeight(1, 1);
             Anim.SetTrigger("Shoot");
             Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(shootDir.x, shootDir.y, shootDir.z) + Vector3.up * 1f));
@@ -127,7 +128,7 @@ public class EnemyAI : MonoBehaviour, IDamage
         }
         else if (enemyType == "Burst")
         {
-
+            Anim.speed = 1;
             Anim.SetLayerWeight(1, 1);
             Anim.SetTrigger("Shoot");
             Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(shootDir.x, shootDir.y, shootDir.z) + Vector3.up * 1f) * Quaternion.Euler(0, 15, 0));
@@ -139,6 +140,9 @@ public class EnemyAI : MonoBehaviour, IDamage
         else if (enemyType == "Charged")
         {
             StartCoroutine(fireLazer());
+            Anim.speed = 0.5f;
+            Anim.SetTrigger("Shoot");
+            Anim.SetLayerWeight(1, 1);
         }
     }
     public void takeDamage(int amount)
