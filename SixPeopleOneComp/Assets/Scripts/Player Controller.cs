@@ -532,7 +532,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 {
                     //Debug.Log("  time start ");
                     controller.Move(dashDir * dashSpeed * Time.deltaTime);
-                    model.material.color = Color.green;
+                    
                     yield return null;
                     // Debug.Log("  time end ");
                 }
@@ -877,7 +877,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             {
                 //Debug.Log("  time start ");
                 controller.Move(dashDir * dashSpeed * Time.deltaTime);
-                model.material.color = Color.green;
+                
                 yield return null;
                 // Debug.Log("  time end ");
             }
