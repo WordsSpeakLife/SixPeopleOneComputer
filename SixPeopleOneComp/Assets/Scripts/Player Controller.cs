@@ -528,7 +528,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             float time = Time.time;
             if (DashCount < Dashmax)
             {
-                SoundManager.instance.PlaySound3D("dash 2", transform.position);
+                SoundManager.instance.PlaySound2D("Dash");
                 DashCount++;
                 while (Time.time < time + dashTime)
                 {
@@ -570,6 +570,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         if (shootType == 1) //Single Shot!
         {
             Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot);
+            SoundManager.instance.PlaySound2D("shoots");
         }
         else if (shootType == 2) //Burst Shot!
         {
@@ -581,6 +582,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                     Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, (45 / bulletAmount) + addAngle, 0));
                     Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, (-45 / bulletAmount) - addAngle, 0));
                     addAngle = addAngle + (45 / bulletAmount);
+                    SoundManager.instance.PlaySound2D("Burst");
                 }
             }
             else if (bulletAmount % 2 == 0) // Even number
@@ -590,6 +592,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                     Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, ((45 / bulletAmount) / 2 + addAngle), 0));
                     Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, ((-45 / bulletAmount) / 2 - addAngle), 0));
                     addAngle = addAngle + (45 / bulletAmount);
+                    SoundManager.instance.PlaySound2D("Burst");
                 }
             }
         }
@@ -602,6 +605,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 {
                     Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, (360 / bulletAmount) + addAngle, 0));
                     addAngle += (360 / bulletAmount);
+                    SoundManager.instance.PlaySound2D("Heavy");
                 }
             }
             else if (bulletAmount % 2 == 0)
@@ -610,6 +614,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 {
                     Instantiate(weaponList[weaponListPos].bullet, shootOrigin, bulletRot * Quaternion.Euler(0, (360 / bulletAmount) + addAngle, 0));
                     addAngle += (360 / bulletAmount);
+                    SoundManager.instance.PlaySound2D("Heavy");
                 }
             }
         }
@@ -630,24 +635,30 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         //         }
         //     }
         // }
+
         SoundManager.instance.PlaySound3D("shoots", transform.position);
     }
-    void reload()
-    {
-        if (Input.GetButtonDown("Reload") && weaponList.Count > 0)
+
+        void reload()
         {
-            //reloading = true; 
-            //if(reloading == true)
-            //{
-            //    for (int i = 0; i < 50f * Time.deltaTime; i++)
-            //    {
-            weaponList[weaponListPos].ammoCur = weaponList[weaponListPos].ammoMax;
-            //    }
-            //}
+            if (Input.GetButtonDown("Reload") && weaponList.Count > 0)
+            {
+                //reloading = true; 
+                //if(reloading == true)
+                //{
+                //    for (int i = 0; i < 50f * Time.deltaTime; i++)
+                //    {
+                weaponList[weaponListPos].ammoCur = weaponList[weaponListPos].ammoMax;
+                //    }
+                //}
+
+                SoundManager.instance.PlaySound2D("reload");
+            }
         }
-    }
     public void takeDamage(int amount)
     {
+        SoundManager.instance.PlaySound2D("damage");
+        Hp -= amount;
         SoundManager.instance.PlaySound3D("damage", transform.position);
         bool overDamage = false;
         int tempAmount = Hp;
