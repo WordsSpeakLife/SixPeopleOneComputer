@@ -10,6 +10,6 @@ public class KeyBinds : ScriptableObject
     public KeyCode moveRight;
     public KeyCode Dash;
     public KeyCode Jump;
-    public KeyCode Shoot;
+    // public KeyCode Fire1;
 
 }
