@@ -636,22 +636,24 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         // }
 
         SoundManager.instance.PlaySound3D("shoots", transform.position);
-    void reload()
-    {
-        if (Input.GetButtonDown("Reload") && weaponList.Count > 0)
-        {
-            //reloading = true; 
-            //if(reloading == true)
-            //{
-            //    for (int i = 0; i < 50f * Time.deltaTime; i++)
-            //    {
-            weaponList[weaponListPos].ammoCur = weaponList[weaponListPos].ammoMax;
-            //    }
-            //}
-
-            SoundManager.instance.PlaySound2D("reload");
-        }
     }
+
+        void reload()
+        {
+            if (Input.GetButtonDown("Reload") && weaponList.Count > 0)
+            {
+                //reloading = true; 
+                //if(reloading == true)
+                //{
+                //    for (int i = 0; i < 50f * Time.deltaTime; i++)
+                //    {
+                weaponList[weaponListPos].ammoCur = weaponList[weaponListPos].ammoMax;
+                //    }
+                //}
+
+                SoundManager.instance.PlaySound2D("reload");
+            }
+        }
     public void takeDamage(int amount)
     {
         SoundManager.instance.PlaySound2D("damage");
