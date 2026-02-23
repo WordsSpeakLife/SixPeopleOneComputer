@@ -119,6 +119,15 @@ public class EnemyAI : MonoBehaviour, IDamage
         shootTimer = 0;
         if (enemyType == "Basic")
         {
+            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(shootDir.x, shootDir.y, shootDir.z)));
+            SoundManager.instance.PlaySound2D("shoots");
+        }
+        else if (enemyType == "Burst")
+        {
+            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(shootDir.x, shootDir.y, shootDir.z)) * Quaternion.Euler(0,15, 0));
+            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(shootDir.x, shootDir.y, shootDir.z)));
+            Instantiate(bullet, shootPos.position, Quaternion.LookRotation(new Vector3(shootDir.x, shootDir.y, shootDir.z)) * Quaternion.Euler(0,-15, 0));
+            SoundManager.instance.PlaySound2D("Burst");
             Anim.speed = 1;
             Anim.SetLayerWeight(1, 1);
             Anim.SetTrigger("Shoot");
@@ -156,7 +165,7 @@ public class EnemyAI : MonoBehaviour, IDamage
             DropCredits();
             Destroy(gameObject);
 
-            SoundManager.instance.PlaySound3D("enemies", transform.position);
+            SoundManager.instance.PlaySound2D("loose");
         }
         else
         {
@@ -196,7 +205,7 @@ public class EnemyAI : MonoBehaviour, IDamage
         Destroy(charge);
         faceTargetSpeed = 1;
         GameObject lazer = Instantiate(bullet, shootPos);
-        SoundManager.instance.PlaySound3D("shoots", transform.position);
+        SoundManager.instance.PlaySound2D("shoots");
         agent.stoppingDistance = stoppingDistOrig;
         yield return new WaitForSeconds(4f);
         Destroy(lazer);
