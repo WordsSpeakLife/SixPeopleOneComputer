@@ -344,7 +344,7 @@ MonoBehaviour:
   FOV: 360
   roamDist: 15
   roamPauseTime: 1
-  dropItem: {fileID: 0}
+  dropItem: {fileID: 7307746822890912433, guid: 5fd89d85fb5941a448bb9cf0aa428664, type: 3}
   playerInTrigger: 0
 --- !u!195 &5959116754527564781
 NavMeshAgent:
