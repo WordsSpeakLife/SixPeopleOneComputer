@@ -10,7 +10,7 @@ public class FlagPole : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            GameManager.instance.CompleteLevel(levelIndex);
+            GameManager.instance.updateGameGoal(1);
         }
     }
 }

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class BossWallEnemyAI : MonoBehaviour, IDamage
 {
 
+    [SerializeField] GameObject bluescreenCredits;
     [SerializeField] GameObject mainObject;
     [SerializeField] Animator animator;
     [SerializeField] AudioSource rumbleplayer;
@@ -175,8 +176,9 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
 
     public void destroyBoss()
     {
-        if (GameManager.instance.GameType == GameManager.GameGoal.DefeatAllEnemies)
-            GameManager.instance.updateGameGoal(-1);
+        Instantiate(bluescreenCredits,transform.position, Quaternion.identity);
+        //if (GameManager.instance.GameType == GameManager.GameGoal.DefeatAllEnemies)
+        //    GameManager.instance.updateGameGoal(-1);
         Destroy(gameObject);
     }
 
