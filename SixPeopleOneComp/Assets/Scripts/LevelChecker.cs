@@ -6,7 +6,7 @@ public class LevelChecker : MonoBehaviour
 
     void Start()
     {
-        int unlocked = PlayerPrefs.GetInt("LevelsUnlocked", 1);
+        int unlocked = 6;
 
         for (int i = 0; i < allLevels.Length; i++)
         {

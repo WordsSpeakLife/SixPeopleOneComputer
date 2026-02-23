@@ -312,8 +312,8 @@ public class GameManager : MonoBehaviour
         audioMixer.GetFloat("MasterVolume", out float MasterVolume);
         PlayerPrefs.SetFloat("MasterVolume", MasterVolume);
 
-        audioMixer.GetFloat("SfxVolume", out float SfxVolume);
-        PlayerPrefs.SetFloat("SfxVolume", SfxVolume);
+        //audioMixer.GetFloat("SfxVolume", out float SfxVolume);
+        //PlayerPrefs.SetFloat("SfxVolume", SfxVolume);
     }
 
     public void LoadVolume()

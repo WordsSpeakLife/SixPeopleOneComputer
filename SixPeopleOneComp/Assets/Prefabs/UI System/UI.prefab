@@ -4787,6 +4787,7 @@ MonoBehaviour:
   audioMixer: {fileID: 0}
   MusicSlider: {fileID: 0}
   SfxSlider: {fileID: 0}
+  VolumeSlider: {fileID: 0}
   playerCamera: {fileID: 0}
   DamageFlash: {fileID: 3825848638094680983}
   dmgIndLeft: {fileID: 7540485758431845096}
