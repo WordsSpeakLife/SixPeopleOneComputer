@@ -9,8 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7543417975205896895}
-  - component: {fileID: 8054459792793163274}
-  - component: {fileID: 4860752536817760806}
   - component: {fileID: 2021158406020343633}
   - component: {fileID: 8959649212138130458}
   - component: {fileID: 119523019263678278}
@@ -38,45 +36,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 876812078200576623}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8054459792793163274
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6802308382630274685}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2ee3026333615144953746ce5509aea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 2
-  rb: {fileID: 0}
-  col: {fileID: 0}
-  rend: {fileID: 0}
-  damageAmount: 1
-  damageRate: 0.2
-  speed: 0
-  destroyTime: 0
-  hitEffect: {fileID: 0}
-  startColor: {r: 0, g: 0, b: 0, a: 1}
-  endColor: {r: 1, g: 0, b: 0, a: 1}
-  duration: 2
-  isHoming: 0
-  rotation: 0
---- !u!114 &4860752536817760806
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6802308382630274685}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a5209c37b7933c4daf7539a15298097, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveDir: {x: 0, y: 0, z: -4}
 --- !u!114 &2021158406020343633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,8 +361,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8777948505276240138}
-  - component: {fileID: 7811327598878565841}
-  - component: {fileID: 6212122892108287510}
   - component: {fileID: 4203834594646253052}
   - component: {fileID: 398988132022045774}
   - component: {fileID: 1457607762116625743}
@@ -431,45 +388,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 876812078200576623}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7811327598878565841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8105834784336377208}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2ee3026333615144953746ce5509aea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  type: 2
-  rb: {fileID: 0}
-  col: {fileID: 0}
-  rend: {fileID: 0}
-  damageAmount: 1
-  damageRate: 0.2
-  speed: 0
-  destroyTime: 0
-  hitEffect: {fileID: 0}
-  startColor: {r: 0, g: 0, b: 0, a: 1}
-  endColor: {r: 1, g: 0, b: 0, a: 1}
-  duration: 2
-  isHoming: 0
-  rotation: 0
---- !u!114 &6212122892108287510
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8105834784336377208}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a5209c37b7933c4daf7539a15298097, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveDir: {x: 0, y: 0, z: -4}
 --- !u!114 &4203834594646253052
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -865,8 +783,8 @@ MonoBehaviour:
   startColor: {r: 0, g: 0, b: 0, a: 1}
   endColor: {r: 1, g: 0, b: 0, a: 1}
   duration: 2
-  isHoming: 0
-  rotation: 0
+  isExplode: 0
+  explosionEffect: {fileID: 0}
 --- !u!114 &4108743032630721710
 MonoBehaviour:
   m_ObjectHideFlags: 0
