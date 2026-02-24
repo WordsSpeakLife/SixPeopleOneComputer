@@ -21,7 +21,7 @@ public class MeleeEnemyAI : MonoBehaviour, IDamage
 
 
     [SerializeField] GameObject dropItem;
-
+    [SerializeField] float dropHeight = 0.5f;
 
 
     Color colorOrig;
@@ -148,7 +148,11 @@ public class MeleeEnemyAI : MonoBehaviour, IDamage
                 GameManager.instance.updateGameGoal(-1);
 
             if (dropItem != null)
-                Instantiate(dropItem, transform.position, transform.rotation);
+            {
+                Vector3 spawnPos = transform.position + Vector3.up * dropHeight;
+
+                Instantiate(dropItem, spawnPos, Quaternion.identity);
+            }
             SoundManager.instance.PlaySound2D("loose");
 
             Destroy(gameObject);

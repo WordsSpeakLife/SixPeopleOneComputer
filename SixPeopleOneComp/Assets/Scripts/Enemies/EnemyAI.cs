@@ -23,7 +23,7 @@ public class EnemyAI : MonoBehaviour, IDamage
     [SerializeField] float shootRate;
 
     [SerializeField] GameObject creditsPickupPrefab;
-    [SerializeField] int creditsDropAmount = 10;
+    [SerializeField] int creditsDropAmount = 8;
     [SerializeField] float dropHeight = 0.5f;
 
 

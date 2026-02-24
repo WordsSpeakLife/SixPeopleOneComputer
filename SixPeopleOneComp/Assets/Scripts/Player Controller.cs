@@ -639,22 +639,26 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         SoundManager.instance.PlaySound3D("shoots", transform.position);
     }
 
-        void reload()
+    void reload()
+    {
+        if (!GameManager.instance.isPaused)
         {
-            if (Input.GetButtonDown("Reload") && weaponList.Count > 0)
+            if (weaponList != null)
             {
-                //reloading = true; 
-                //if(reloading == true)
-                //{
-                //    for (int i = 0; i < 50f * Time.deltaTime; i++)
-                //    {
-                weaponList[weaponListPos].ammoCur = weaponList[weaponListPos].ammoMax;
-                //    }
-                //}
-
-                SoundManager.instance.PlaySound2D("reload");
+                if (Input.GetButtonDown("Reload") && weaponList.Count > 0)
+                {
+                    //reloading = true; 
+                    //if(reloading == true)
+                    //{
+                    //    for (int i = 0; i < 50f * Time.deltaTime; i++)
+                    //    {
+                    weaponList[weaponListPos].ammoCur = weaponList[weaponListPos].ammoMax;
+                    //    }
+                    //}
+                }
             }
         }
+    }
     public void takeDamage(int amount)
     {
         SoundManager.instance.PlaySound2D("damage");
@@ -951,7 +955,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     IEnumerator FlashDamage(int amount, Color barOrig)
     {
         GameManager.instance.DamageFlash.SetActive(true);
-        GameManager.instance.HealthBar.color = Color.Lerp(barOrig, Color.magenta, 0.1f * amount);
+        GameManager.instance.HealthBar.color = Color.Lerp(barOrig, Color.magenta, 0.2f * amount);
         yield return new WaitForSeconds(0.1f);
         GameManager.instance.DamageFlash.SetActive(false);
 
