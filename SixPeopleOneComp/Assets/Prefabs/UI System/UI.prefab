@@ -272,6 +272,81 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &209090207224546361
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4012271683503978767}
+  - component: {fileID: 2449131902103488631}
+  - component: {fileID: 7818388024670463586}
+  m_Layer: 5
+  m_Name: timer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &4012271683503978767
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 209090207224546361}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4400358564183523382}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -6.25}
+  m_SizeDelta: {x: 770, y: 10}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &2449131902103488631
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 209090207224546361}
+  m_CullTransparentMesh: 1
+--- !u!114 &7818388024670463586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 209090207224546361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 236dd59a1ebc66949877bb6707822b0f, type: 3}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 0
+  m_FillAmount: 0.816
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &258596803190802064
 GameObject:
   m_ObjectHideFlags: 0
@@ -3034,6 +3109,7 @@ GameObject:
   - component: {fileID: 4400358564183523382}
   - component: {fileID: 3676444574876801714}
   - component: {fileID: 1000498504610778604}
+  - component: {fileID: 2199122364685544942}
   m_Layer: 5
   m_Name: tutorialPopup1
   m_TagString: Untagged
@@ -3054,6 +3130,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9215802993020056579}
+  - {fileID: 4012271683503978767}
   m_Father: {fileID: 2191618578882872010}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -3099,6 +3176,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!111 &2199122364685544942
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2750426416800536614}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 13a831cd806da8e4dbfd53fc27873a05, type: 2}
+  - {fileID: 7400000, guid: 1de966a8ec5ac9241ae868d22d2325e9, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0
 --- !u!1 &2830526485198299247
 GameObject:
   m_ObjectHideFlags: 0
@@ -4778,6 +4873,7 @@ MonoBehaviour:
   credits: 0
   tutorialPopup: {fileID: 2750426416800536614}
   tutorialText: {fileID: 5553175914020252831}
+  tutorialTimer: {fileID: 7818388024670463586}
   LevelNumber: 3
   NextLevelName: Level_2
   isPaused: 0
@@ -4787,6 +4883,7 @@ MonoBehaviour:
   audioMixer: {fileID: 0}
   MusicSlider: {fileID: 0}
   SfxSlider: {fileID: 0}
+  VolumeSlider: {fileID: 0}
   playerCamera: {fileID: 0}
   DamageFlash: {fileID: 3825848638094680983}
   dmgIndLeft: {fileID: 7540485758431845096}

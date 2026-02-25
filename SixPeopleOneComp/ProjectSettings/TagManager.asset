@@ -12,6 +12,7 @@ TagManager:
   - Shoot_Obj
   - Enemy
   - Climbable
+  - UI
   layers:
   - Default
   - TransparentFX

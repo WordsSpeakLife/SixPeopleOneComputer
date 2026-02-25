@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] public GameObject weaponRadialMenu;
     [SerializeField] public GameObject LevelbuttonSelected;
     [SerializeField] public Image HealthBar;
+    Animation anim;
 
     [SerializeField] public GameObject BossHealthBar;
     [SerializeField] TMP_Text keyCountText;
@@ -51,6 +52,7 @@ public class GameManager : MonoBehaviour
     [Header("---- Tutorial Popup ----")]
     public GameObject tutorialPopup;
     [SerializeField] TMP_Text tutorialText;
+    public Image tutorialTimer;
 
     [Header("---- Level Data ----")]
     [Tooltip("Starts at 1, add 1 per level (ex: this is level 3 so it would be 1+1+1+1+1 so 5")]
@@ -82,6 +84,7 @@ public class GameManager : MonoBehaviour
     public Image dmgIndRight;
     public RectTransform rightPos;
 
+    
 
     int gameGoalCount;
     float gameGoalTimer;
@@ -141,11 +144,13 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetButtonDown("Cancel"))
             {
-                if (menuActive == null || menuActive == weaponRadialMenu)
+                if (menuActive == null)
                 {
                     statePause();
                     menuActive = menuPause;
+                    anim = menuActive.GetComponent<Animation>();
                     menuActive.SetActive(true);
+                    //popOut();
                 }
                 else if (menuActive == menuPause)
                 {
@@ -171,9 +176,7 @@ public class GameManager : MonoBehaviour
         isPaused = true;
         Time.timeScale = 0;
         Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-
-        
+        Cursor.lockState = CursorLockMode.None;  
     }
 
     public void stateUnpause()
@@ -184,6 +187,8 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Confined;
         if (menuActive != null)
         {
+            anim = menuActive.GetComponent<Animation>();
+            //popIn();
             menuActive.SetActive(false);
             menuActive = null;
         }
@@ -207,6 +212,8 @@ public class GameManager : MonoBehaviour
         statePause();
         menuActive = menuLose;
         menuActive.SetActive(true);
+        anim = menuActive.GetComponent<Animation>();
+        //popOut();
     }
 
     //public void weaponRadial()
@@ -249,7 +256,8 @@ public class GameManager : MonoBehaviour
         statePause();
         menuActive = menuWin;
         menuActive.SetActive(true);
-
+        anim = menuActive.GetComponent<Animation>();
+        //popOut();
         SaveLevelProgress();
     }
 
@@ -401,6 +409,8 @@ public class GameManager : MonoBehaviour
     {
         if (!tutorialPopup || !tutorialText) return;
 
+        
+
         tutorialText.text = message;
         tutorialPopup.SetActive(true);
     }
@@ -535,5 +545,12 @@ public class GameManager : MonoBehaviour
         stateUnpause();
     }
 
-    
+    public void popIn()
+    {
+        anim.Play("UIpopin");
+    }
+    public void popOut()
+    {
+        anim.Play("UIpopout");
+    }
 }
