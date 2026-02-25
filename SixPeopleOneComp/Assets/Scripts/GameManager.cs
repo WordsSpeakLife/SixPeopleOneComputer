@@ -305,7 +305,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdateSoundVolume(float volume)
     {
-        audioMixer.SetFloat("SfxVolume", volume);
+        audioMixer.SetFloat("MasterVolume", volume);
     }
     public void UpdateMasterVolume(float volume)
     {
