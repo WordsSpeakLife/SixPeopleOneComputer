@@ -78,13 +78,21 @@ public class GameManager : MonoBehaviour
     public Camera playerCamera;
     float timeScaleOrig;
     public GameObject DamageFlash;
-
     public Image dmgIndLeft;
     public RectTransform leftPos;
     public Image dmgIndRight;
     public RectTransform rightPos;
 
-    
+    public float damageReceived = 0;
+    public float damageDone = 0;
+    public float enemysKilled = 0;
+
+    GameObject killCount,
+    dmgDoneCount, dmgRecCount;
+
+    [SerializeField]
+    GameObject winKill, winDone, winRec;
+    [SerializeField] GameObject loseKill, loseDone, loseRec;
 
     int gameGoalCount;
     float gameGoalTimer;
@@ -210,6 +218,12 @@ public class GameManager : MonoBehaviour
     public void youLose()
     {
         statePause();
+        dmgRecCount = loseRec;
+        dmgDoneCount = loseDone;
+        killCount = loseKill;
+        setReceived();
+        setDone();
+        setKilled();
         menuActive = menuLose;
         menuActive.SetActive(true);
         anim = menuActive.GetComponent<Animation>();
@@ -254,11 +268,32 @@ public class GameManager : MonoBehaviour
     void OnWin()
     {
         statePause();
+        dmgRecCount = winRec;
+        dmgDoneCount = winDone;
+        killCount = winKill;
+        setReceived();
+        setDone();
+        setKilled();
         menuActive = menuWin;
         menuActive.SetActive(true);
-        anim = menuActive.GetComponent<Animation>();
+        //anim = menuActive.GetComponent<Animation>();
         //popOut();
         SaveLevelProgress();
+    }
+
+    void setReceived()
+    {
+        dmgRecCount.GetComponent<TMP_Text>().text = "Damage Received: " + damageReceived;
+    }
+
+    void setDone()
+    {
+        dmgDoneCount.GetComponent<TMP_Text>().text = "Damage Done: " + damageDone;
+    }
+
+    void setKilled()
+    {
+        killCount.GetComponent<TMP_Text>().text = "Enemies deleted: " + enemysKilled;
     }
 
     void SaveLevelProgress()

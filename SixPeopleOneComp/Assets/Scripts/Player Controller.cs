@@ -663,6 +663,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     {
         SoundManager.instance.PlaySound2D("damage");
         Hp -= amount;
+        GameManager.instance.damageReceived += amount;
         SoundManager.instance.PlaySound3D("damage", transform.position);
         bool overDamage = false;
         int tempAmount = Hp;

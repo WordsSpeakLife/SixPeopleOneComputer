@@ -12,12 +12,15 @@ public class TutorialPopup : MonoBehaviour
     public Image timer;
     public float max;
     public float left;
+    bool isShown = false;
+    GameObject curShown;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             max = 10;
+            left = max;
             StartCoroutine(ShowMessage());
         }
     }
@@ -29,25 +32,36 @@ public class TutorialPopup : MonoBehaviour
         anim = panel.GetComponent<Animation>();
     }
 
+    void checkShown()
+    {
+
+    }
+
     void Update()
     {
+        if (GameManager.instance.tutorialPopup.Equals(true))
+        {
             if (left > 0)
             {
                 left -= Time.deltaTime;
                 timer.fillAmount = left / max;
             }
+            GameManager.instance.HideTutorial();
+        }
+        else
+        {
+            left = max;
+        }
     }
     IEnumerator ShowMessage()
     {
-
         GameManager.instance.ShowTutorial(message);
         anim.Play("UIpopout");
-        left = max;
         timer = GameManager.instance.tutorialTimer;
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(max);
         anim.Play("UIpopin");
         yield return new WaitForSeconds(.3f);
-        GameManager.instance.HideTutorial();
+        //GameManager.instance.HideTutorial();
     }
 
 }
