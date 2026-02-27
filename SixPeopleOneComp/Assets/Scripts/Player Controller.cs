@@ -662,7 +662,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     public void takeDamage(int amount)
     {
         SoundManager.instance.PlaySound2D("damage");
-        Hp -= amount;
+        //Hp -= amount;
         GameManager.instance.damageReceived += amount;
         SoundManager.instance.PlaySound3D("damage", transform.position);
         bool overDamage = false;
@@ -687,7 +687,8 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
         StartCoroutine(wait(0.2f, false));
         Color barOrig = GameManager.instance.HealthBar.color;
-        StartCoroutine(FlashDamage(amount, barOrig));
+        GameManager.instance.HealthBar.color = Color.Lerp(barOrig, Color.magenta, 0.1f * amount);
+        StartCoroutine(FlashDamage());
 
 
         //check if the player is dead
@@ -953,10 +954,9 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     }
 
 
-    IEnumerator FlashDamage(int amount, Color barOrig)
+    IEnumerator FlashDamage()
     {
         GameManager.instance.DamageFlash.SetActive(true);
-        GameManager.instance.HealthBar.color = Color.Lerp(barOrig, Color.magenta, 0.2f * amount);
         yield return new WaitForSeconds(0.1f);
         GameManager.instance.DamageFlash.SetActive(false);
 
