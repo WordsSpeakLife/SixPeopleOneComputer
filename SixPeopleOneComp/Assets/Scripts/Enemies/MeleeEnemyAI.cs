@@ -139,13 +139,14 @@ public class MeleeEnemyAI : MonoBehaviour, IDamage
     public void takeDamage(int amount)
     {
         HP -= amount;
-
+        GameManager.instance.damageDone += amount;
         SoundManager.instance.PlaySound2D("damage");
 
         if (HP <= 0)
         {
             if (GameManager.instance.GameType == GameManager.GameGoal.DefeatAllEnemies)
                 GameManager.instance.updateGameGoal(-1);
+            GameManager.instance.enemysKilled++;
 
             if (dropItem != null)
             {
