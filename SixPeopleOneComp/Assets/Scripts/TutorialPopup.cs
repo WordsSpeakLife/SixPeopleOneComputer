@@ -58,7 +58,7 @@ public class TutorialPopup : MonoBehaviour
         timer = GameManager.instance.tutorialTimer;
         yield return new WaitForSeconds(max);
         anim.Play("UIpopin");
-        yield return new WaitForSeconds(.3f);
+        yield return new WaitForSeconds(0.3f);
         GameManager.instance.HideTutorial();
     }
 
