@@ -17,8 +17,20 @@ public class TutorialPopup : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            StopAllCoroutines();
             max = 10;
+            ResetTimer();
             StartCoroutine(ShowMessage());
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            StopAllCoroutines();
+            GameManager.instance.HideTutorial();
+            ResetTimer();
         }
     }
 
@@ -44,10 +56,17 @@ public class TutorialPopup : MonoBehaviour
         anim.Play("UIpopout");
         left = max;
         timer = GameManager.instance.tutorialTimer;
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(max);
         anim.Play("UIpopin");
         yield return new WaitForSeconds(.3f);
         GameManager.instance.HideTutorial();
+    }
+
+    void ResetTimer()
+    {
+        left = max;
+        if (timer != null)
+            timer.fillAmount = 1f;
     }
 
 }
