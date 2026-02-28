@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] public Image HealthBar;
     Animation anim;
 
-    [SerializeField] public GameObject BossHealthBar;
+    [SerializeField] public Image BossHealthBar;
     [SerializeField] TMP_Text keyCountText;
     public Image weaponIcon;
     public Image weaponIconFill;
@@ -128,6 +128,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         //LoadGame();
+        if(GameType != GameGoal.ReachGoal)
         creditsRequired = door.creditsRequired;
         SetCreditsRequiredUI(creditsRequired);
 

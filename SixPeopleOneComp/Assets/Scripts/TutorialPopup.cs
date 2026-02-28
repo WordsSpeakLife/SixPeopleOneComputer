@@ -66,7 +66,7 @@ public class TutorialPopup : MonoBehaviour
     {
         left = max;
         if (timer != null)
-            timer.fillAmount = 1f;
+            timer.fillAmount = 1;
     }
 
 }
