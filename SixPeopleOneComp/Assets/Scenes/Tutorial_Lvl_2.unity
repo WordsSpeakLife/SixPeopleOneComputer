@@ -15670,6 +15670,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8496677273847465485, guid: 1e475119a31765e4d92affaadc034a5b, type: 3}
   m_PrefabInstance: {fileID: 1906862411}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1399388778 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7818388024670463586, guid: e354b2d233454c949bb86582bcdd4b4d, type: 3}
+  m_PrefabInstance: {fileID: 1487604560}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1399666640
 GameObject:
   m_ObjectHideFlags: 0
@@ -91866,6 +91877,10 @@ PrefabInstance:
       propertyPath: m_SelectedEditorRenderState
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5456302196323002983, guid: 7afb12a3c8925e74bac5e9b9a0000766, type: 3}
+      propertyPath: timer
+      value: 
+      objectReference: {fileID: 1399388778}
     - target: {fileID: 5535907357330282459, guid: 7afb12a3c8925e74bac5e9b9a0000766, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -102102,6 +102117,10 @@ PrefabInstance:
       propertyPath: damageAmount
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7671942345996851459, guid: 7afb12a3c8925e74bac5e9b9a0000766, type: 3}
+      propertyPath: timer
+      value: 
+      objectReference: {fileID: 1399388778}
     - target: {fileID: 7687002171957458755, guid: 7afb12a3c8925e74bac5e9b9a0000766, type: 3}
       propertyPath: m_LocalScale.z
       value: 104.47
@@ -103775,6 +103794,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8106091917693633592, guid: 7afb12a3c8925e74bac5e9b9a0000766, type: 3}
+      propertyPath: timer
+      value: 
+      objectReference: {fileID: 1399388778}
+    - target: {fileID: 8106091917693633592, guid: 7afb12a3c8925e74bac5e9b9a0000766, type: 3}
       propertyPath: message
       value: Pick up the floating Bits after you have deleted the enemy! Bits are
         required to open the door to exit the level.
@@ -103831,6 +103854,10 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 1528677799}
+    - target: {fileID: 8310467862038620093, guid: 7afb12a3c8925e74bac5e9b9a0000766, type: 3}
+      propertyPath: timer
+      value: 
+      objectReference: {fileID: 1399388778}
     - target: {fileID: 8340585566553169435, guid: 7afb12a3c8925e74bac5e9b9a0000766, type: 3}
       propertyPath: m_Mesh
       value: 
