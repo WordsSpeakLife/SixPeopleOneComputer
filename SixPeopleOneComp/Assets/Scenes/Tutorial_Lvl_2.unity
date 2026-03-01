@@ -102306,6 +102306,11 @@ PrefabInstance:
       propertyPath: timer
       value: 
       objectReference: {fileID: 1399388778}
+    - target: {fileID: 7671942345996851459, guid: 7afb12a3c8925e74bac5e9b9a0000766, type: 3}
+      propertyPath: message
+      value: 'Shooting: Left click to shoot. Green walls will kill you if you make
+        contact. Shoot the walls to progress. Press "R" to Reload!'
+      objectReference: {fileID: 0}
     - target: {fileID: 7687002171957458755, guid: 7afb12a3c8925e74bac5e9b9a0000766, type: 3}
       propertyPath: m_LocalScale.z
       value: 104.47
