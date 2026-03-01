@@ -32,8 +32,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] public GameObject weaponRadialMenu;
     [SerializeField] public GameObject LevelbuttonSelected;
     [SerializeField] public Image HealthBar;
+    Animation anim;
 
-    [SerializeField] public GameObject BossHealthBar;
+    [SerializeField] public Image BossHealthBar;
     [SerializeField] TMP_Text keyCountText;
     public Image weaponIcon;
     public Image weaponIconFill;
@@ -51,6 +52,7 @@ public class GameManager : MonoBehaviour
     [Header("---- Tutorial Popup ----")]
     public GameObject tutorialPopup;
     [SerializeField] TMP_Text tutorialText;
+    public Image tutorialTimer;
 
     [Header("---- Level Data ----")]
     [Tooltip("Starts at 1, add 1 per level (ex: this is level 3 so it would be 1+1+1+1+1 so 5")]
@@ -76,12 +78,21 @@ public class GameManager : MonoBehaviour
     public Camera playerCamera;
     float timeScaleOrig;
     public GameObject DamageFlash;
-
     public Image dmgIndLeft;
     public RectTransform leftPos;
     public Image dmgIndRight;
     public RectTransform rightPos;
 
+    public float damageReceived = 0;
+    public float damageDone = 0;
+    public float enemysKilled = 0;
+
+    GameObject killCount,
+    dmgDoneCount, dmgRecCount;
+
+    [SerializeField]
+    GameObject winKill, winDone, winRec;
+    [SerializeField] GameObject loseKill, loseDone, loseRec;
 
     int gameGoalCount;
     float gameGoalTimer;
@@ -103,7 +114,7 @@ public class GameManager : MonoBehaviour
             player = GameObject.FindWithTag("Player");
             playerScript = player.GetComponent<PlayerController>();
             playerCamera = Camera.main;
-            Cursor.visible = true;
+            Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Confined;
         }
 
@@ -117,7 +128,10 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         //LoadGame();
-        creditsRequired = door.creditsRequired;
+        if (GameType == GameGoal.ReachGoal)
+        {
+            creditsRequired = door.creditsRequired;
+        }
         SetCreditsRequiredUI(creditsRequired);
 
     }
@@ -141,11 +155,13 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetButtonDown("Cancel"))
             {
-                if (menuActive == null || menuActive == weaponRadialMenu)
+                if (menuActive == null)
                 {
                     statePause();
                     menuActive = menuPause;
+                    anim = menuActive.GetComponent<Animation>();
                     menuActive.SetActive(true);
+                    //popOut();
                 }
                 else if (menuActive == menuPause)
                 {
@@ -171,19 +187,19 @@ public class GameManager : MonoBehaviour
         isPaused = true;
         Time.timeScale = 0;
         Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-
-        
+        Cursor.lockState = CursorLockMode.None;  
     }
 
     public void stateUnpause()
     {
         isPaused = false;
         Time.timeScale = timeScaleOrig;
-        Cursor.visible = true;
+        Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Confined;
         if (menuActive != null)
         {
+            anim = menuActive.GetComponent<Animation>();
+            //popIn();
             menuActive.SetActive(false);
             menuActive = null;
         }
@@ -205,8 +221,16 @@ public class GameManager : MonoBehaviour
     public void youLose()
     {
         statePause();
+        dmgRecCount = loseRec;
+        dmgDoneCount = loseDone;
+        killCount = loseKill;
+        setReceived();
+        setDone();
+        setKilled();
         menuActive = menuLose;
         menuActive.SetActive(true);
+        anim = menuActive.GetComponent<Animation>();
+        //popOut();
     }
 
     //public void weaponRadial()
@@ -247,10 +271,32 @@ public class GameManager : MonoBehaviour
     void OnWin()
     {
         statePause();
+        dmgRecCount = winRec;
+        dmgDoneCount = winDone;
+        killCount = winKill;
+        setReceived();
+        setDone();
+        setKilled();
         menuActive = menuWin;
         menuActive.SetActive(true);
-
+        //anim = menuActive.GetComponent<Animation>();
+        //popOut();
         SaveLevelProgress();
+    }
+
+    void setReceived()
+    {
+        dmgRecCount.GetComponent<TMP_Text>().text = "Damage Received: " + damageReceived;
+    }
+
+    void setDone()
+    {
+        dmgDoneCount.GetComponent<TMP_Text>().text = "Damage Done: " + damageDone;
+    }
+
+    void setKilled()
+    {
+        killCount.GetComponent<TMP_Text>().text = "Enemies deleted: " + enemysKilled;
     }
 
     void SaveLevelProgress()
@@ -297,7 +343,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdateSoundVolume(float volume)
     {
-        audioMixer.SetFloat("SfxVolume", volume);
+        audioMixer.SetFloat("MasterVolume", volume);
     }
     public void UpdateMasterVolume(float volume)
     {
@@ -400,6 +446,8 @@ public class GameManager : MonoBehaviour
     public void ShowTutorial(string message)
     {
         if (!tutorialPopup || !tutorialText) return;
+
+        
 
         tutorialText.text = message;
         tutorialPopup.SetActive(true);
@@ -535,5 +583,12 @@ public class GameManager : MonoBehaviour
         stateUnpause();
     }
 
-    
+    public void popIn()
+    {
+        anim.Play("UIpopin");
+    }
+    public void popOut()
+    {
+        anim.Play("UIpopout");
+    }
 }

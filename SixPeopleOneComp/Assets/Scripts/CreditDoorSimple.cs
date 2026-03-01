@@ -67,7 +67,7 @@ public class CreditDoorSimple : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-        if (!isOpening && !isOpen)
-        GameManager.instance.SetCreditsRequiredUI(0);
+        //if (!isOpening && !isOpen)
+        //GameManager.instance.SetCreditsRequiredUI(0);
     }
 }   

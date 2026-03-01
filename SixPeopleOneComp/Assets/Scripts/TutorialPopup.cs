@@ -1,29 +1,74 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class TutorialPopup : MonoBehaviour
 {
     [TextArea(2, 6)]
     [SerializeField] string message;
+    GameObject panel;
+    Animation anim;
+    public Image timer;
+    public float max;
+    public float left;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
+            panel = GameManager.instance.tutorialPopup;
+            anim = panel.GetComponent<Animation>();
+            StopAllCoroutines();
+            max = 10;
+            ResetTimer();
             StartCoroutine(ShowMessage());
         }
     }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            StopAllCoroutines();
+            GameManager.instance.HideTutorial();
+            ResetTimer();
+        }
+    }
+
+    //private void OnEnable()
+    //{
+    //    panel = GameManager.instance.tutorialPopup;
+    //    //panel = GameObject;
+    //    anim = panel.GetComponent<Animation>();
+    //}
+
+    void Update()
+    {
+            if (left > 0)
+            {
+                left -= Time.deltaTime;
+                timer.fillAmount = (float)left / max;
+            }
+    }
     IEnumerator ShowMessage()
     {
-        Vector2 size1 = GameManager.instance.tutorialPopup.GetComponent<RectTransform>().localScale;
-
-        GameManager.instance.tutorialPopup.GetComponent<RectTransform>().localScale = new Vector2(0, 0);
 
         GameManager.instance.ShowTutorial(message);
-        GameManager.instance.tutorialPopup.GetComponent<RectTransform>().localScale = Vector2.MoveTowards(GameManager.instance.tutorialPopup.GetComponent<RectTransform>().localScale, size1, 100);
-        yield return new WaitForSeconds(8);
-        GameManager.instance.tutorialPopup.GetComponent<RectTransform>().localScale = Vector2.MoveTowards(GameManager.instance.tutorialPopup.GetComponent<RectTransform>().localScale, new Vector2(0,0), 100);
+        anim.Play("UIpopout");
+        left = max;
+        timer = GameManager.instance.tutorialTimer;
+        yield return new WaitForSeconds(max);
+        anim.Play("UIpopin");
+        yield return new WaitForSeconds(0.3f);
         GameManager.instance.HideTutorial();
     }
+
+    void ResetTimer()
+    {
+        left = max;
+        if (timer != null)
+            timer.fillAmount = 1f;
+    }
+
 }

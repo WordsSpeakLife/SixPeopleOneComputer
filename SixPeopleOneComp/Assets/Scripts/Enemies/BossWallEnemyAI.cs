@@ -29,7 +29,7 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
     [SerializeField] GameObject bullet;
 
     [SerializeField] int HP;
-
+    int HpOrig;
 
     [SerializeField] float moveSpeed;
     [SerializeField] Transform secondPhasePos;
@@ -71,6 +71,7 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        HpOrig = HP;
         colorOrig = model.material.color;
     }
 
@@ -131,7 +132,8 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
     public void takeDamage(int amount)
     {
         HP -= amount;
-        GameManager.instance.BossHealthBar.GetComponent<Slider>().value = HP;
+        GameManager.instance.damageDone += amount;
+        GameManager.instance.BossHealthBar.GetComponent<Image>().fillAmount = (float)HP / HpOrig;
 
         if (HP <= 0)
         {
@@ -143,6 +145,7 @@ public class BossWallEnemyAI : MonoBehaviour, IDamage
             animator.SetBool("Shake", true);
             GameManager.instance.playerScript.StopPlayerMovement(true);
             Cutscene.Play();
+            GameManager.instance.enemysKilled++;
         }
         else if (HP <= 150 && !phaseThree)
         {
