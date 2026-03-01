@@ -17,6 +17,8 @@ public class TutorialPopup : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            panel = GameManager.instance.tutorialPopup;
+            anim = panel.GetComponent<Animation>();
             StopAllCoroutines();
             max = 10;
             ResetTimer();
@@ -34,19 +36,19 @@ public class TutorialPopup : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        panel = GameManager.instance.tutorialPopup;
-        //panel = GameObject;
-        anim = panel.GetComponent<Animation>();
-    }
+    //private void OnEnable()
+    //{
+    //    panel = GameManager.instance.tutorialPopup;
+    //    //panel = GameObject;
+    //    anim = panel.GetComponent<Animation>();
+    //}
 
     void Update()
     {
             if (left > 0)
             {
                 left -= Time.deltaTime;
-                timer.fillAmount = left / max;
+                timer.fillAmount = (float)left / max;
             }
     }
     IEnumerator ShowMessage()

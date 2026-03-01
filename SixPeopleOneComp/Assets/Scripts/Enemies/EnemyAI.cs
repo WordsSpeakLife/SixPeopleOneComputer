@@ -157,11 +157,13 @@ public class EnemyAI : MonoBehaviour, IDamage
     public void takeDamage(int amount)
     {
         HP -= amount;
+        GameManager.instance.damageDone += amount;
 
         if (HP <= 0)
         {
             if (GameManager.instance.GameType == GameManager.GameGoal.DefeatAllEnemies)
                 GameManager.instance.updateGameGoal(-1);
+            GameManager.instance.enemysKilled++;
             DropCredits();
             Destroy(gameObject);
 
