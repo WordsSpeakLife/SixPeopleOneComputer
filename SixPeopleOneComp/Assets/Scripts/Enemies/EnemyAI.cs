@@ -42,10 +42,12 @@ public class EnemyAI : MonoBehaviour, IDamage
 
     public bool playerInTrigger;
     bool firing = false;
+    private float movementThreshold = 0.1f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //stoppingDistOrig = agent.stoppingDistance;
         faceTargetSpeedOrig = faceTargetSpeed;
         colorOrig = model.material.color;
         if (GameManager.instance.GameType == GameManager.GameGoal.DefeatAllEnemies)
@@ -58,15 +60,16 @@ public class EnemyAI : MonoBehaviour, IDamage
     {
 
         shootTimer += Time.deltaTime;
+        if (agent.velocity.magnitude > movementThreshold)
+            Anim.SetBool("CanSeePlayer", true);
+        else
+        {       
+            Anim.SetBool("CanSeePlayer", false);
+            Anim.SetLayerWeight(1, 0);
+        }
         if (playerInTrigger)
         {
             canSeePlayer();
-            Anim.SetBool("CanSeePlayer", true);
-        }
-        else
-        {
-            Anim.SetBool("CanSeePlayer", false);
-            Anim.SetLayerWeight(1, 0);
         }
     }
 
