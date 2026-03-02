@@ -9,7 +9,7 @@ public class TutorialPopup : MonoBehaviour
     [SerializeField] string message;
     GameObject panel;
     Animation anim;
-    public Image timer;
+    public Image timeBar;
     public float max;
     public float left;
 
@@ -48,7 +48,7 @@ public class TutorialPopup : MonoBehaviour
             if (left > 0)
             {
                 left -= Time.deltaTime;
-                timer.fillAmount = (float)left / max;
+                timeBar.fillAmount = (float)left / max;
             }
     }
     IEnumerator ShowMessage()
@@ -57,7 +57,7 @@ public class TutorialPopup : MonoBehaviour
         GameManager.instance.ShowTutorial(message);
         anim.Play("UIpopout");
         left = max;
-        timer = GameManager.instance.tutorialTimer;
+        timeBar = GameManager.instance.tutorialTimer;
         yield return new WaitForSeconds(max);
         anim.Play("UIpopin");
         yield return new WaitForSeconds(0.3f);
@@ -67,8 +67,8 @@ public class TutorialPopup : MonoBehaviour
     void ResetTimer()
     {
         left = max;
-        if (timer != null)
-            timer.fillAmount = 1f;
+        if (timeBar != null)
+            timeBar.fillAmount = 1f;
     }
 
 }
