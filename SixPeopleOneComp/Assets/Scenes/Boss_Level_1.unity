@@ -75347,6 +75347,10 @@ PrefabInstance:
       propertyPath: SecondPlatforms
       value: 
       objectReference: {fileID: 192191308}
+    - target: {fileID: 1147360753220423118, guid: ea264bbe3c0f79643a6fa41c77ef2697, type: 3}
+      propertyPath: bluescreenCredits
+      value: 
+      objectReference: {fileID: 9071907970149447931, guid: 342009403cc5e584486e07a3f0cd42f8, type: 3}
     - target: {fileID: 4568600270746272466, guid: ea264bbe3c0f79643a6fa41c77ef2697, type: 3}
       propertyPath: m_Mesh
       value: 

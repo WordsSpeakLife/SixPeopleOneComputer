@@ -6492,7 +6492,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2773982720056381987, guid: 5077a5723c42cf24baeb6f72b0917834, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3277731594719989810, guid: 5077a5723c42cf24baeb6f72b0917834, type: 3}
       propertyPath: m_Name
@@ -7336,10 +7336,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 438446027172024664, guid: c4e741bf8e118d84aa5c3d3205e51f04, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1173891401}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4e741bf8e118d84aa5c3d3205e51f04, type: 3}
 --- !u!43 &668179653
 Mesh:
@@ -12401,19 +12398,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!1 &1173891396 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 438446027172024664, guid: c4e741bf8e118d84aa5c3d3205e51f04, type: 3}
-  m_PrefabInstance: {fileID: 658971442}
-  m_PrefabAsset: {fileID: 0}
---- !u!81 &1173891401
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1173891396}
-  m_Enabled: 1
 --- !u!43 &1178260370
 Mesh:
   m_ObjectHideFlags: 0
