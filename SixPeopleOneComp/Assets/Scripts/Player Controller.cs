@@ -986,7 +986,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         canMove = false;
         PlayerVelo = Vector3.zero;
         moveDir = Vector3.zero;
-        animator.Play("Idle", 0, 0);
+        //animator.Play("Idle", 0, 1f);
     }
 
 

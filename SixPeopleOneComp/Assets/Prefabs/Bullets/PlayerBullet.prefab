@@ -59,6 +59,8 @@ MonoBehaviour:
   startColor: {r: 0, g: 0, b: 0, a: 1}
   endColor: {r: 1, g: 0, b: 0, a: 1}
   duration: 2
+  isExplode: 0
+  explosionEffect: {fileID: 0}
 --- !u!54 &8381397577265498085
 Rigidbody:
   m_ObjectHideFlags: 0
