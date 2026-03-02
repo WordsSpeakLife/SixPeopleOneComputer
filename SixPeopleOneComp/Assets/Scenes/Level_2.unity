@@ -38598,6 +38598,10 @@ PrefabInstance:
       propertyPath: door
       value: 
       objectReference: {fileID: 1048957098}
+    - target: {fileID: 8832043349987910927, guid: e354b2d233454c949bb86582bcdd4b4d, type: 3}
+      propertyPath: NextLevelName
+      value: Level_3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -73273,7 +73277,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 483893781534202081, guid: 67c9608fda8548c47b43605e158e1e2c, type: 3}
       propertyPath: m_Layer
-      value: 20
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 853871868828259797, guid: 67c9608fda8548c47b43605e158e1e2c, type: 3}
       propertyPath: creditsRequired
