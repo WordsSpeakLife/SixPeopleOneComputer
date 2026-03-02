@@ -239,14 +239,8 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 NoArms = false;
                 model.material.color = Color.red;
                 DashCount = 0;
-                if (groundCollision == false)
-                {
-                    TurnGravityOn();
-                }
-                else
-                {
-                    TurnGravityOf();
-                }
+                animator.SetBool("IsJumping", false);
+                TurnGravityOn();
 
             }
             else
@@ -270,18 +264,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 1f, Time.deltaTime / 0.3f));
 
             }
-            if (Input.GetKeyDown(KeyCode.F))
-            {
-                Fast = !Fast;
-            }
-            if (Fast)
-            {
-                speed = 40;
-            }
-            else
-            {
-                speed = 6;
-            }
             if (!isGrounded && !isNotSoftFall && LandAnim)
             {
                 animator.SetTrigger("Land");
@@ -300,6 +282,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 if (LandAnim)
                 {
                     animator.SetTrigger("Land");
+                animator.SetBool("IsJumping", false);
                 }
             }
             else if (!isGrounded && isNotSoftFall)
@@ -377,6 +360,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             if (!wallRunActive)
             {
                 NoArms = true;
+                animator.SetBool("IsJumping", true);
                 animator.SetLayerWeight(1, 0);
                 animator.SetTrigger("Jump");
                 PlayerVelo.y = jumpSpeed;
@@ -390,6 +374,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             if (!wallRunActive)
             {
                 NoArms = true;
+                animator.SetBool("IsJumping", true);
                 animator.SetLayerWeight(1, 0);
                 animator.SetTrigger("Jump");
                 PlayerVelo.y = jumpSpeed;
@@ -418,6 +403,8 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 else if (!IsRayOnGround(hit) && (prevWallJumpName == null || prevWallJumpName != hit.collider.name) && hit.collider.CompareTag("wall"))
                 {
                     DashCount = 0;
+                    animator.SetTrigger("Jump");
+                    animator.SetBool("IsJumping", true);
                     Debug.Log(hit.collider.name + " wall Jump");
                     //PlayerVelo.y = WallJumpPower;dwa
                     //PlayerVelo.x = hit.normal.x * WallJumpPower;
@@ -453,6 +440,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 }
                 else if (hitLeft && !IsRayOnGround(leftHit) && (prevWallRunName == null || prevWallRunName != leftHit.collider.name))
                 {
+                    animator.SetBool("IsJumping", false);
                     if (Mathf.Abs(leftHit.normal.x) > 0.0f && leftHit.collider.CompareTag("wall") && !IsRayOnGround(leftHit))
                     {
                         DashCount = 0;
@@ -856,19 +844,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         hasWallForRun = false;
     }
 
-    IEnumerator MoveToPosition(Vector3 targetPosition, float timeToMove)
-    {
-        Vector3 currentPosition = transform.position;
-        float timeElapsed = 0;
-        while (timeElapsed < timeToMove)
-        {
-            float t = timeElapsed / timeToMove;
-            transform.position = Vector3.Lerp(currentPosition, targetPosition, t);
-            timeElapsed += Time.deltaTime;
-            yield return null;
-        }
-        transform.position = targetPosition;
-    }
     void TimerFinished()
     {
         prevWallJumpName = null;
@@ -906,6 +881,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             while (Time.time < time + dashTime)
             {
                 //Debug.Log("  time start ");
+                animator.SetBool("IsJumping", false);
                 controller.Move(dashDir * dashSpeed * Time.deltaTime);
 
                 yield return null;
