@@ -129,6 +129,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     bool canMove = true;
     float speeedOrig;
     bool NoArms;
+    public bool groundCollision;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -238,7 +239,15 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 NoArms = false;
                 model.material.color = Color.red;
                 DashCount = 0;
-                TurnGravityOn();
+                if (groundCollision == false)
+                {
+                    TurnGravityOn();
+                }
+                else
+                {
+                    TurnGravityOf();
+                }
+
             }
             else
             {
@@ -941,61 +950,54 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     }
     void ShowAngle()
     {
-        if (Vector3.Dot(transform.forward, Vector3.forward) > 0.7f)
+        if (Vector3.Dot(transform.forward, Vector3.forward) > 0.9f)
         {
             if (moveDir.z > 0 && moveDir.x > 0) { SetBlend(1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }
             else if (moveDir.z > 0 && moveDir.x < 0) { SetBlend(-1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }
             else if (moveDir.z < 0 && moveDir.x > 0) { SetBlend(1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
             else if (moveDir.z < 0 && moveDir.x < 0) { SetBlend(-1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
-            else if (moveDir.z > 0) { SetBlend(0f, 1f); animator.SetLayerWeight(1, 1); speed = speeedOrig; }//foward 
+            else if (moveDir.z > 0) { SetBlend(0f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }//foward 
             else if (moveDir.z < 0) { SetBlend(0f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }//backward
             else if (moveDir.x > 0) { SetBlend(1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }//right
             else if (moveDir.x < 0) { SetBlend(-1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }//left
             // Debug.Log("looking forward");
         }
-        else if (Vector3.Dot(transform.forward, Vector3.right) > 0.7f)
+        else if (Vector3.Dot(transform.forward, Vector3.right) > 0.9f)
         {
             if (moveDir.z > 0 && moveDir.x > 0) { SetBlend(-1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
             else if (moveDir.z > 0 && moveDir.x < 0) { SetBlend(-1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
             else if (moveDir.z < 0 && moveDir.x > 0) { SetBlend(1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
             else if (moveDir.z < 0 && moveDir.x < 0) { SetBlend(1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
-            else if (moveDir.x > 0) { SetBlend(0f, 1f); animator.SetLayerWeight(1, 1); speed = speeedOrig; }//foward 
+            else if (moveDir.x > 0) { SetBlend(0f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }//foward 
             else if (moveDir.x < 0) { SetBlend(0f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }//backward
             else if (moveDir.z > 0) { SetBlend(1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }//right
             else if (moveDir.z < 0) { SetBlend(-1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }//left
             // Debug.Log("looking right");
         }
-        else if (Vector3.Dot(transform.forward, Vector3.left) > 0.7f)
+        else if (Vector3.Dot(transform.forward, Vector3.left) > 0.9f)
         {
             if (moveDir.z > 0 && moveDir.x > 0) { SetBlend(1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
             else if (moveDir.z > 0 && moveDir.x < 0) { SetBlend(1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
             else if (moveDir.z < 0 && moveDir.x > 0) { SetBlend(-1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
             else if (moveDir.z < 0 && moveDir.x < 0) { SetBlend(-1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
-            else if (moveDir.x < 0) { SetBlend(0f, 1f); animator.SetLayerWeight(1, 1); speed = speeedOrig; }//foward 
+            else if (moveDir.x < 0) { SetBlend(0f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }//foward 
             else if (moveDir.x > 0) { SetBlend(0f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }//backward
             else if (moveDir.z > 0) { SetBlend(1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }//right
             else if (moveDir.z < 0) { SetBlend(-1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }//Left
             // Debug.Log("looking left");
         }
-        else if (Vector3.Dot(transform.forward, Vector3.back) > 0.7f)
+        else if (Vector3.Dot(transform.forward, Vector3.back) > 0.9f)
         {
             if (moveDir.z > 0 && moveDir.x > 0) { SetBlend(-1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
             else if (moveDir.z > 0 && moveDir.x < 0) { SetBlend(1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
             else if (moveDir.z < 0 && moveDir.x > 0) { SetBlend(-1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
             else if (moveDir.z < 0 && moveDir.x < 0) { SetBlend(1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
-            else if (moveDir.z < 0) { SetBlend(0f, 1f); animator.SetLayerWeight(1, 1); speed = speeedOrig; }//foward 
+            else if (moveDir.z < 0) { SetBlend(0f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }//foward 
             else if (moveDir.z > 0) { SetBlend(0f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }//Backward
             else if (moveDir.x > 0) { SetBlend(1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }//right
             else if (moveDir.x < 0) { SetBlend(-1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }//left
             // Debug.Log("looking back");
         }
-    }
-    IEnumerator ChangeSpeedTemporarily(float newSpeed, float duration)
-    {
-        float originalSpeed = speed;
-        speed = newSpeed;
-        yield return new WaitForSeconds(duration);
-        speed = originalSpeed;
     }
     void SetBlend(float x, float y)
     {
@@ -1010,5 +1012,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         moveDir = Vector3.zero;
         animator.Play("Idle", 0, 0);
     }
+
+
 }
 
