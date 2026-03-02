@@ -1,5 +1,12 @@
 fileFormatVersion: 2
 guid: f1f81a1eec154854a976966a9f1d67ce
+AssetOrigin:
+  serializedVersion: 1
+  productId: 319580
+  packageName: Android Type 01
+  packageVersion: 1.0.1
+  assetPath: Assets/NekoLegends/Humanoids/Androids/Type01/Animations/android01@Running.fbx
+  uploadId: 755268
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -17,7 +24,13 @@ ModelImporter:
     removeConstantScaleCurves: 0
     motionNodeName: 
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: "\nClip 'Armature|mixamo.com|Layer0' has import animation
+      warnings that might lower retargeting quality:\nNote: Activate translation
+      DOF on avatar to improve retargeting quality.\n\t'Leg.L' has scale animation
+      that will be discarded.\n\t'Foot.L' has scale animation that will be discarded.\n\t'ToeBase.L'
+      has scale animation that will be discarded.\n\t'Leg.R' has scale animation
+      that will be discarded.\n\t'Foot.R' has scale animation that will be discarded.\n\t'ToeBase.R'
+      has scale animation that will be discarded.\n"
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -609,8 +622,7 @@ ModelImporter:
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 94c438338a55e8d45a5c24764491ffd8,
-    type: 3}
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 94c438338a55e8d45a5c24764491ffd8, type: 3}
   autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 3
   humanoidOversampling: 1
@@ -622,10 +634,3 @@ ModelImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 319580
-  packageName: Android Type 01
-  packageVersion: 1.0.1
-  assetPath: Assets/NekoLegends/Humanoids/Androids/Type01/Animations/android01@Running.fbx
-  uploadId: 755268

@@ -11,7 +11,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     [SerializeField] CharacterController controller;
     [SerializeField] LayerMask ignoreLayer;
     [SerializeField] Renderer model;
-    Renderer modeloriginal;
     [SerializeField] Transform ShootPos;
     [SerializeField] Animator animator;
     [SerializeField] GameObject WallRunPully;
@@ -25,7 +24,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
     bool hasAimPoint;
     Vector3 aimPoint;
-
 
     [Header("---- Stats ----")]
     [Range(1, 10)][SerializeField] int Hp;
@@ -54,12 +52,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     int DashCountGround;
     [Range(0, 2)][SerializeField] int Dashmax;
     [Range(0, 2)][SerializeField] int DashmaxGround;
-
-
-
     bool isDashing;
-
-
 
     [Header("---- player camera ----")]
     [Range(0, 50)][SerializeField] int sens;
@@ -136,6 +129,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     bool canMove = true;
     float speeedOrig;
     bool NoArms;
+    public bool groundCollision;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -146,15 +140,11 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         weaponList[weaponListPos].ammoCur = weaponList[weaponListPos].ammoMax;
         animator.SetFloat("Speed", 0);
         updateIconFill();
-        modeloriginal = model;
         speeedOrig = speed;
         //     GroundCheck = BottomRayDistance;
     }
-    // Update is called once per fram
-
     void Update()
     {
-
         if (canMove)
         {
             UpdateAimPoint();
@@ -172,17 +162,14 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         }
         void Movement()
         {
-
             bool isGrounded = Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, BottomRayDistance, ~ignoreLayer);
             bool isNotSoftFall = Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, SoftFallDistance, ~ignoreLayer);
             bool LandAnim = Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, HardFallDistance, ~ignoreLayer);
             //isGroundedCyote = Physics.Raycast(controller.transform.position, -controller.transform.up, out GroundHit, BottomRayDistance, ~ignoreLayer);
             //Debug.DrawRay(controller.transform.position, -controller.transform.up * BottomRayDistance, isGrounded ? Color.black : Color.red);
-
             // Debug.DrawRay(controller.transform.position, -controller.transform.up * SoftFallDistance, isNotSoftFall ? Color.black : Color.red);
             // Debug.DrawRay(controller.transform.position, controller.transform.right * WallJumpRayDistance, Color.green);
             // Debug.DrawRay(controller.transform.position, -controller.transform.right * WallJumpRayDistance, Color.blue);
-
             shootTimer += Time.deltaTime;
             RotatePlayerYawToMouse();
             moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
@@ -250,9 +237,17 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                 prevWallRunName = null;
                 wallRunActive = false;
                 NoArms = false;
-                model = modeloriginal;
+                model.material.color = Color.red;
                 DashCount = 0;
-                TurnGravityOn();
+                if (groundCollision == false)
+                {
+                    TurnGravityOn();
+                }
+                else
+                {
+                    TurnGravityOf();
+                }
+
             }
             else
             {
@@ -264,16 +259,15 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
             HandleButtonPress(isGrounded);
             Vector3 movement = (moveDir * speed) + PlayerVelo; //+ wallMoveVector;
             controller.Move(movement * Time.deltaTime);
-
             if (moveDir == Vector3.zero)
             {
                 animator.SetFloat("Speed", 0f);
-
-                animator.SetLayerWeight(1, 0);
+                animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime / 0.1f));
             }
             else
             {
                 animator.SetFloat("Speed", 0.02f);
+                animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 1f, Time.deltaTime / 0.3f));
 
             }
             if (Input.GetKeyDown(KeyCode.F))
@@ -317,10 +311,8 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         }
         void HandleButtonPress(bool grounded)
         {
-
             if (Input.GetKeyDown(GameManager.instance.keyBinds.Jump))
             {
-
                 if (!grounded && canWallJumpCheck())
                 {
                     wallJump();
@@ -408,7 +400,6 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         }
         void wallJump()
         {
-            model.material.color = Color.magenta;
             RaycastHit hit;
             wallRunActive = false;
             timerRunning = false;
@@ -434,6 +425,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
                     Vector3 JumpDirection = transform.up * wallJumpUpPower + hit.normal * wallJumpSideforce;
                     PlayerVelo = JumpDirection;
                     prevWallJumpName = hit.collider.name;
+                    model.material.color = Color.magenta;
                     jumpCount = 1;
                     SoundManager.instance.PlaySound3D("Jumps", transform.position);
                 }
@@ -641,29 +633,24 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
     void reload()
     {
-        if (!GameManager.instance.isPaused)
+        if (Input.GetButtonDown("Reload") && weaponList.Count > 0)
         {
-            if (weaponList != null)
-            {
-                if (Input.GetButtonDown("Reload") && weaponList.Count > 0)
-                {
-                    //reloading = true; 
-                    //if(reloading == true)
-                    //{
-                    //    for (int i = 0; i < 50f * Time.deltaTime; i++)
-                    //    {
-                    weaponList[weaponListPos].ammoCur = weaponList[weaponListPos].ammoMax;
-                    //    }
-                    //}
-                }
-            }
+            //reloading = true; 
+            //if(reloading == true)
+            //{
+            //    for (int i = 0; i < 50f * Time.deltaTime; i++)
+            //    {
+            weaponList[weaponListPos].ammoCur = weaponList[weaponListPos].ammoMax;
+            //    }
+            //}
+
+            SoundManager.instance.PlaySound2D("reload");
         }
     }
     public void takeDamage(int amount)
     {
         SoundManager.instance.PlaySound2D("damage");
-        //Hp -= amount;
-        GameManager.instance.damageReceived += amount;
+        Hp -= amount;
         SoundManager.instance.PlaySound3D("damage", transform.position);
         bool overDamage = false;
         int tempAmount = Hp;
@@ -687,8 +674,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
 
         StartCoroutine(wait(0.2f, false));
         Color barOrig = GameManager.instance.HealthBar.color;
-        GameManager.instance.HealthBar.color = Color.Lerp(barOrig, Color.magenta, 0.1f * amount);
-        StartCoroutine(FlashDamage());
+        StartCoroutine(FlashDamage(amount, barOrig));
 
 
         //check if the player is dead
@@ -954,70 +940,64 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
     }
 
 
-    IEnumerator FlashDamage()
+    IEnumerator FlashDamage(int amount, Color barOrig)
     {
         GameManager.instance.DamageFlash.SetActive(true);
+        GameManager.instance.HealthBar.color = Color.Lerp(barOrig, Color.magenta, 0.1f * amount);
         yield return new WaitForSeconds(0.1f);
         GameManager.instance.DamageFlash.SetActive(false);
 
     }
     void ShowAngle()
     {
-        if (Vector3.Dot(transform.forward, Vector3.forward) > 0.8f)
+        if (Vector3.Dot(transform.forward, Vector3.forward) > 0.9f)
         {
             if (moveDir.z > 0 && moveDir.x > 0) { SetBlend(1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }
             else if (moveDir.z > 0 && moveDir.x < 0) { SetBlend(-1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }
             else if (moveDir.z < 0 && moveDir.x > 0) { SetBlend(1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
             else if (moveDir.z < 0 && moveDir.x < 0) { SetBlend(-1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
-            else if (moveDir.z > 0) { SetBlend(0f, 1f); animator.SetLayerWeight(1, 0); speed = speeedOrig; }//foward 
+            else if (moveDir.z > 0) { SetBlend(0f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }//foward 
             else if (moveDir.z < 0) { SetBlend(0f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }//backward
             else if (moveDir.x > 0) { SetBlend(1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }//right
             else if (moveDir.x < 0) { SetBlend(-1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }//left
             // Debug.Log("looking forward");
         }
-        else if (Vector3.Dot(transform.forward, Vector3.right) > 0.6f)
+        else if (Vector3.Dot(transform.forward, Vector3.right) > 0.9f)
         {
             if (moveDir.z > 0 && moveDir.x > 0) { SetBlend(-1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
             else if (moveDir.z > 0 && moveDir.x < 0) { SetBlend(-1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
             else if (moveDir.z < 0 && moveDir.x > 0) { SetBlend(1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
             else if (moveDir.z < 0 && moveDir.x < 0) { SetBlend(1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
-            else if (moveDir.x > 0) { SetBlend(0f, 1f); animator.SetLayerWeight(1, 0); speed = speeedOrig; }//foward 
+            else if (moveDir.x > 0) { SetBlend(0f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }//foward 
             else if (moveDir.x < 0) { SetBlend(0f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }//backward
             else if (moveDir.z > 0) { SetBlend(1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }//right
             else if (moveDir.z < 0) { SetBlend(-1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }//left
             // Debug.Log("looking right");
         }
-        else if (Vector3.Dot(transform.forward, Vector3.left) > 0.6f)
+        else if (Vector3.Dot(transform.forward, Vector3.left) > 0.9f)
         {
             if (moveDir.z > 0 && moveDir.x > 0) { SetBlend(1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
             else if (moveDir.z > 0 && moveDir.x < 0) { SetBlend(1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
             else if (moveDir.z < 0 && moveDir.x > 0) { SetBlend(-1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
             else if (moveDir.z < 0 && moveDir.x < 0) { SetBlend(-1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
-            else if (moveDir.x < 0) { SetBlend(0f, 1f); animator.SetLayerWeight(1, 0); speed = speeedOrig; }//foward 
+            else if (moveDir.x < 0) { SetBlend(0f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }//foward 
             else if (moveDir.x > 0) { SetBlend(0f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }//backward
             else if (moveDir.z > 0) { SetBlend(1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }//right
             else if (moveDir.z < 0) { SetBlend(-1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }//Left
             // Debug.Log("looking left");
         }
-        else if (Vector3.Dot(transform.forward, Vector3.back) > 0.6f)
+        else if (Vector3.Dot(transform.forward, Vector3.back) > 0.9f)
         {
             if (moveDir.z > 0 && moveDir.x > 0) { SetBlend(-1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
             else if (moveDir.z > 0 && moveDir.x < 0) { SetBlend(1f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
             else if (moveDir.z < 0 && moveDir.x > 0) { SetBlend(-1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
             else if (moveDir.z < 0 && moveDir.x < 0) { SetBlend(1f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 2; }
-            else if (moveDir.z < 0) { SetBlend(0f, 1f); animator.SetLayerWeight(1, 0); speed = speeedOrig; }//foward 
+            else if (moveDir.z < 0) { SetBlend(0f, 1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }//foward 
             else if (moveDir.z > 0) { SetBlend(0f, -1f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig; }//Backward
             else if (moveDir.x > 0) { SetBlend(1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }//right
             else if (moveDir.x < 0) { SetBlend(-1f, 0f); if (!NoArms) { animator.SetLayerWeight(1, 1); } speed = speeedOrig - 1; }//left
             // Debug.Log("looking back");
         }
-    }
-    IEnumerator ChangeSpeedTemporarily(float newSpeed, float duration)
-    {
-        float originalSpeed = speed;
-        speed = newSpeed;
-        yield return new WaitForSeconds(duration);
-        speed = originalSpeed;
     }
     void SetBlend(float x, float y)
     {
@@ -1032,5 +1012,7 @@ public class PlayerController : MonoBehaviour, IDamage, IPickup
         moveDir = Vector3.zero;
         //animator.Play("Idle", 0, 1f);
     }
+
+
 }
 
